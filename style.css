@@ -588,7 +588,8 @@ html, body {
 .choice-btn:active  { transform:translate(2px,2px); box-shadow:none; }
 
 /* D-pad / keyboard cursor highlight */
-.choice-btn.cursor  { animation:choiceCursor .7s ease-in-out infinite; border-color:var(--yellow) !important; background:#fffae0 !important; }
+.choice-btn.cursor:not(.confirm-btn)  { animation:choiceCursor .7s ease-in-out infinite; border-color:var(--yellow) !important; background:#fffae0 !important; }
+.choice-btn.confirm-btn.cursor { border-color:var(--yellow) !important; box-shadow:0 0 0 3px var(--yellow); }
 .choice-btn.correct { background:#c8ffc8; border-color:var(--green); animation:correctPulse .5s ease 3; pointer-events:none; }
 .choice-btn.wrong   { background:#ffc8c8; border-color:var(--red);   animation:wrongShake .35s ease;   pointer-events:none; }
 .choice-btn.disabled{ opacity:.5; pointer-events:none; }
@@ -596,7 +597,7 @@ html, body {
 .choice-btn.selected::after { content:' ✔'; color:var(--blue); font-size:1.6em; vertical-align:middle; }
 .choice-btn.confirm-btn { background:var(--blue); color:#fff; border-color:#003080; text-align:center; grid-column: 1 / -1; }
 .choice-btn.confirm-btn:hover:not(:disabled) { background:#0050d0; }
-.choice-btn.confirm-btn:disabled { opacity:.4; pointer-events:none; }
+.choice-btn.confirm-inactive { opacity:.4; pointer-events:none; }
 .choice-btn.confirm-btn::before { content:''; }
 
 .battle-footer { background:var(--dark-bg); border-top:3px solid var(--black); padding:clamp(4px,1.2vw,6px) 12px max(4px,var(--safe-bottom)); display:flex; justify-content:space-between; align-items:center; font-size:clamp(5.5px,1.5vw,7px); color:var(--yellow); flex-shrink:0; }

@@ -501,7 +501,7 @@ class Game {
      BATTLE CURSOR — navigate 2×2 grid with D-pad / WASD
      ══════════════════════════════════════════════════════════ */
   _moveCursor(dir) {
-    const btns = document.querySelectorAll('.choice-btn:not(.disabled):not(.correct):not(.wrong)');
+    const btns = document.querySelectorAll('.choice-btn:not(.disabled):not(.correct):not(.wrong):not(.confirm-inactive)');
     if (!btns.length) return;
     const total = btns.length;
     let c = this.state.cursor;
@@ -524,7 +524,7 @@ class Game {
 
   _confirmCursor() {
     if (this.state.answering) return;
-    const btns = document.querySelectorAll('.choice-btn:not(.disabled):not(.correct):not(.wrong)');
+    const btns = document.querySelectorAll('.choice-btn:not(.disabled):not(.correct):not(.wrong):not(.confirm-inactive)');
     const target = btns[this.state.cursor];
     if (target) target.click();
   }
@@ -1131,7 +1131,7 @@ class Game {
             btn.classList.add('selected');
             selectedSlots.add(slotIdx);
           }
-          confirmBtn.disabled = selectedSlots.size !== 2;
+          confirmBtn.classList.toggle('confirm-inactive', selectedSlots.size !== 2);
         });
       } else {
         btn.addEventListener('click',()=>this.pick(slotIdx, correctShuffledIdx, q, container));
@@ -1141,9 +1141,8 @@ class Game {
 
     if (isMulti) {
       const confirmBtn = document.createElement('button');
-      confirmBtn.className='choice-btn confirm-btn';
+      confirmBtn.className='choice-btn confirm-btn confirm-inactive';
       confirmBtn.textContent='✔ CONFIRM';
-      confirmBtn.disabled = true;
       confirmBtn.addEventListener('click', () => {
         if (this.state.answering || selectedSlots.size !== 2) return;
         this.pickMulti(selectedSlots, correctShuffledSet, q, container);
