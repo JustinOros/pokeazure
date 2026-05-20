@@ -180,6 +180,7 @@ html, body {
     repeating-linear-gradient(0deg,   transparent 0,transparent 31px, rgba(0,80,0,.12) 31px, rgba(0,80,0,.12) 32px),
     repeating-linear-gradient(90deg,  transparent 0,transparent 31px, rgba(0,80,0,.12) 31px, rgba(0,80,0,.12) 32px),
     linear-gradient(180deg, #6cb84e 0%, #58a83e 100%);
+  background-position: 16px 16px, 16px 16px, 0 0;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -480,7 +481,7 @@ html, body {
   bottom: -9999px;
 }
 /* NPC lives inside .map-inner, positioned in world-px via JS */
-.map-npc-wrap { position:absolute; text-align:center; z-index: 30; }
+.map-npc-wrap { position:absolute; text-align:center; z-index: 30; left: -9999px; }
 .npc-bubble   { font-size:14px; font-family:var(--font); color:var(--black); background:var(--yellow); border:2px solid var(--black); width:20px; height:20px; display:flex; align-items:center; justify-content:center; margin:0 auto 2px; animation:bounce .7s ease-in-out infinite; }
 .map-npc      { font-size:clamp(36px,10vw,52px); filter:drop-shadow(2px 3px 0 rgba(0,0,0,.35)); cursor:pointer; }
 /* Player is fixed to the viewport centre horizontally; only Y moves */
