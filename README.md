@@ -1,6 +1,6 @@
 # 🎮 PokéAzure — Azure you ready?
 
-A Pokémon-style Game Boy Advance browser game for **studying Microsoft Azure certification exams**!
+A Pokémon-style web-browser game for **studying Microsoft Azure certification exams**!
 Journey through towns, each covering a different Azure exam. Play on your phone, tablet, or PC — progress saves automatically.
 
 > *"Gotta cert 'em all!"*
