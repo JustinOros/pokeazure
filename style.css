@@ -480,10 +480,6 @@ html, body {
   display: none;
   bottom: -9999px;
 }
-.map-dir-arrow.visible {
-  display: block;
-  animation: arrowPulse .7s ease-in-out infinite;
-}
 /* NPC lives inside .map-inner, positioned in world-px via JS */
 .map-npc-wrap { position:absolute; text-align:center; z-index: 30; }
 .npc-bubble   { font-size:14px; font-family:var(--font); color:var(--black); background:var(--yellow); border:2px solid var(--black); width:20px; height:20px; display:flex; align-items:center; justify-content:center; margin:0 auto 2px; animation:bounce .7s ease-in-out infinite; }
