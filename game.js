@@ -29,7 +29,7 @@ const INTRO_MSGS = [
   { speaker:'PROFESSOR OAK', npc:'Professor Oak', text:"Hello {name}! Welcome to PokéAzure — the world of Azure certification training! My name is Professor Oak, the Azure Pokémon Professor!" },
   { speaker:'PROFESSOR OAK', npc:'Professor Oak', text:"This world is inhabited by powerful cloud services — Compute, Storage, Networking, and Security — mastered with knowledge!" },
   { speaker:'PROFESSOR OAK', npc:'Professor Oak', text:"Your mission? Journey through each town, challenge Azure experts, and conquer every certification exam!" },
-  { speaker:'PROFESSOR OAK', npc:'Professor Oak', text:"Start in Fundamentals Town with AZ-900 — then travel the Azure world to tackle Administrator, Developer, Security, and beyond!" },
+  { speaker:'PROFESSOR OAK', npc:'Professor Oak', text:"Start in AZ-900 Town with AZ-900 — then travel the Azure world to tackle Administrator, Developer, Security, and beyond!" },
   { speaker:'PROFESSOR OAK', npc:'Professor Oak', text:"100 questions await you. Each correct answer earns you Azure EXP — and you'll learn something real!" },
   { speaker:'PROFESSOR OAK', npc:'Professor Oak', text:"Your progress is saved automatically in your browser so you can pick up right where you left off. Now, {name}... your adventure begins!" },
 ];
