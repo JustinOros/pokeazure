@@ -385,13 +385,15 @@ class Game {
 
     /* Player sprite stays horizontally centred; only Y shifts */
     const p = document.getElementById('map-player');
-    const pw = document.getElementById('map-player-wrap');
-    if (p && pw) {
+    const bub = document.getElementById('player-bubble');
+    if (p) {
       const centreX = viewW / 2 - 16;
       const centreY = viewH * 0.65 + this.state.worldY;
-      pw.style.left   = centreX + 'px';
-      pw.style.bottom = (viewH - centreY - 40) + 'px';
+      const bottomPx = viewH - centreY - 40;
+      p.style.left   = centreX + 'px';
+      p.style.bottom = bottomPx + 'px';
       p.className    = `map-player walk-${dir}`;
+      if (bub) { bub.style.left = (centreX - 4) + 'px'; bub.style.bottom = (bottomPx + 64) + 'px'; }
     }
 
     this._checkNPCProximity();
@@ -416,12 +418,12 @@ class Game {
   }
 
   _checkNPCProximity() {
-    const world = document.getElementById('map-inner');
-    const viewW = world ? world.parentElement.offsetWidth  : 420;
-    const viewH = world ? world.parentElement.offsetHeight : 300;
+    const world = document.getElementById('map-world');
+    const viewW = (world && world.offsetWidth)  ? world.offsetWidth  : 420;
+    const viewH = (world && world.offsetHeight) ? world.offsetHeight : 300;
     const playerWorldX = this.state.worldX + viewW / 2;
     const dx   = Math.abs(playerWorldX - this.state.npcWorldX);
-    const near = dx < 60;
+    const near = this.state.npcWorldX > 0 && dx < 60;
 
     const hint = document.getElementById('map-talk-hint');
     const bub  = document.getElementById('npc-bubble');
@@ -447,8 +449,9 @@ class Game {
   }
 
   _nearNPC() {
-    const world = document.getElementById('map-inner');
-    const viewW = world ? world.parentElement.offsetWidth : 420;
+    if (!this.state.npcWorldX) return false;
+    const world = document.getElementById('map-world');
+    const viewW = (world && world.offsetWidth) ? world.offsetWidth : 420;
     const playerWorldX = this.state.worldX + viewW / 2;
     return Math.abs(playerWorldX - this.state.npcWorldX) < 60;
   }
@@ -480,11 +483,14 @@ class Game {
     const viewH = world ? world.parentElement.offsetHeight : 300;
 
     const p = document.getElementById('map-player');
-    const pw = document.getElementById('map-player-wrap');
-    if (p && pw) {
-      pw.style.left   = (viewW / 2 - 16) + 'px';
-      pw.style.bottom = (viewH * 0.28) + 'px';
-      p.className     = 'map-player idle';
+    const bub = document.getElementById('player-bubble');
+    if (p) {
+      const left   = viewW / 2 - 16;
+      const bottom = viewH * 0.28;
+      p.style.left   = left + 'px';
+      p.style.bottom = bottom + 'px';
+      p.className    = 'map-player idle';
+      if (bub) { bub.style.left = (left - 4) + 'px'; bub.style.bottom = (bottom + 64) + 'px'; }
     }
     this._applyCamera();
     const hint = document.getElementById('map-talk-hint');
