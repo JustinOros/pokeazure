@@ -1113,6 +1113,17 @@ class Game {
     }
 
     const selectedSlots = new Set();
+    let confirmBtn = null;
+
+    if (isMulti) {
+      confirmBtn = document.createElement('button');
+      confirmBtn.className='choice-btn confirm-btn confirm-inactive';
+      confirmBtn.textContent='✔ CONFIRM';
+      confirmBtn.addEventListener('click', () => {
+        if (this.state.answering || selectedSlots.size !== 2) return;
+        this.pickMulti(selectedSlots, correctShuffledSet, q, container);
+      });
+    }
 
     indices.forEach((origIdx, slotIdx) => {
       const btn=document.createElement('button');
@@ -1140,13 +1151,6 @@ class Game {
     });
 
     if (isMulti) {
-      const confirmBtn = document.createElement('button');
-      confirmBtn.className='choice-btn confirm-btn confirm-inactive';
-      confirmBtn.textContent='✔ CONFIRM';
-      confirmBtn.addEventListener('click', () => {
-        if (this.state.answering || selectedSlots.size !== 2) return;
-        this.pickMulti(selectedSlots, correctShuffledSet, q, container);
-      });
       container.appendChild(confirmBtn);
       container._confirmBtn = confirmBtn;
     }
