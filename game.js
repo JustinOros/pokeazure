@@ -436,9 +436,9 @@ class Game {
     const hint = document.getElementById('map-talk-hint');
     const bub  = document.getElementById('npc-bubble');
     if (hint) {
+      hint.style.display = near ? 'block' : 'none';
       hint.style.left   = (viewW / 2 - 28) + 'px';
       hint.style.bottom = (viewH * 0.50) + 'px';
-      hint.classList.toggle('visible', near);
     }
     if (bub) bub.style.opacity = near ? '0' : '1';
     this._updateDirArrow(near);
@@ -492,18 +492,18 @@ class Game {
     const viewH = world ? world.parentElement.offsetHeight : 300;
 
     const p = document.getElementById('map-player');
-    const bub = document.getElementById('player-bubble');
     if (p) {
       const left   = viewW / 2 - 16;
       const bottom = viewH * 0.28;
-      p.style.left   = left + 'px';
-      p.style.bottom = bottom + 'px';
-      p.className    = 'map-player idle';
-      if (bub) { bub.style.left = (left - 4) + 'px'; bub.style.bottom = (bottom + 64) + 'px'; }
+      p.style.left      = left + 'px';
+      p.style.bottom    = bottom + 'px';
+      p.className       = 'map-player idle';
+      const bub = document.getElementById('player-bubble');
+      if (bub) { bub.style.left = (left - 4) + 'px'; bub.style.bottom = (bottom + 66) + 'px'; }
     }
     this._applyCamera();
     const hint = document.getElementById('map-talk-hint');
-    if (hint) hint.classList.remove('visible');
+    if (hint) hint.style.display = 'none';
   }
 
   /* ══════════════════════════════════════════════════════════

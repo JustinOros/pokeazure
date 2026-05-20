@@ -481,7 +481,7 @@ html, body {
   bottom: -9999px;
 }
 /* NPC lives inside .map-inner, positioned in world-px via JS */
-.map-npc-wrap { position:absolute; text-align:center; z-index: 30; left: -9999px; }
+.map-npc-wrap { position:absolute; text-align:center; z-index: 30; }
 .npc-bubble   { font-size:14px; font-family:var(--font); color:var(--black); background:var(--yellow); border:2px solid var(--black); width:20px; height:20px; display:flex; align-items:center; justify-content:center; margin:0 auto 2px; animation:bounce .7s ease-in-out infinite; }
 .map-npc      { font-size:clamp(36px,10vw,52px); filter:drop-shadow(2px 3px 0 rgba(0,0,0,.35)); cursor:pointer; }
 /* Player is fixed to the viewport centre horizontally; only Y moves */
@@ -550,13 +550,8 @@ html, body {
   padding: 3px 6px;
   white-space: nowrap;
   z-index: 11;
-  pointer-events: none;
-  display: none;
-  bottom: -9999px;
-}
-.map-talk-hint.visible {
-  display: block;
   animation: talkBubble .6s ease-in-out infinite;
+  pointer-events: none;
 }
 /* Desktop: show "Press E", hide "Press A" */
 .hint-touch { display: none; }
