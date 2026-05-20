@@ -1,0 +1,1346 @@
+{
+  "levels": [
+    {
+      "id": 1,
+      "name": "Azure Fundamentals",
+      "questions": [
+        {
+          "id": 1,
+          "npc": "Professor Oak",
+          "text": "Availability zones are physically separate datacenters within an Azure _____.",
+          "options": [
+            "availability zone",
+            "geography",
+            "region",
+            "resource group"
+          ],
+          "answer": 2,
+          "explanation": "Availability zones are physically separate datacenters within an Azure region. Each availability zone is made up of one or more datacenters equipped with independent power, cooling, and networking."
+        },
+        {
+          "id": 2,
+          "npc": "Rival Gary",
+          "text": "In a region pair, a region is paired with another region in the same _____.",
+          "options": [
+            "availability zone",
+            "datacenter",
+            "geography",
+            "resource group"
+          ],
+          "answer": 2,
+          "explanation": "Each Azure region is always paired with another region within the same geography, such as US, Europe, or Asia, at least 300 miles away."
+        },
+        {
+          "id": 3,
+          "npc": "Old Man Bob",
+          "text": "For which resource does Azure generate separate billing reports and invoices by default?",
+          "options": [
+            "accounts",
+            "management groups",
+            "resource groups",
+            "subscriptions"
+          ],
+          "answer": 3,
+          "explanation": "Azure generates separate billing reports and invoices for each subscription so that you can organize and manage costs. Resource groups can be used to group costs, but you will not receive a separate invoice for each resource group."
+        },
+        {
+          "id": 4,
+          "npc": "Nurse Joy",
+          "text": "Which two Azure resources can make use of availability zones? (Choose two)",
+          "options": [
+            "Azure SQL databases",
+            "Azure subscriptions",
+            "resource groups",
+            "virtual machines"
+          ],
+          "explanation": "Availability zones are primarily for virtual machines, managed disks, load balancers, and SQL databases. Both 'Azure SQL databases' and 'virtual machines' are correct answers.",
+          "answers": [
+            0,
+            3
+          ]
+        },
+        {
+          "id": 5,
+          "npc": "Officer Jenny",
+          "text": "Which scenario is a use case for a VPN gateway?",
+          "options": [
+            "communicating between Azure resources",
+            "connecting an on-premises datacenter to an Azure virtual network",
+            "filtering outbound network traffic",
+            "partitioning a virtual network's address space"
+          ],
+          "answer": 1,
+          "explanation": "A VPN gateway is deployed to a dedicated subnet of a virtual network. You can use them to connect on-premises datacenters to virtual networks through a Site-to-Site (S2S) VPN connection."
+        },
+        {
+          "id": 6,
+          "npc": "Brock",
+          "text": "You need to allow resources on two different Azure virtual networks to communicate with each other. What should you configure?",
+          "options": [
+            "a network security group (NSG)",
+            "a point-to-site VPN",
+            "peering",
+            "service endpoints"
+          ],
+          "answer": 2,
+          "explanation": "You can link virtual networks together by using virtual network peering. Peering enables resources in each virtual network to communicate with each other."
+        },
+        {
+          "id": 7,
+          "npc": "Misty",
+          "text": "What can you use to connect Azure resources, such as Azure SQL databases, to an Azure virtual network?",
+          "options": [
+            "ExpressRoute",
+            "network security groups (NSGs)",
+            "peering",
+            "service endpoints"
+          ],
+          "answer": 3,
+          "explanation": "Service endpoints are used to expose Azure services to a virtual network. ExpressRoute connects on-premises networks to Azure. NSGs configure inbound and outbound rules. Peering connects virtual networks together."
+        },
+        {
+          "id": 8,
+          "npc": "Scientist Bill",
+          "text": "Which two services establish network connectivity between an on-premises network and Azure? (Choose two)",
+          "options": [
+            "Azure Bastion",
+            "Azure Firewall",
+            "Azure VPN Gateway",
+            "ExpressRoute"
+          ],
+          "explanation": "ExpressRoute and Azure VPN Gateway connect on-premises networks to Azure. Bastion provides web-based SSH/RDP access to VMs. Azure Firewall is a stateful firewall protecting virtual networks. Both 'Azure VPN Gateway' and 'ExpressRoute' are correct.",
+          "answers": [
+            2,
+            3
+          ]
+        },
+        {
+          "id": 9,
+          "npc": "Hiker Taro",
+          "text": "Which are two common scenarios for using resource tags? (Choose two)",
+          "options": [
+            "associating costs with different environments",
+            "categorizing costs by department",
+            "identifying lower cost regions",
+            "resizing underutilized virtual machines"
+          ],
+          "explanation": "You can use tags to categorize costs by department (e.g. HR, marketing, finance) or by environment (e.g. test or production). Both 'associating costs with different environments' and 'categorizing costs by department' are correct.",
+          "answers": [
+            0,
+            1
+          ]
+        },
+        {
+          "id": 10,
+          "npc": "Gym Leader Surge",
+          "text": "You need to associate costs with different groups within an organization without changing resource location. What should you use?",
+          "options": [
+            "administrative units",
+            "resource groups",
+            "resource tags",
+            "subscriptions"
+          ],
+          "answer": 2,
+          "explanation": "Resource tags let you associate metadata with resources for cost allocation without moving resources. They are name-value pairs you attach to any Azure resource."
+        },
+        {
+          "id": 11,
+          "npc": "Erika",
+          "text": "Your organization will deploy production VMs with consistent usage throughout the year. What minimizes VM costs without reducing functionality?",
+          "options": [
+            "Azure Monitor alerts",
+            "Azure Reservations",
+            "spending limits",
+            "Azure Spot VMs"
+          ],
+          "answer": 1,
+          "explanation": "Azure Reservations offers up to 72% savings compared to pay-as-you-go by reserving services and paying in advance. Spending limits only suspend a subscription when the limit is reached."
+        },
+        {
+          "id": 12,
+          "npc": "Sabrina",
+          "text": "What can you apply to an Azure virtual machine to ensure users cannot change or delete the resource?",
+          "options": [
+            "a lock",
+            "a tag",
+            "a user-assigned managed identity",
+            "Conditional Access"
+          ],
+          "answer": 0,
+          "explanation": "A resource lock prevents the accidental change or deletion of a resource. Tags are for organization and cost tracking. Managed identities are for authentication. Conditional Access controls sign-in access."
+        },
+        {
+          "id": 13,
+          "npc": "Blaine",
+          "text": "Which feature in the Microsoft Purview governance portal should you use to manage access to data sources and datasets?",
+          "options": [
+            "Data Catalog",
+            "Data Estate Insights",
+            "Data Policy",
+            "Data Sharing"
+          ],
+          "answer": 2,
+          "explanation": "Data Policy in Microsoft Purview is used to manage access to data sources and datasets. Data Estate Insights provides data estate health. Data Catalog helps discover data assets."
+        },
+        {
+          "id": 14,
+          "npc": "Lorelei",
+          "text": "What can you use to ensure that a development team can only create virtual machines of a certain size?",
+          "options": [
+            "Azure Blueprints",
+            "Azure Policy",
+            "Cloud Adoption Framework",
+            "Conditional Access"
+          ],
+          "answer": 1,
+          "explanation": "Azure Policy enables you to define policies and initiatives. It evaluates resources, highlights non-compliant ones, and can prevent non-compliant resources from being created \u2014 including enforcing VM size restrictions."
+        },
+        {
+          "id": 15,
+          "npc": "Bruno",
+          "text": "Which two tools are accessible via Azure Cloud Shell to manage an Azure environment? (Choose two)",
+          "options": [
+            "Azure CLI",
+            "Azure PowerShell",
+            "Azure Repos",
+            "Azure Resource Manager (ARM) templates"
+          ],
+          "explanation": "Azure Cloud Shell supports both Azure CLI (Bash) and Azure PowerShell as executable programs. ARM templates are a deployment format, not a shell tool. Azure Repos is a source control service.",
+          "answers": [
+            0,
+            1
+          ]
+        },
+        {
+          "id": 16,
+          "npc": "Agatha",
+          "text": "What should you use to access Azure Cloud Shell?",
+          "options": [
+            "a web browser",
+            "Azure Resource Manager (ARM)",
+            "Microsoft Visual Studio Code",
+            "the command-line on a local computer"
+          ],
+          "answer": 0,
+          "explanation": "Cloud Shell is an interactive, browser-accessible shell for managing Azure resources. It requires only a web browser \u2014 no local installation needed."
+        },
+        {
+          "id": 17,
+          "npc": "Lance",
+          "text": "Which two tools can you use to create a new Azure VM from a mobile device running Android? (Choose two)",
+          "options": [
+            "PowerShell in Azure Cloud Shell",
+            "Remote Desktop",
+            "SSH",
+            "the Azure portal"
+          ],
+          "explanation": "The Azure portal runs in any mobile browser including Android. From the portal you can open Cloud Shell and use PowerShell or Bash to create VMs. Remote Desktop and SSH are for connecting to VMs, not creating them.",
+          "answers": [
+            0,
+            3
+          ]
+        },
+        {
+          "id": 18,
+          "npc": "Champion",
+          "text": "You have Linux administrators who need to manage Azure resources using the Bash shell. What should you recommend?",
+          "options": [
+            "Azure Blueprints",
+            "Azure CLI",
+            "Azure PowerShell",
+            "Azure Resource Manager (ARM) template"
+          ],
+          "answer": 1,
+          "explanation": "Azure CLI allows you to use the Bash shell for administrative tasks. Bash is used in Linux environments, so Linux administrators will be comfortable using Azure CLI for command-line administration."
+        },
+        {
+          "id": 19,
+          "npc": "Professor Oak",
+          "text": "What provides recommendations to reduce the cost of Azure resources?",
+          "options": [
+            "Azure Advisor",
+            "Azure Dashboard",
+            "Azure Service Health",
+            "Microsoft Defender for Cloud"
+          ],
+          "answer": 0,
+          "explanation": "Azure Advisor analyzes your account usage and makes recommendations based on its configured rules, including cost reduction recommendations."
+        },
+        {
+          "id": 20,
+          "npc": "Rival Gary",
+          "text": "Which Azure service evaluates Azure resources and makes recommendations to help improve reliability, security, performance, and cost reduction?",
+          "options": [
+            "Azure Advisor",
+            "Azure Monitor",
+            "Azure Service Health",
+            "Log Analytics"
+          ],
+          "answer": 0,
+          "explanation": "Azure Advisor evaluates Azure resources and makes recommendations to help improve reliability, security, performance, operational excellence, and reduce costs."
+        },
+        {
+          "id": 21,
+          "npc": "Nurse Joy",
+          "text": "You need to review the root cause analysis (RCA) report for a service outage that occurred last week. Where should you look?",
+          "options": [
+            "Azure Advisor",
+            "Azure Monitor",
+            "Azure Service Health",
+            "Log Analytics"
+          ],
+          "answer": 2,
+          "explanation": "After an outage, Azure Service Health provides official incident reports called root cause analysis (RCA) reports, which you can share with stakeholders."
+        },
+        {
+          "id": 22,
+          "npc": "Brock",
+          "text": "You need to be notified when there are new recommendations for reducing Azure costs. Which tool should you use?",
+          "options": [
+            "Azure Advisor",
+            "Azure Monitor",
+            "Azure Service Health",
+            "Log Analytics"
+          ],
+          "answer": 0,
+          "explanation": "Azure Advisor evaluates Azure resources and makes recommendations to help improve reliability, security, performance, operational excellence, and reduce costs. You can set up alerts for new recommendations."
+        },
+        {
+          "id": 23,
+          "npc": "Misty",
+          "text": "You need to create a custom solution that uses thresholds to trigger autoscaling to scale an app up or down. What should you include?",
+          "options": [
+            "Application Insights",
+            "Azure Advisor",
+            "Azure Monitor",
+            "Azure Service Health"
+          ],
+          "answer": 2,
+          "explanation": "Azure Monitor collects metric and logging data such as CPU percentages. This data can be used to trigger autoscaling based on defined thresholds."
+        },
+        {
+          "id": 24,
+          "npc": "Officer Jenny",
+          "text": "What should you proactively review to avoid service interruptions such as service retirements and breaking changes?",
+          "options": [
+            "application insights",
+            "Azure Monitor",
+            "health advisories",
+            "service issues"
+          ],
+          "answer": 2,
+          "explanation": "Health advisories are issues requiring proactive action to avoid service interruptions, such as service retirements and breaking changes. Service issues are active problems like outages that require immediate action."
+        },
+        {
+          "id": 25,
+          "npc": "Scientist Bill",
+          "text": "What can you use to automatically detect performance anomalies for web apps?",
+          "options": [
+            "Azure Advisor",
+            "Azure Application Insights",
+            "Azure Cognitive Services",
+            "Azure DevOps"
+          ],
+          "answer": 1,
+          "explanation": "Application Insights is a feature of Azure Monitor that monitors running applications, automatically detects performance anomalies, and includes built-in analytics to see what users do on an app."
+        },
+        {
+          "id": 26,
+          "npc": "Hiker Taro",
+          "text": "Which two components are created in an Azure subscription? (Choose two)",
+          "options": [
+            "Microsoft Entra user accounts",
+            "management groups",
+            "resource groups",
+            "resources"
+          ],
+          "explanation": "Resources and resource groups are created within Azure subscriptions. Management groups sit above subscriptions. Microsoft Entra user accounts exist in the Entra directory, not in subscriptions.",
+          "answers": [
+            2,
+            3
+          ]
+        },
+        {
+          "id": 27,
+          "npc": "Gym Leader Surge",
+          "text": "Which resource can you use to manage access, policies, and compliance across multiple subscriptions?",
+          "options": [
+            "administrative units",
+            "management groups",
+            "resource groups",
+            "accounts"
+          ],
+          "answer": 1,
+          "explanation": "Management groups streamline governance conditions across multiple subscriptions. Resource groups organize Azure resources within a subscription. Administrative units delegate Entra resource administration."
+        },
+        {
+          "id": 28,
+          "npc": "Erika",
+          "text": "Which Azure resource is a software emulation of a physical computer with a virtual processor, memory, storage, and networking?",
+          "options": [
+            "a container",
+            "a function",
+            "a virtual machine",
+            "an App Service"
+          ],
+          "answer": 2,
+          "explanation": "Virtual machines are software emulations of physical computers. They include a virtual processor, memory, storage, and networking resources, and can host an operating system."
+        },
+        {
+          "id": 29,
+          "npc": "Sabrina",
+          "text": "What can you use to execute code in a serverless environment?",
+          "options": [
+            "Azure Container Instances",
+            "Azure Functions",
+            "Azure Logic Apps",
+            "Azure Virtual Desktop"
+          ],
+          "answer": 1,
+          "explanation": "Azure Functions lets you run code as a service without managing the underlying platform or infrastructure. Azure Logic Apps is similar but uses predefined workflows instead of custom code."
+        },
+        {
+          "id": 30,
+          "npc": "Blaine",
+          "text": "Which Azure Blob storage tier stores data offline and offers the lowest storage costs but the highest costs to access data?",
+          "options": [
+            "Archive",
+            "Cool",
+            "Hot",
+            "Cold"
+          ],
+          "answer": 0,
+          "explanation": "The Archive tier stores data offline and offers the lowest storage costs, but also the highest costs to rehydrate and access data. Hot is optimized for frequently accessed data."
+        },
+        {
+          "id": 31,
+          "npc": "Lorelei",
+          "text": "Which two scenarios are common use cases for Azure Blob storage? (Choose two)",
+          "options": [
+            "hosting ASPX files for a website",
+            "mounting a file storage share as a virtual drive",
+            "serving images or documents directly to a browser",
+            "storing data for backup and restore"
+          ],
+          "explanation": "Blob storage is ideal for serving images/documents to browsers and for storing backup and archive data. Azure Files supports mounting file shares. Azure Disk Storage provides VM disks.",
+          "answers": [
+            2,
+            3
+          ]
+        },
+        {
+          "id": 32,
+          "npc": "Bruno",
+          "text": "Which Azure Blob storage tier has the highest storage costs and fastest access times for reading and writing data?",
+          "options": [
+            "Archive",
+            "Cool",
+            "Hot",
+            "Cold"
+          ],
+          "answer": 2,
+          "explanation": "The Hot tier is optimized for frequently accessed data and has the highest storage costs but fastest access. The Cool tier has lower storage costs but higher access costs. Archive stores data offline."
+        },
+        {
+          "id": 33,
+          "npc": "Agatha",
+          "text": "Which Azure Storage service should you use to store unstructured files, such as images, that will be served on webpages?",
+          "options": [
+            "Azure Blob storage",
+            "Azure Disk Storage",
+            "Azure Queue Storage",
+            "Azure Table storage"
+          ],
+          "answer": 0,
+          "explanation": "Azure Blob storage is an object storage solution for massive amounts of unstructured data such as text or binary data \u2014 perfect for serving images on webpages."
+        },
+        {
+          "id": 34,
+          "npc": "Lance",
+          "text": "What is the purpose of defense in depth?",
+          "options": [
+            "to locate and act on resources associated with specific workloads and owners",
+            "to evaluate resources and make recommendations to improve reliability",
+            "to manage policies so configurations stay compliant with corporate standards",
+            "to use several layers of protection to prevent information from being accessed by unauthorized users"
+          ],
+          "answer": 3,
+          "explanation": "The objective of defense in depth is to use several layers of protection to prevent information from being accessed or stolen by unauthorized users."
+        },
+        {
+          "id": 35,
+          "npc": "Champion",
+          "text": "What enables a user to sign in one time and use that credential to access multiple resources and applications from different providers?",
+          "options": [
+            "Conditional Access",
+            "device management",
+            "multi-factor authentication (MFA)",
+            "single sign-on (SSO)"
+          ],
+          "answer": 3,
+          "explanation": "SSO enables a user to sign in once and use that credential to access multiple resources across different providers. MFA adds additional verification. Conditional Access allows or denies access based on signals."
+        },
+        {
+          "id": 36,
+          "npc": "Professor Oak",
+          "text": "What can you use to ensure that a user can only access applications from compliant devices?",
+          "options": [
+            "Conditional Access",
+            "hybrid identity",
+            "multi-factor authentication (MFA)",
+            "single sign-on (SSO)"
+          ],
+          "answer": 0,
+          "explanation": "Conditional Access is a feature that Microsoft Entra uses to allow or deny access to resources based on identity signals, such as whether the device being used is compliant."
+        },
+        {
+          "id": 37,
+          "npc": "Rival Gary",
+          "text": "To which object or level is an Azure role-based access control (RBAC) role applied?",
+          "options": [
+            "policy",
+            "resource lock",
+            "resource tag",
+            "scope"
+          ],
+          "answer": 3,
+          "explanation": "An Azure RBAC role is applied to a scope, which is a resource or set of resources that the access applies to. Locks prevent accidental changes. Tags are for organization. Policies enforce compliance rules."
+        },
+        {
+          "id": 38,
+          "npc": "Nurse Joy",
+          "text": "What Microsoft Entra feature can you use to configure security authentication that requires users to use their mobile phone to sign in?",
+          "options": [
+            "Azure Information Protection (AIP)",
+            "Microsoft Defender for Cloud",
+            "Microsoft Entra Verified ID",
+            "multi-factor authentication (MFA)"
+          ],
+          "answer": 3,
+          "explanation": "MFA requires something more than just a password to sign in. You can use a mobile phone to receive a call, text, or a code to authenticate."
+        },
+        {
+          "id": 39,
+          "npc": "Brock",
+          "text": "Which two attributes are characteristics of the private cloud deployment model? (Choose two)",
+          "options": [
+            "Applications can be provisioned and deprovisioned quickly.",
+            "Hardware must be purchased.",
+            "Organizations only pay for what they use.",
+            "The company has complete control over physical resources and security."
+          ],
+          "explanation": "In a private cloud, hardware must be purchased for startup and maintenance, and organizations control all resources and security. Quick provisioning and pay-per-use are characteristics of the public cloud.",
+          "answers": [
+            1,
+            3
+          ]
+        },
+        {
+          "id": 40,
+          "npc": "Misty",
+          "text": "What are two basic services provided by all cloud providers? (Choose two)",
+          "options": [
+            "application development",
+            "colocation",
+            "compute",
+            "storage"
+          ],
+          "explanation": "All cloud providers offer compute and storage as fundamental services. Colocation is a data center service. Application development is not universally offered by all providers.",
+          "answers": [
+            2,
+            3
+          ]
+        },
+        {
+          "id": 41,
+          "npc": "Officer Jenny",
+          "text": "What are two characteristics of the public cloud deployment model? (Choose two)",
+          "options": [
+            "Computing resources are used exclusively by one organization.",
+            "Hardware is located in an organization's on-site datacenter.",
+            "Servers and storage are owned by a third-party cloud service provider.",
+            "Services are offered over the internet and available to anyone who wants to purchase them."
+          ],
+          "explanation": "In a public cloud, services are available to anyone over the internet, and servers/storage are owned by a third-party provider. Exclusive use and on-site hardware describe private clouds.",
+          "answers": [
+            2,
+            3
+          ]
+        },
+        {
+          "id": 42,
+          "npc": "Scientist Bill",
+          "text": "Which two are common advantages of cloud computing? (Choose two)",
+          "options": [
+            "elimination of horizontal scaling",
+            "geo-distribution",
+            "high availability",
+            "physical access to servers"
+          ],
+          "explanation": "Geo-distribution and high availability are common cloud advantages. Cloud apps can scale horizontally (not eliminate it). Public cloud users do not get physical server access \u2014 that's managed by the provider.",
+          "answers": [
+            1,
+            2
+          ]
+        },
+        {
+          "id": 43,
+          "npc": "Hiker Taro",
+          "text": "_____ refers to upfront costs incurred one time, such as hardware purchases.",
+          "options": [
+            "A consumption-based model",
+            "Capital expenditures (CapEx)",
+            "Elasticity",
+            "Operational expenditures (OpEx)"
+          ],
+          "answer": 1,
+          "explanation": "Capital expenditures (CapEx) are one-time upfront expenses that can be deducted over time. Operational expenditures are billed as you use services with no upfront costs."
+        },
+        {
+          "id": 44,
+          "npc": "Gym Leader Surge",
+          "text": "Increasing compute capacity for an app by adding RAM or CPUs to a virtual machine is called _____.",
+          "options": [
+            "disaster recovery",
+            "high availability",
+            "horizontal scaling",
+            "vertical scaling"
+          ],
+          "answer": 3,
+          "explanation": "Vertical scaling increases compute capacity by adding RAM or CPUs to a virtual machine. Horizontal scaling adds more instances of resources. Disaster recovery keeps data safe in case of disaster."
+        },
+        {
+          "id": 45,
+          "npc": "Erika",
+          "text": "Increasing compute capacity for an app by adding instances of resources such as virtual machines is called _____.",
+          "options": [
+            "disaster recovery",
+            "high availability",
+            "horizontal scaling",
+            "vertical scaling"
+          ],
+          "answer": 2,
+          "explanation": "Horizontal scaling increases compute capacity by adding instances of resources such as VMs. Vertical scaling adds RAM or CPUs to an existing VM."
+        },
+        {
+          "id": 46,
+          "npc": "Sabrina",
+          "text": "What are cloud-based backup services, data replication, and geo-distribution features of?",
+          "options": [
+            "a cost reduction plan",
+            "a disaster recovery plan",
+            "a hybrid cloud deployment",
+            "an elastic application configuration"
+          ],
+          "answer": 1,
+          "explanation": "Disaster recovery uses cloud-based backup, data replication, and geo-distribution to keep data and code safe in the event of a disaster."
+        },
+        {
+          "id": 47,
+          "npc": "Blaine",
+          "text": "Which cloud service model provides you with the most control over the hardware that runs applications?",
+          "options": [
+            "infrastructure as a service (IaaS)",
+            "platform as a service (PaaS)",
+            "software as a service (SaaS)",
+            "function as a service (FaaS)"
+          ],
+          "answer": 0,
+          "explanation": "IaaS gives you the most control over the hardware running applications. With PaaS, users don't control the OS or configure underlying servers. With SaaS, you use as-is software hosted in the cloud."
+        },
+        {
+          "id": 48,
+          "npc": "Lorelei",
+          "text": "In which cloud service model is the customer responsible for managing the operating system?",
+          "options": [
+            "infrastructure as a service (IaaS)",
+            "platform as a service (PaaS)",
+            "software as a service (SaaS)",
+            "All of the above"
+          ],
+          "answer": 0,
+          "explanation": "With IaaS, the customer is responsible for the OS and applications. The cloud provider manages the OS in PaaS and SaaS."
+        },
+        {
+          "id": 49,
+          "npc": "Bruno",
+          "text": "What is the customer responsible for in a software as a service (SaaS) model?",
+          "options": [
+            "data and access",
+            "storage",
+            "runtime",
+            "virtual machines"
+          ],
+          "answer": 0,
+          "explanation": "In SaaS, you pay to use an existing application on hardware managed by a third party. You supply data and configure access. The provider manages everything else including storage, runtime, and VMs."
+        },
+        {
+          "id": 50,
+          "npc": "Agatha",
+          "text": "You need to focus on application development rather than configuration and management of servers. Which cloud service model should you use?",
+          "options": [
+            "infrastructure as a service (IaaS)",
+            "platform as a service (PaaS)",
+            "software as a service (SaaS)",
+            "on-premises"
+          ],
+          "answer": 1,
+          "explanation": "With PaaS, the cloud provider handles all platform management, so developers can focus on application development. IaaS is closest to managing physical servers. SaaS manages the entire application environment."
+        },
+        {
+          "id": 51,
+          "npc": "Lance",
+          "text": "Which cloud service model is used by Azure SQL Database?",
+          "options": [
+            "infrastructure as a service (IaaS)",
+            "platform as a service (PaaS)",
+            "software as a service (SaaS)",
+            "function as a service (FaaS)"
+          ],
+          "answer": 1,
+          "explanation": "Azure SQL Database is a PaaS database engine \u2014 Microsoft manages the underlying infrastructure, OS, and database engine patching."
+        },
+        {
+          "id": 52,
+          "npc": "Champion",
+          "text": "Which type of cloud service are virtual networks?",
+          "options": [
+            "infrastructure as a service (IaaS)",
+            "platform as a service (PaaS)",
+            "software as a service (SaaS)",
+            "function as a service (FaaS)"
+          ],
+          "answer": 0,
+          "explanation": "IaaS helps reduce the cost and complexity of maintaining physical server infrastructure. Virtual networks are part of the IaaS cloud service category."
+        },
+        {
+          "id": 53,
+          "npc": "Professor Oak",
+          "text": "You need to compare the costs of running an application on-premises with the costs of running it in Azure. What should you use?",
+          "options": [
+            "Azure Advisor",
+            "Azure Cost Management",
+            "Azure Pricing calculator",
+            "Total Cost of Ownership (TCO) Calculator"
+          ],
+          "answer": 3,
+          "explanation": "The TCO Calculator helps you estimate the cost savings over time of running a solution in Azure compared to an on-premises datacenter."
+        },
+        {
+          "id": 54,
+          "npc": "Rival Gary",
+          "text": "You plan to build a new solution in Azure using PaaS products. What should you use to estimate monthly costs?",
+          "options": [
+            "Azure Advisor",
+            "Azure Cost Management",
+            "Azure Pricing calculator",
+            "Total Cost of Ownership (TCO) Calculator"
+          ],
+          "answer": 2,
+          "explanation": "The Azure Pricing calculator lets you estimate and configure costs according to your specific requirements and get a consolidated estimated price for your solution."
+        },
+        {
+          "id": 55,
+          "npc": "Nurse Joy",
+          "text": "Which two features are available by using Azure Cost Management + Billing? (Choose two)",
+          "options": [
+            "Create and manage budgets.",
+            "Estimate the total cost of ownership before resources are deployed.",
+            "Generate historical reports and forecast future usage.",
+            "Provide discounted prices when you pay in advance."
+          ],
+          "explanation": "Azure Cost Management lets you create/manage budgets and generate historical reports and usage forecasts. TCO estimation uses the TCO Calculator. Reserved pricing discounts are managed via Azure Reservations.",
+          "answers": [
+            0,
+            2
+          ]
+        },
+        {
+          "id": 56,
+          "npc": "Brock",
+          "text": "What is an Azure Region?",
+          "options": [
+            "A single data center",
+            "A set of data centers in a geographic area networked with low latency",
+            "An Azure subscription boundary",
+            "A virtual network segment"
+          ],
+          "answer": 1,
+          "explanation": "An Azure Region is a geographic area containing one or more data centers that are nearby and networked together with a low-latency network."
+        },
+        {
+          "id": 57,
+          "npc": "Misty",
+          "text": "What is the purpose of an Azure Resource Group?",
+          "options": [
+            "To limit user permissions",
+            "To group related Azure resources for management",
+            "To define network boundaries",
+            "To set billing alerts"
+          ],
+          "answer": 1,
+          "explanation": "A Resource Group is a container that holds related Azure resources, making it easier to manage, deploy, and delete them together as a single unit."
+        },
+        {
+          "id": 58,
+          "npc": "Officer Jenny",
+          "text": "What does the Azure pay-as-you-go model mean?",
+          "options": [
+            "You pay a flat monthly fee",
+            "You purchase resources upfront at a discount",
+            "You pay only for resources you consume",
+            "You prepay for one year"
+          ],
+          "answer": 2,
+          "explanation": "Pay-as-you-go means you are billed only for the resources you actually consume, with no upfront commitment required."
+        },
+        {
+          "id": 59,
+          "npc": "Scientist Bill",
+          "text": "What is Azure Active Directory (Microsoft Entra ID)?",
+          "options": [
+            "A file storage service",
+            "A cloud-based identity and access management service",
+            "An on-premises directory service only",
+            "A database service"
+          ],
+          "answer": 1,
+          "explanation": "Microsoft Entra ID (formerly Azure Active Directory) is a cloud-based identity and access management service used for signing in and accessing resources."
+        },
+        {
+          "id": 60,
+          "npc": "Hiker Taro",
+          "text": "What is Azure Blob Storage used for?",
+          "options": [
+            "Relational database storage",
+            "Unstructured data like images, videos, and documents",
+            "Virtual machine disk storage exclusively",
+            "Email storage"
+          ],
+          "answer": 1,
+          "explanation": "Azure Blob Storage is optimized for storing massive amounts of unstructured data such as images, videos, documents, logs, and backup files."
+        },
+        {
+          "id": 61,
+          "npc": "Gym Leader Surge",
+          "text": "What is the function of Azure Virtual Network (VNet)?",
+          "options": [
+            "Provides serverless computing",
+            "Enables Azure resources to securely communicate with each other, the internet, and on-premises",
+            "Manages identity and access",
+            "Stores unstructured data"
+          ],
+          "answer": 1,
+          "explanation": "Azure Virtual Network (VNet) enables Azure resources like VMs to securely communicate with each other, the internet, and on-premises networks."
+        },
+        {
+          "id": 62,
+          "npc": "Erika",
+          "text": "What is Azure Key Vault used for?",
+          "options": [
+            "Storing virtual machine configurations",
+            "Safeguarding cryptographic keys, secrets, and certificates",
+            "Managing user identities",
+            "Backing up databases"
+          ],
+          "answer": 1,
+          "explanation": "Azure Key Vault safeguards cryptographic keys, secrets (like passwords and connection strings), and certificates used by cloud applications and services."
+        },
+        {
+          "id": 63,
+          "npc": "Sabrina",
+          "text": "What is Azure Policy used for?",
+          "options": [
+            "Writing serverless code",
+            "Enforcing organisational standards and assessing compliance at scale",
+            "Managing virtual machine deployments",
+            "Monitoring network traffic"
+          ],
+          "answer": 1,
+          "explanation": "Azure Policy helps enforce organisational standards and assess compliance at scale \u2014 for example, requiring all resources to have specific tags or limiting VM sizes."
+        },
+        {
+          "id": 64,
+          "npc": "Blaine",
+          "text": "What is Azure Monitor used for?",
+          "options": [
+            "Managing user identities",
+            "Collecting, analysing, and acting on telemetry from Azure resources",
+            "Deploying virtual machines",
+            "Encrypting data at rest"
+          ],
+          "answer": 1,
+          "explanation": "Azure Monitor collects and analyses telemetry (metrics and logs) from Azure and on-premises environments to help maximise performance and availability."
+        },
+        {
+          "id": 65,
+          "npc": "Lorelei",
+          "text": "What is Azure Service Health?",
+          "options": [
+            "A fitness tracking app",
+            "A personalised dashboard showing the health of Azure services and regions you use",
+            "An antivirus service",
+            "A VM backup tool"
+          ],
+          "answer": 1,
+          "explanation": "Azure Service Health provides a personalised view of the health of Azure services and regions you're using, including planned maintenance and service incidents."
+        },
+        {
+          "id": 66,
+          "npc": "Bruno",
+          "text": "What is a Network Security Group (NSG) in Azure?",
+          "options": [
+            "A team managing network engineers",
+            "Security rules that control inbound and outbound traffic to Azure resources",
+            "A VPN service",
+            "A monitoring tool"
+          ],
+          "answer": 1,
+          "explanation": "A Network Security Group (NSG) contains security rules that allow or deny inbound and outbound network traffic to and from Azure resources."
+        },
+        {
+          "id": 67,
+          "npc": "Agatha",
+          "text": "What is Azure ExpressRoute?",
+          "options": [
+            "A fast CDN service",
+            "A private dedicated connection from on-premises networks to Azure that bypasses the public internet",
+            "A public internet VPN",
+            "A DNS service"
+          ],
+          "answer": 1,
+          "explanation": "Azure ExpressRoute creates private connections between Azure data centers and on-premises infrastructure, bypassing the public internet for better reliability, speed, and security."
+        },
+        {
+          "id": 68,
+          "npc": "Lance",
+          "text": "What is Azure Load Balancer?",
+          "options": [
+            "A tool to measure server capacity",
+            "A service that distributes inbound traffic across multiple backend resources",
+            "A CDN service",
+            "A firewall appliance"
+          ],
+          "answer": 1,
+          "explanation": "Azure Load Balancer distributes inbound network traffic across multiple backend resources such as VMs or instances, improving reliability and throughput."
+        },
+        {
+          "id": 69,
+          "npc": "Champion",
+          "text": "What is Azure App Service?",
+          "options": [
+            "A serverless code execution platform",
+            "A fully managed platform for building, deploying, and scaling web apps",
+            "A container orchestration service",
+            "A VM image repository"
+          ],
+          "answer": 1,
+          "explanation": "Azure App Service is a fully managed PaaS platform for building and hosting web apps, REST APIs, and mobile backends without managing infrastructure."
+        },
+        {
+          "id": 70,
+          "npc": "Professor Oak",
+          "text": "What is the Azure Marketplace?",
+          "options": [
+            "A physical store for hardware",
+            "A Microsoft-only software store",
+            "An online store to find, try, and buy solutions from Microsoft and partners",
+            "A tool for deploying VMs"
+          ],
+          "answer": 2,
+          "explanation": "Azure Marketplace is an online store offering thousands of certified applications and services from Microsoft and independent software vendors (ISVs)."
+        },
+        {
+          "id": 71,
+          "npc": "Rival Gary",
+          "text": "What is Azure Cosmos DB?",
+          "options": [
+            "A relational database service",
+            "A globally distributed, multi-model NoSQL database service",
+            "A file storage service",
+            "A caching service"
+          ],
+          "answer": 1,
+          "explanation": "Azure Cosmos DB is a globally distributed, multi-model NoSQL database service supporting multiple APIs with single-digit millisecond latency guarantees."
+        },
+        {
+          "id": 72,
+          "npc": "Nurse Joy",
+          "text": "What is an Azure Subscription?",
+          "options": [
+            "A monthly newsletter from Microsoft",
+            "A logical container linked to an Azure account that defines billing and access control boundaries",
+            "A type of virtual machine",
+            "A networking component"
+          ],
+          "answer": 1,
+          "explanation": "An Azure Subscription is a logical container that provides access to Azure resources. It defines billing boundaries and access control boundaries."
+        },
+        {
+          "id": 73,
+          "npc": "Brock",
+          "text": "What is Azure Management Groups used for?",
+          "options": [
+            "Grouping virtual machines",
+            "Managing policies and access across multiple Azure subscriptions",
+            "Tracking costs within a subscription",
+            "Deploying containers"
+          ],
+          "answer": 1,
+          "explanation": "Azure Management Groups manage access, policy, and compliance across multiple Azure subscriptions, sitting above subscriptions in the hierarchy."
+        },
+        {
+          "id": 74,
+          "npc": "Misty",
+          "text": "What does CapEx mean in cloud financial terms?",
+          "options": [
+            "Capital Expenditure \u2014 upfront spending on physical infrastructure",
+            "Cloud Application Expenditure",
+            "Capacity Expansion cost",
+            "Computed Application Exchange"
+          ],
+          "answer": 0,
+          "explanation": "CapEx (Capital Expenditure) refers to upfront spending on physical infrastructure like servers and data centers. Cloud computing shifts spend from CapEx to OpEx."
+        },
+        {
+          "id": 75,
+          "npc": "Officer Jenny",
+          "text": "What does OpEx mean in cloud financial terms?",
+          "options": [
+            "Optional Expenditure",
+            "Operational Expenditure \u2014 ongoing costs for services consumed",
+            "Output Execution cost",
+            "Optimised Experience fee"
+          ],
+          "answer": 1,
+          "explanation": "OpEx (Operational Expenditure) is money spent on an ongoing basis for services \u2014 the pay-as-you-go cloud model converts infrastructure costs from CapEx to OpEx."
+        },
+        {
+          "id": 76,
+          "npc": "Scientist Bill",
+          "text": "What is the Azure Well-Architected Framework?",
+          "options": [
+            "A billing tool",
+            "Best practices across five pillars: Reliability, Security, Cost Optimisation, Operational Excellence, and Performance Efficiency",
+            "A VM deployment template",
+            "A networking standard"
+          ],
+          "answer": 1,
+          "explanation": "The Azure Well-Architected Framework provides guiding tenets for building high-quality cloud solutions across five pillars: Reliability, Security, Cost Optimisation, Operational Excellence, and Performance Efficiency."
+        },
+        {
+          "id": 77,
+          "npc": "Hiker Taro",
+          "text": "What is Azure Site Recovery (ASR)?",
+          "options": [
+            "A code deployment tool",
+            "A disaster recovery service replicating workloads from a primary to a secondary location",
+            "A database backup tool",
+            "A network monitoring tool"
+          ],
+          "answer": 1,
+          "explanation": "Azure Site Recovery keeps business apps running during planned and unplanned outages by replicating workloads from a primary site to a secondary location."
+        },
+        {
+          "id": 78,
+          "npc": "Gym Leader Surge",
+          "text": "What does RTO stand for in disaster recovery?",
+          "options": [
+            "Recovery Time Objective \u2014 maximum acceptable downtime after a failure",
+            "Restore Transfer Operation",
+            "Resource Transfer Overhead",
+            "Redundancy Test Output"
+          ],
+          "answer": 0,
+          "explanation": "RTO (Recovery Time Objective) defines the maximum acceptable amount of time a system can be offline after a failure before business impact becomes unacceptable."
+        },
+        {
+          "id": 79,
+          "npc": "Erika",
+          "text": "What does RPO stand for in disaster recovery?",
+          "options": [
+            "Recovery Point Objective \u2014 maximum acceptable data loss measured in time",
+            "Resource Processing Overhead",
+            "Restore Protocol Option",
+            "Redundancy Point Operation"
+          ],
+          "answer": 0,
+          "explanation": "RPO (Recovery Point Objective) defines the maximum acceptable amount of data loss measured in time \u2014 i.e., how far back you can restore to after a failure."
+        },
+        {
+          "id": 80,
+          "npc": "Sabrina",
+          "text": "What is Infrastructure as Code (IaC)?",
+          "options": [
+            "Coding the entire operating system from scratch",
+            "Managing infrastructure through machine-readable configuration files rather than manual processes",
+            "A type of IaaS service",
+            "A cloud programming language"
+          ],
+          "answer": 1,
+          "explanation": "IaC lets you define and provision infrastructure through configuration files (like ARM templates or Bicep), enabling repeatable, consistent, version-controlled deployments."
+        },
+        {
+          "id": 81,
+          "npc": "Blaine",
+          "text": "What are ARM Templates?",
+          "options": [
+            "Physical server blueprints",
+            "JSON files that declaratively define the infrastructure and configuration to deploy to Azure",
+            "Virtual machine snapshots",
+            "Network diagrams"
+          ],
+          "answer": 1,
+          "explanation": "ARM Templates are JSON files that declaratively define the Azure infrastructure you want to deploy, enabling consistent and repeatable deployments."
+        },
+        {
+          "id": 82,
+          "npc": "Lorelei",
+          "text": "What is the Azure Portal?",
+          "options": [
+            "A physical entrance to a data center",
+            "A web-based unified console for managing Azure services",
+            "A command-line tool",
+            "A mobile-only application"
+          ],
+          "answer": 1,
+          "explanation": "The Azure Portal is a web-based, unified console that provides an alternative to command-line tools for building, managing, and monitoring Azure resources."
+        },
+        {
+          "id": 83,
+          "npc": "Bruno",
+          "text": "What is the Azure CLI?",
+          "options": [
+            "A graphical user interface",
+            "A cross-platform command-line tool to create and manage Azure resources from a terminal or script",
+            "A mobile app",
+            "A billing tool"
+          ],
+          "answer": 1,
+          "explanation": "The Azure CLI is a cross-platform command-line interface for creating and managing Azure resources, supporting Bash scripting for automation."
+        },
+        {
+          "id": 84,
+          "npc": "Agatha",
+          "text": "What is the principle of least privilege in security?",
+          "options": [
+            "Giving all users admin rights for simplicity",
+            "Granting users only the minimum permissions necessary to perform their tasks",
+            "Restricting access to external users only",
+            "Applying security patches infrequently"
+          ],
+          "answer": 1,
+          "explanation": "The principle of least privilege means users should be granted the minimum level of access rights needed to perform their job, reducing the attack surface."
+        },
+        {
+          "id": 85,
+          "npc": "Lance",
+          "text": "What is Azure Defender (Microsoft Defender for Cloud)?",
+          "options": [
+            "An antivirus application for PCs",
+            "A unified cloud security posture management and threat protection service",
+            "A hardware firewall appliance",
+            "A DDoS protection tool only"
+          ],
+          "answer": 1,
+          "explanation": "Microsoft Defender for Cloud is a cloud security posture management (CSPM) tool that provides threat protection across Azure, on-premises, and multi-cloud environments."
+        },
+        {
+          "id": 86,
+          "npc": "Champion",
+          "text": "What is Azure Role-Based Access Control (RBAC)?",
+          "options": [
+            "A firewall feature",
+            "A system that manages who has access to Azure resources and what they can do, using role assignments",
+            "A network segmentation tool",
+            "An encryption standard"
+          ],
+          "answer": 1,
+          "explanation": "Azure RBAC allows you to manage who has access to Azure resources, what they can do, and what areas they can access \u2014 using role assignments with defined scopes."
+        },
+        {
+          "id": 87,
+          "npc": "Professor Oak",
+          "text": "What is the shared responsibility model?",
+          "options": [
+            "Microsoft is responsible for everything",
+            "The customer is responsible for everything",
+            "Security responsibilities are divided between the cloud provider and the customer",
+            "Only applies to SaaS deployments"
+          ],
+          "answer": 2,
+          "explanation": "The shared responsibility model defines which security tasks are handled by the cloud provider versus the customer, with the division varying by service type (IaaS/PaaS/SaaS)."
+        },
+        {
+          "id": 88,
+          "npc": "Rival Gary",
+          "text": "What is the purpose of Azure Blueprints?",
+          "options": [
+            "Drawing architecture diagrams",
+            "Automating consistent deployment of cloud environments with governance built in",
+            "Managing virtual networks",
+            "Tracking resource costs"
+          ],
+          "answer": 1,
+          "explanation": "Azure Blueprints lets you define a repeatable set of Azure resources that implements an organisation's standards, patterns, and requirements for consistent environment deployment."
+        },
+        {
+          "id": 89,
+          "npc": "Nurse Joy",
+          "text": "What is geo-redundant storage (GRS) in Azure?",
+          "options": [
+            "Storage replicating data only within a single data center",
+            "Storage replicating data to a secondary region hundreds of miles away for disaster protection",
+            "Storage with no redundancy",
+            "Storage that uses compression to save space"
+          ],
+          "answer": 1,
+          "explanation": "GRS (Geo-Redundant Storage) replicates your data to a secondary Azure region far from the primary, protecting against regional disasters."
+        },
+        {
+          "id": 90,
+          "npc": "Brock",
+          "text": "What is the Microsoft Cloud Adoption Framework (CAF)?",
+          "options": [
+            "A physical server setup guide",
+            "A collection of best practices, tools, and guidance for adopting Azure at enterprise scale",
+            "A compliance standard for data privacy",
+            "A billing model"
+          ],
+          "answer": 1,
+          "explanation": "The Cloud Adoption Framework (CAF) is Microsoft's guidance for organisations on how to adopt cloud \u2014 covering strategy, planning, readiness, adoption, governance, and management."
+        },
+        {
+          "id": 91,
+          "npc": "Misty",
+          "text": "What is Azure Private Link?",
+          "options": [
+            "Creating public IP addresses for Azure services",
+            "Enabling private access to Azure services over a private endpoint within your VNet",
+            "A CDN acceleration feature",
+            "A public load balancing option"
+          ],
+          "answer": 1,
+          "explanation": "Azure Private Link provides private connectivity from a virtual network to Azure services \u2014 traffic stays on the Microsoft network and never traverses the public internet."
+        },
+        {
+          "id": 92,
+          "npc": "Officer Jenny",
+          "text": "What type of cloud scaling adds more instances of the same resource?",
+          "options": [
+            "Vertical scaling (scale up)",
+            "Horizontal scaling (scale out)",
+            "Diagonal scaling",
+            "Deep scaling"
+          ],
+          "answer": 1,
+          "explanation": "Horizontal scaling (scale out/in) adds or removes instances of the same resource type. Vertical scaling (scale up/down) increases or decreases the size of an existing resource."
+        },
+        {
+          "id": 93,
+          "npc": "Scientist Bill",
+          "text": "What is Azure Migrate?",
+          "options": [
+            "A database migration tool only",
+            "A centralised hub for discovering, assessing, and migrating on-premises workloads to Azure",
+            "A billing migration tool",
+            "A code migration service"
+          ],
+          "answer": 1,
+          "explanation": "Azure Migrate is a centralised hub providing tools to discover, assess, and migrate on-premises servers, data, and applications to Azure."
+        },
+        {
+          "id": 94,
+          "npc": "Hiker Taro",
+          "text": "What is Azure Arc?",
+          "options": [
+            "An archive storage tier",
+            "A service that extends Azure management to on-premises, multi-cloud, and edge environments",
+            "A load balancer",
+            "A DNS service"
+          ],
+          "answer": 1,
+          "explanation": "Azure Arc extends Azure management and governance capabilities to any infrastructure \u2014 on-premises, multi-cloud, and edge \u2014 using a single control plane."
+        },
+        {
+          "id": 95,
+          "npc": "Gym Leader Surge",
+          "text": "What is Azure DevOps?",
+          "options": [
+            "A security monitoring tool",
+            "A set of developer services for planning, collaborating on code, and building and deploying applications",
+            "A virtual machine management tool",
+            "A database migration service"
+          ],
+          "answer": 1,
+          "explanation": "Azure DevOps provides services including Boards (planning), Repos (source control), Pipelines (CI/CD), Test Plans, and Artifacts for end-to-end software delivery."
+        },
+        {
+          "id": 96,
+          "npc": "Erika",
+          "text": "What is Microsoft Sentinel (Azure Sentinel)?",
+          "options": [
+            "A backup service",
+            "A cloud-native SIEM and SOAR solution for threat detection, investigation, and response",
+            "A firewall product",
+            "A load balancer"
+          ],
+          "answer": 1,
+          "explanation": "Microsoft Sentinel is a cloud-native SIEM (Security Information and Event Management) and SOAR (Security Orchestration, Automation, and Response) solution."
+        },
+        {
+          "id": 97,
+          "npc": "Sabrina",
+          "text": "What is Conditional Access in Microsoft Entra?",
+          "options": [
+            "A VPN feature",
+            "Policies that control access to apps based on conditions like user location or device compliance",
+            "A file encryption method",
+            "A storage access tier"
+          ],
+          "answer": 1,
+          "explanation": "Conditional Access enforces access policies based on specific conditions \u2014 e.g., requiring MFA when users sign in from outside the corporate network or from non-compliant devices."
+        },
+        {
+          "id": 98,
+          "npc": "Blaine",
+          "text": "What is Multi-Factor Authentication (MFA)?",
+          "options": [
+            "Using multiple passwords",
+            "Requiring two or more verification forms during sign-in for increased security",
+            "Encrypting data with multiple keys",
+            "Using multiple cloud providers"
+          ],
+          "answer": 1,
+          "explanation": "MFA requires users to provide two or more verification methods \u2014 e.g., password + phone code \u2014 significantly increasing account security beyond passwords alone."
+        },
+        {
+          "id": 99,
+          "npc": "Lorelei",
+          "text": "What is elasticity in cloud computing?",
+          "options": [
+            "The ability to run workloads on-premises only",
+            "The ability to rapidly expand or reduce computing resources as demand changes",
+            "A fixed-capacity pricing model",
+            "The durability of stored data"
+          ],
+          "answer": 1,
+          "explanation": "Elasticity is the ability to rapidly scale resources up or out to meet demand, and scale back down when demand drops \u2014 paying only for what you use."
+        },
+        {
+          "id": 100,
+          "npc": "Champion",
+          "text": "You have answered all 100 questions! Which certification exam validates Microsoft Azure Fundamentals knowledge?",
+          "options": [
+            "AZ-104: Azure Administrator",
+            "AZ-900: Microsoft Azure Fundamentals",
+            "AZ-204: Azure Developer Associate",
+            "AZ-500: Azure Security Technologies"
+          ],
+          "answer": 1,
+          "explanation": "AZ-900: Microsoft Azure Fundamentals is the entry-level certification covering cloud concepts, core Azure services, security, compliance, and pricing. You're ready for it!"
+        }
+      ]
+    }
+  ]
+}
