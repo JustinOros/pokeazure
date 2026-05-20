@@ -592,8 +592,8 @@ html, body {
 .choice-btn.correct { background:#c8ffc8; border-color:var(--green); animation:correctPulse .5s ease 3; pointer-events:none; }
 .choice-btn.wrong   { background:#ffc8c8; border-color:var(--red);   animation:wrongShake .35s ease;   pointer-events:none; }
 .choice-btn.disabled{ opacity:.5; pointer-events:none; }
-.choice-btn.selected{ background:#e0f0ff; border-color:var(--blue); box-shadow:3px 3px 0 var(--blue); }
-.choice-btn.selected::after { content:' ✔'; color:var(--blue); font-size:0.9em; }
+.choice-btn.selected{ background:#c0e0ff; border-color:var(--blue); border-width:4px; box-shadow:3px 3px 0 var(--blue); color:var(--black); }
+.choice-btn.selected::after { content:' ✔'; color:var(--blue); font-size:1.6em; vertical-align:middle; }
 .choice-btn.confirm-btn { background:var(--blue); color:#fff; border-color:#003080; text-align:center; grid-column: 1 / -1; }
 .choice-btn.confirm-btn:hover:not(:disabled) { background:#0050d0; }
 .choice-btn.confirm-btn:disabled { opacity:.4; pointer-events:none; }
