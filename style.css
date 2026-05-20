@@ -594,11 +594,10 @@ html, body {
 .choice-btn.disabled{ opacity:.5; pointer-events:none; }
 .choice-btn.selected{ background:#e0f0ff; border-color:var(--blue); box-shadow:3px 3px 0 var(--blue); }
 .choice-btn.selected::after { content:' ✔'; color:var(--blue); font-size:0.9em; }
-.choice-btn.confirm-btn { background:var(--blue); color:#fff; border-color:#003080; text-align:center; margin-top:4px; }
+.choice-btn.confirm-btn { background:var(--blue); color:#fff; border-color:#003080; text-align:center; grid-column: 1 / -1; }
 .choice-btn.confirm-btn:hover:not(:disabled) { background:#0050d0; }
 .choice-btn.confirm-btn:disabled { opacity:.4; pointer-events:none; }
 .choice-btn.confirm-btn::before { content:''; }
-.multi-hint { font-family:var(--font); font-size:clamp(5px,1.4vw,6.5px); color:var(--blue); margin-bottom:4px; text-align:center; letter-spacing:.05em; }
 
 .battle-footer { background:var(--dark-bg); border-top:3px solid var(--black); padding:clamp(4px,1.2vw,6px) 12px max(4px,var(--safe-bottom)); display:flex; justify-content:space-between; align-items:center; font-size:clamp(5.5px,1.5vw,7px); color:var(--yellow); flex-shrink:0; }
 .kbd-hint { font-size:5px; color:rgba(255,255,255,.3); }

@@ -1110,13 +1110,6 @@ class Game {
       q._correctDisplayText = q.options[q.answer];
     }
 
-    if (isMulti) {
-      const hint = document.createElement('div');
-      hint.className = 'multi-hint';
-      hint.textContent = 'Select TWO answers, then press CONFIRM';
-      container.appendChild(hint);
-    }
-
     const selectedSlots = new Set();
 
     indices.forEach((origIdx, slotIdx) => {
