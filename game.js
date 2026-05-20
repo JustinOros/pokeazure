@@ -453,6 +453,10 @@ class Game {
   }
 
   _talkToNPC() {
+    if (!this._nearNPC()) {
+      this.toast('Walk up to the NPC first!');
+      return;
+    }
     const arrow = document.getElementById('map-dir-arrow');
     if (arrow) arrow.style.display = 'none';
     SFX.encounter();
