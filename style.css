@@ -498,7 +498,7 @@ html, body {
   background-position: 0 0;
   image-rendering: pixelated;
   filter: drop-shadow(2px 3px 0 rgba(0,0,0,.4));
-  z-index: 99;
+  z-index: 9999;
   font-size: 0;
   color: transparent;
 }
@@ -519,8 +519,13 @@ html, body {
   padding: 3px 6px;
   white-space: nowrap;
   z-index: 11;
-  animation: talkBubble .6s ease-in-out infinite;
   pointer-events: none;
+  display: none;
+  bottom: -9999px;
+}
+.map-talk-hint.visible {
+  display: block;
+  animation: talkBubble .6s ease-in-out infinite;
 }
 /* Desktop: show "Press E", hide "Press A" */
 .hint-touch { display: none; }

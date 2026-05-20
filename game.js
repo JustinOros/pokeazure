@@ -436,9 +436,9 @@ class Game {
     const hint = document.getElementById('map-talk-hint');
     const bub  = document.getElementById('npc-bubble');
     if (hint) {
-      hint.style.display = near ? 'block' : 'none';
       hint.style.left   = (viewW / 2 - 28) + 'px';
       hint.style.bottom = (viewH * 0.50) + 'px';
+      hint.classList.toggle('visible', near);
     }
     if (bub) bub.style.opacity = near ? '0' : '1';
     this._updateDirArrow(near);
@@ -503,7 +503,7 @@ class Game {
     }
     this._applyCamera();
     const hint = document.getElementById('map-talk-hint');
-    if (hint) hint.style.display = 'none';
+    if (hint) hint.classList.remove('visible');
   }
 
   /* ══════════════════════════════════════════════════════════
