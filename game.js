@@ -503,12 +503,14 @@ class Game {
   _moveCursor(dir) {
     const btns = document.querySelectorAll('.choice-btn:not(.disabled):not(.correct):not(.wrong)');
     if (!btns.length) return;
+    const total = btns.length;
     let c = this.state.cursor;
+    const hasConfirm = total === 5;
     if      (dir === 'right') c = (c === 0) ? 1 : (c === 2) ? 3 : c;
-    else if (dir === 'left')  c = (c === 1) ? 0 : (c === 3) ? 2 : c;
-    else if (dir === 'down')  c = (c === 0) ? 2 : (c === 1) ? 3 : c;
-    else if (dir === 'up')    c = (c === 2) ? 0 : (c === 3) ? 1 : c;
-    c = Math.min(c, btns.length - 1);
+    else if (dir === 'left')  c = (c === 1) ? 0 : (c === 3) ? 2 : (c === 4) ? 4 : c;
+    else if (dir === 'down')  c = (c === 0) ? 2 : (c === 1) ? 3 : (hasConfirm && (c === 2 || c === 3)) ? 4 : c;
+    else if (dir === 'up')    c = (c === 2) ? 0 : (c === 3) ? 1 : (c === 4) ? 2 : c;
+    c = Math.min(c, total - 1);
     this.state.cursor = c;
     this._renderCursor();
     SFX.select();
@@ -522,7 +524,7 @@ class Game {
 
   _confirmCursor() {
     if (this.state.answering) return;
-    const btns = document.querySelectorAll('.choice-btn:not(.disabled)');
+    const btns = document.querySelectorAll('.choice-btn:not(.disabled):not(.correct):not(.wrong)');
     const target = btns[this.state.cursor];
     if (target) target.click();
   }
