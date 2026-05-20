@@ -76,7 +76,6 @@ html, body {
   background: repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,0,0,.045) 2px, rgba(0,0,0,.045) 4px);
   pointer-events: none;
   z-index: 900;
-  border-radius: 6px;
 }
 
 /* ─── MOBILE FULL-SCREEN ─────────────────────────────────── */
