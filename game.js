@@ -1147,10 +1147,19 @@ class Game {
       } else {
         btn.addEventListener('click',()=>this.pick(slotIdx, correctShuffledIdx, q, container));
       }
+      btn.addEventListener('mouseenter', () => {
+        this.state.cursor = slotIdx;
+        this._renderCursor();
+      });
       container.appendChild(btn);
     });
 
     if (isMulti) {
+      confirmBtn.addEventListener('mouseenter', () => {
+        if (confirmBtn.classList.contains('confirm-inactive')) return;
+        this.state.cursor = 4;
+        this._renderCursor();
+      });
       container.appendChild(confirmBtn);
       container._confirmBtn = confirmBtn;
     }
