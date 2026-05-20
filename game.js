@@ -119,6 +119,11 @@ const SFX = (() => {
     if (ctx.state === 'suspended') ctx.resume();
     return ctx;
   }
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume().then(() => {});
+  }
+  document.addEventListener('touchstart',  unlock, { once: true, passive: true });
+  document.addEventListener('pointerdown', unlock, { once: true, passive: true });
 
   /* Core: play a tone with envelope */
   function tone(freq, type, vol, attack, sustain, release, when) {
@@ -182,7 +187,8 @@ const SFX = (() => {
 
     /* Select / menu move */
     select() {
-      tone(440, 'square', 0.12, 0.005, 0.03, 0.04);
+      const c = getCtx();
+      tone(440, 'square', 0.12, 0.005, 0.03, 0.04, c.currentTime + 0.05);
     },
 
     /* Correct answer — happy ascending chord */
@@ -945,7 +951,15 @@ class Game {
     if (this.state.questions.length>0) { cb(); return; }
     fetch('./questions.json')
       .then(r=>r.json())
-      .then(data=>{ this.state.questions=data.levels[0].questions; cb(); })
+      .then(data=>{
+        const qs = data.levels[0].questions;
+        for (let i = qs.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [qs[i], qs[j]] = [qs[j], qs[i]];
+        }
+        this.state.questions = qs;
+        cb();
+      })
       .catch(()=>this.toast('❌ Could not load questions.json'));
   }
 
