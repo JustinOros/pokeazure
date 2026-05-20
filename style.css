@@ -475,9 +475,14 @@ html, body {
   text-shadow: 0 0 6px rgba(248,192,48,.8), 2px 2px 0 rgba(0,0,0,.5);
   pointer-events: none;
   z-index: 50;
-  animation: arrowPulse .7s ease-in-out infinite;
   filter: drop-shadow(0 0 4px rgba(248,192,48,.6));
-  right: 12px;   /* pinned to right edge of map viewport */
+  right: 12px;
+  display: none;
+  bottom: -9999px;
+}
+.map-dir-arrow.visible {
+  display: block;
+  animation: arrowPulse .7s ease-in-out infinite;
 }
 /* NPC lives inside .map-inner, positioned in world-px via JS */
 .map-npc-wrap { position:absolute; text-align:center; z-index: 30; }

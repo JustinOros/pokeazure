@@ -447,13 +447,12 @@ class Game {
   _updateDirArrow(nearNPC) {
     const arrow = document.getElementById('map-dir-arrow');
     if (!arrow) return;
-    if (nearNPC) { arrow.style.display = 'none'; return; }
-    const world = document.getElementById('map-inner');
-    const viewH = world ? world.parentElement.offsetHeight : 300;
-    arrow.textContent   = '▶';
-    arrow.style.display = 'block';
-    arrow.style.removeProperty('left');
-    arrow.style.bottom  = (viewH * 0.28) + 'px';
+    if (nearNPC) { arrow.classList.remove('visible'); return; }
+    const world = document.getElementById('map-world');
+    const viewH = (world && world.offsetHeight) ? world.offsetHeight : 300;
+    arrow.textContent  = '▶';
+    arrow.style.bottom = (viewH * 0.28) + 'px';
+    arrow.classList.add('visible');
   }
 
   _nearNPC() {
@@ -477,7 +476,7 @@ class Game {
       return;
     }
     const arrow = document.getElementById('map-dir-arrow');
-    if (arrow) arrow.style.display = 'none';
+    if (arrow) arrow.classList.remove('visible');
     const bub = document.getElementById('player-bubble');
     if (bub) bub.classList.remove('visible');
     SFX.encounter();
