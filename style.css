@@ -450,6 +450,7 @@ html, body {
   animation: treeSway 3s ease-in-out infinite;
   filter: drop-shadow(1px 2px 0 rgba(0,0,0,.3));
   line-height: 1;
+  z-index: 60;
 }
 .tree:nth-child(even) { animation-direction: reverse; }
 /* Directional nudge arrow */
@@ -512,7 +513,7 @@ html, body {
   background-position: 0 0;
   image-rendering: pixelated;
   filter: drop-shadow(2px 3px 0 rgba(0,0,0,.4));
-  z-index: 40;
+  z-index: 20;
   font-size: 0;
   color: transparent;
   left: -9999px;
