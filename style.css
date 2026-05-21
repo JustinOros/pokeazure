@@ -741,7 +741,8 @@ html, body {
 
   .gba-controller.hidden { display: none; }
 
-  .dpad { width: clamp(72px, 16vh, 100px); height: clamp(72px, 16vh, 100px); }
+  .dpad { width: clamp(90px, 20vh, 120px); height: clamp(90px, 20vh, 120px); }
+  .gba-mid-btns { margin-top: 16px; }
   .ab-cluster { position: relative; width: clamp(90px, 21vw, 120px); height: clamp(90px, 21vw, 120px); flex: none; }
   #gba-right .ab-btn { position: absolute; }
   #gba-right .ab-b { bottom: 14%; left: 5%; top: auto; transform: none; }
