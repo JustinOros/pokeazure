@@ -126,6 +126,11 @@ const SFX = (() => {
   }
   document.addEventListener('touchstart',  unlock, { once: true, passive: true });
   document.addEventListener('pointerdown', unlock, { once: true, passive: true });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && ctx && ctx.state === 'suspended') {
+      ctx.resume();
+    }
+  });
 
   /* Core: play a tone with envelope */
   function tone(freq, type, vol, attack, sustain, release, when) {
