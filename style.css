@@ -474,12 +474,11 @@ html, body {
 .tree {
   position: absolute;
   display: inline-block;
-  animation: treeSway 3s ease-in-out infinite;
   filter: drop-shadow(1px 2px 0 rgba(0,0,0,.3));
   line-height: 1;
   z-index: 60;
 }
-.tree:nth-child(even) { animation-direction: reverse; }
+.tree:nth-child(even) { }
 /* Directional nudge arrow */
 .map-dir-arrow {
   position: absolute;
@@ -495,7 +494,7 @@ html, body {
 /* NPC lives inside .map-inner, positioned in world-px via JS */
 .map-npc-wrap { position:absolute; text-align:center; z-index: 30; }
 .npc-bubble   { font-size:14px; font-family:var(--font); color:var(--black); background:var(--yellow); border:2px solid var(--black); width:20px; height:20px; display:flex; align-items:center; justify-content:center; margin:0 auto 2px; animation:bounce .7s ease-in-out infinite; }
-.map-npc      { font-size:clamp(36px,10vw,52px); filter:drop-shadow(2px 3px 0 rgba(0,0,0,.35)); cursor:pointer; }
+.map-npc      { font-size:clamp(36px,10vw,52px); filter:drop-shadow(2px 3px 0 rgba(0,0,0,.35)); cursor:pointer; animation:npcFloat 2s ease-in-out infinite; }
 /* Player is fixed to the viewport centre horizontally; only Y moves */
 /* "..." bubble above player when pressing talk away from NPC */
 .player-bubble {
