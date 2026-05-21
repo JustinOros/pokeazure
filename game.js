@@ -425,11 +425,22 @@ class Game {
     }
   }
 
+  _playerScreenOffset() {
+    const {viewW, viewH} = this._getViewport();
+    return { px: viewW / 2, py: viewH - (viewH * 0.35) - 32 };
+  }
+
+  _npcScreenDist() {
+    const {viewW, viewH} = this._getViewport();
+    const {px, py} = this._playerScreenOffset();
+    const npcSX = viewW / 2 + (this.state.npcWorldX - this.state.worldX);
+    const npcSY = viewH / 2 + (this.state.npcWorldY - this.state.worldY);
+    return Math.sqrt((npcSX - px) ** 2 + (npcSY - py) ** 2);
+  }
+
   _checkNPCProximity() {
     const {viewW, viewH} = this._getViewport();
-    const dx   = this.state.npcWorldX - this.state.worldX;
-    const dy   = this.state.npcWorldY - this.state.worldY;
-    const dist = Math.sqrt(dx * dx + dy * dy);
+    const dist = this._npcScreenDist();
     const near = !(this.state.npcWorldX === 0 && this.state.npcWorldY === 0) && dist < 300;
 
     const hint = document.getElementById('map-talk-hint');
@@ -481,9 +492,7 @@ class Game {
 
   _nearNPC() {
     if (this.state.npcWorldX === 0 && this.state.npcWorldY === 0) return false;
-    const dx = this.state.npcWorldX - this.state.worldX;
-    const dy = this.state.npcWorldY - this.state.worldY;
-    return Math.sqrt(dx * dx + dy * dy) < 300;
+    return this._npcScreenDist() < 300;
   }
 
   _talkToNPC() {
