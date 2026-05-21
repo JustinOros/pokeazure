@@ -227,7 +227,7 @@ html, body {
   }
 
   #gba-left .gba-mid-btns {
-    flex-direction: column;
+    flex-direction: row;
     gap: 6px;
     margin-top: 0;
     width: auto;
@@ -743,8 +743,8 @@ html, body {
 
   .dpad        { width: clamp(72px, 16vh, 100px); height: clamp(72px, 16vh, 100px); }
   .ab-cluster  { width: clamp(72px, 16vh, 100px); height: clamp(72px, 16vh, 100px); }
-  .ab-b { bottom: 8%; left: 2%; top: auto; transform: none; }
-  .ab-a { top: 8%; right: 2%; transform: none; }
+  .ab-b { bottom: 2%; left: 2%; top: auto; transform: none; }
+  .ab-a { top: 2%; right: 2%; transform: none; }
   .gba-mid-btns { flex-direction: column; gap: 5px; }
   .gba-mid-btn  { min-width: 44px; width: 44px; font-size: 5px; padding: 6px 4px; }
 }
