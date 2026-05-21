@@ -1,4 +1,21 @@
 /* ─── NPC ROSTER ─────────────────────────────────────────── */
+const CONFIG = {
+  gameName:    'PokéAzure',
+  subject:     'Azure',
+  examName:    'AZ-900',
+  townName:    'AZ-900 Town',
+  saveKey:     'pokeazure_save_v1',
+  introLines: [
+    "Hello {name}! Welcome to PokéAzure — the world of Azure certification training! My name is Professor Oak, the Azure Pokémon Professor!",
+    "This world is inhabited by powerful cloud services — Compute, Storage, Networking, and Security — mastered with knowledge!",
+    "Your mission? Journey through each town, challenge Azure experts, and conquer every certification exam!",
+    "Start in AZ-900 Town with AZ-900 — then travel the Azure world to tackle Administrator, Developer, Security, and beyond!",
+    "100 questions await you. Each correct answer earns you Azure EXP — and you'll learn something real!",
+    "Your progress is saved automatically in your browser so you can pick up right where you left off. Now, {name}... your adventure begins!",
+  ],
+  namePrompt:  "Hello there! Welcome to PokéAzure! My name is Professor Oak — the Azure Pokémon Professor. Now tell me, what is your name?",
+};
+
 const NPC = {
   'Professor Oak':     '👴',
   'Rival Gary':        '😤',
@@ -25,14 +42,7 @@ const NPC = {
   'Gary':              '😤',
 };
 
-const INTRO_MSGS = [
-  { speaker:'PROFESSOR OAK', npc:'Professor Oak', text:"Hello {name}! Welcome to PokéAzure — the world of Azure certification training! My name is Professor Oak, the Azure Pokémon Professor!" },
-  { speaker:'PROFESSOR OAK', npc:'Professor Oak', text:"This world is inhabited by powerful cloud services — Compute, Storage, Networking, and Security — mastered with knowledge!" },
-  { speaker:'PROFESSOR OAK', npc:'Professor Oak', text:"Your mission? Journey through each town, challenge Azure experts, and conquer every certification exam!" },
-  { speaker:'PROFESSOR OAK', npc:'Professor Oak', text:"Start in AZ-900 Town with AZ-900 — then travel the Azure world to tackle Administrator, Developer, Security, and beyond!" },
-  { speaker:'PROFESSOR OAK', npc:'Professor Oak', text:"100 questions await you. Each correct answer earns you Azure EXP — and you'll learn something real!" },
-  { speaker:'PROFESSOR OAK', npc:'Professor Oak', text:"Your progress is saved automatically in your browser so you can pick up right where you left off. Now, {name}... your adventure begins!" },
-];
+const INTRO_MSGS = CONFIG.introLines.map(text => ({ speaker:'PROFESSOR OAK', npc:'Professor Oak', text }));
 
 const CORRECT_FB = ["That's right!","Excellent work!","Perfect!","Outstanding!","Correct!","You're a natural!","Great answer!","Spot on!","Impressive!","Well done!"];
 const WRONG_FB   = ["Not quite...","Hmm, that's not it.","Try again next time!","Almost...","Not this time!"];
@@ -43,7 +53,7 @@ const MILESTONES = {
   75: { badge:'🥇 CLOUD PRACTITIONER',  stars:'★ ★ ★ ★' },
 };
 
-const SAVE_KEY = 'pokeazure_save_v1';
+const SAVE_KEY = CONFIG.saveKey;
 
 /* ─── SAVE / LOAD ────────────────────────────────────────── */
 function saveGame(s) {
@@ -918,7 +928,7 @@ class Game {
     this._showController(false);
     this._gpKeyCursor = 0;
     this.buildKeyboard();
-    this.typeText('name-prompt-text', "Hello there! Welcome to PokéAzure! My name is Professor Oak — the Azure Pokémon Professor. Now tell me, what is your name?");
+    this.typeText('name-prompt-text', CONFIG.namePrompt);
     document.getElementById('btn-backspace').onclick    = () => this.delChar();
     document.getElementById('btn-confirm-name').onclick = () => this.confirmName();
   }
