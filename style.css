@@ -210,9 +210,9 @@ html, body {
     flex-direction: row;
     border-top: 2px solid rgba(120,80,255,.35);
   }
-  #gba-left  { left: 0; width: 60%; justify-content: flex-start; padding: 0 8px max(8px,var(--safe-bottom)) clamp(8px,3vw,20px); gap: 8px; }
-  #gba-right { right: 0; width: 40%; justify-content: flex-end;   padding: 0 clamp(8px,3vw,20px) max(8px,var(--safe-bottom)) 8px; }
-  #gba-left .gba-mid-btns { flex-direction: row; }
+  #gba-left  { left: 0; width: 60%; justify-content: space-evenly; align-items: center; padding: 0 8px max(8px,var(--safe-bottom)) clamp(8px,3vw,20px); }
+  #gba-right { right: 0; width: 40%; justify-content: center; padding: 0 clamp(8px,3vw,20px) max(8px,var(--safe-bottom)) 8px; }
+  #gba-left .gba-mid-btns { flex-direction: column; gap: 6px; margin-top: 0; width: auto; }
 }
 
 @media (min-width: 900px) {
@@ -724,8 +724,8 @@ html, body {
 
   .dpad        { width: clamp(72px, 16vh, 100px); height: clamp(72px, 16vh, 100px); }
   .ab-cluster  { width: clamp(72px, 16vh, 100px); height: clamp(72px, 16vh, 100px); }
-  .ab-b { bottom: auto; left: 2%; top: 55%; transform: translateY(-50%); }
-  .ab-a { top: 30%; right: 2%; transform: translateY(-50%); }
+  .ab-b { bottom: 14%; left: 5%; top: auto; transform: none; }
+  .ab-a { top: 14%; right: 5%; transform: none; }
   .gba-mid-btns { flex-direction: column; gap: 5px; }
   .gba-mid-btn  { min-width: 44px; width: 44px; font-size: 5px; padding: 6px 4px; }
 }
