@@ -549,7 +549,7 @@ html, body {
 .map-player.walk-up    { animation: walkUp    .32s steps(3) infinite; }
 .map-player.walk-left  { animation: walkLeft  .32s steps(3) infinite; }
 .map-player.walk-right { animation: walkRight .32s steps(3) infinite; }
-.map-player.idle       { animation: none; background-position-x: 0px; }
+.map-player.idle       { animation: none; }
 
 /* Talk hint that floats above player when near NPC */
 .map-talk-hint {
@@ -745,9 +745,9 @@ html, body {
   .dpad { width: clamp(72px, 16vh, 100px); height: clamp(72px, 16vh, 100px); }
   .ab-cluster { position: static; width: 100%; height: 100%; flex: 1; }
   #gba-right { position: relative; }
-  #gba-right .ab-btn { position: fixed; }
-  #gba-right .ab-b { bottom: 8px; left: 8px; top: auto; transform: none; }
-  #gba-right .ab-a { top: 8px; right: 8px; transform: none; }
+  #gba-right .ab-btn { position: absolute; }
+  #gba-right .ab-b { bottom: 20%; left: 5%; top: auto; transform: none; }
+  #gba-right .ab-a { top: 20%; right: 5%; transform: none; }
   .gba-mid-btns { flex-direction: column; gap: 5px; }
   .gba-mid-btn  { min-width: 44px; width: 44px; font-size: 5px; padding: 6px 4px; }
 }
