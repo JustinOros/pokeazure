@@ -203,7 +203,6 @@ html, body {
 
 /* ── PORTRAIT: two panels fixed at bottom ── */
 @media (orientation: portrait) {
-
   #gba-left, #gba-right {
     position: fixed;
     bottom: 0;
@@ -214,18 +213,17 @@ html, body {
 
   #gba-left {
     left: 0;
-    width: 52%;
+    width: 65%;
     justify-content: space-evenly;
     align-items: center;
-    padding: 0 8px max(8px, var(--safe-bottom)) clamp(8px, 3vw, 20px);
+    padding: 0 8px max(8px,var(--safe-bottom)) clamp(8px,3vw,20px);
   }
 
   #gba-right {
     right: 0;
-    width: 48%;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 0 clamp(8px, 3vw, 20px) max(8px, var(--safe-bottom)) 8px;
+    width: 35%;
+    justify-content: center;
+    padding: 0 clamp(8px,3vw,20px) max(8px,var(--safe-bottom)) 8px;
   }
 
   #gba-left .gba-mid-btns {
@@ -233,20 +231,6 @@ html, body {
     gap: 6px;
     margin-top: 0;
     width: auto;
-  }
-
-  .ab-cluster {
-    transform: translateX(-18px);
-  }
-
-  .ab-b {
-    left: -20%;
-    bottom: 22%;
-  }
-
-  .ab-a {
-    right: -10%;
-    top: 12%;
   }
 }
 
