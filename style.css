@@ -746,8 +746,8 @@ html, body {
   .ab-cluster { position: static; width: 100%; height: 100%; flex: 1; }
   #gba-right { position: relative; }
   #gba-right .ab-btn { position: absolute; }
-  #gba-right .ab-b { bottom: 20%; left: 5%; top: auto; transform: none; }
-  #gba-right .ab-a { top: 20%; right: 5%; transform: none; }
+  #gba-right .ab-b { bottom: 30%; left: 5%; top: auto; transform: none; }
+  #gba-right .ab-a { top: 30%; right: 5%; transform: none; }
   .gba-mid-btns { flex-direction: column; gap: 5px; }
   .gba-mid-btn  { min-width: 44px; width: 44px; font-size: 5px; padding: 6px 4px; }
 }
