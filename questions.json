@@ -1330,7 +1330,7 @@
         {
           "id": 100,
           "npc": "Champion",
-          "text": "You have answered all 100 questions! Which certification exam validates Microsoft Azure Fundamentals knowledge?",
+          "text": "Which certification exam validates Microsoft Azure Fundamentals knowledge?",
           "options": [
             "AZ-104: Azure Administrator",
             "AZ-900: Microsoft Azure Fundamentals",
