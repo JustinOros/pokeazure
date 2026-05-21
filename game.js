@@ -498,6 +498,12 @@ class Game {
     } else {
       pd = dy >= 0 ? 'down' : 'up';
     }
+
+    const isLandscape = window.innerWidth > window.innerHeight;
+    const ctrlH = isLandscape ? 0 : Math.round(Math.min(148, Math.max(110, window.innerWidth * 0.22)));
+    const safeBottom = ctrlH + 12;
+    const midY = (viewH - ctrlH) / 2 - 16;
+
     const glyphs = { right:'▶', left:'◀', up:'▲', down:'▼' };
     arrow.textContent     = glyphs[pd];
     arrow.style.display   = 'block';
@@ -505,19 +511,19 @@ class Game {
     if (pd === 'right') {
       arrow.style.removeProperty('left');
       arrow.style.right  = '12px';
-      arrow.style.bottom = (viewH / 2 - 16) + 'px';
+      arrow.style.bottom = midY + 'px';
     } else if (pd === 'left') {
       arrow.style.removeProperty('right');
       arrow.style.left   = '12px';
-      arrow.style.bottom = (viewH / 2 - 16) + 'px';
+      arrow.style.bottom = midY + 'px';
     } else if (pd === 'up') {
       arrow.style.removeProperty('right');
       arrow.style.left   = (viewW / 2 - 16) + 'px';
-      arrow.style.bottom = (viewH - 48) + 'px';
+      arrow.style.bottom = (viewH - ctrlH - 48) + 'px';
     } else {
       arrow.style.removeProperty('right');
       arrow.style.left   = (viewW / 2 - 16) + 'px';
-      arrow.style.bottom = '12px';
+      arrow.style.bottom = safeBottom + 'px';
     }
   }
 
