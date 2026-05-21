@@ -253,8 +253,6 @@ class Game {
       worldX: 0, worldY: 0,
       npcWorldX: 0, npcWorldY: 0,
       pathDir: 'right',
-      legProgress: 0,
-      legLength: 0,
       lastDir: 'right',
       cursor:0,
     };
@@ -376,82 +374,63 @@ class Game {
     };
   }
 
-  _legVector() {
-    const d = this.state.pathDir;
-    return {
-      dx: d === 'right' ? 1 : d === 'left' ? -1 : 0,
-      dy: d === 'down'  ? 1 : d === 'up'   ? -1 : 0,
-    };
-  }
-
-  _playerScreenPos() {
-    const {viewW, viewH} = this._getViewport();
-    return { sx: viewW / 2 - 16, sy: viewH / 2 - 32 };
-  }
-
   _walkTick() {
     if (this.state.screen !== 'map') return;
     const {viewW, viewH} = this._getViewport();
     const SPEED = 8;
-    const pd = this.state.pathDir;
-    const fwd = { right:'right', left:'left', up:'up', down:'down' }[pd];
-    if (!this._heldKeys.has(fwd)) return;
+    let dx = 0, dy = 0, dir = '';
+    if (this._heldKeys.has('right')) { dx =  SPEED; dir = 'right'; }
+    if (this._heldKeys.has('left'))  { dx = -SPEED; dir = 'left';  }
+    if (this._heldKeys.has('up'))    { dy = -SPEED; dir = 'up';    }
+    if (this._heldKeys.has('down'))  { dy =  SPEED; dir = 'down';  }
+    if (!dir) return;
 
-    const {dx, dy} = this._legVector();
-    const maxProg = this.state.legLength - 60;
-    this.state.legProgress = Math.min(maxProg, Math.max(0, this.state.legProgress + SPEED));
-    this.state.lastDir = pd;
+    this.state.worldX += dx;
+    this.state.worldY += dy;
+    this.state.lastDir = dir;
 
     this._applyCamera();
-    this._placePlayer(`walk-${pd}`);
+
+    const p   = document.getElementById('map-player');
+    const bub = document.getElementById('player-bubble');
+    if (p) {
+      const cx  = viewW / 2 - 16;
+      const bot = viewH * 0.35;
+      p.style.left   = cx + 'px';
+      p.style.bottom = bot + 'px';
+      p.className    = `map-player walk-${dir}`;
+      if (bub) { bub.style.left = (cx - 4) + 'px'; bub.style.bottom = (bot + 66) + 'px'; }
+    }
     this._checkNPCProximity();
-    this._drawPath();
   }
 
   _applyCamera() {
     const {viewW, viewH} = this._getViewport();
-    const {dx, dy} = this._legVector();
-    const prog = this.state.legProgress;
-    const tx = -(prog * dx);
-    const ty = -(prog * dy);
+    const spread = Math.max(viewW, viewH) * 5;
     const inner = document.getElementById('map-inner');
+    const tx = -(spread + this.state.worldX - viewW / 2);
+    const ty = -(spread + this.state.worldY - viewH / 2);
     if (inner) inner.style.transform = `translate(${tx}px,${ty}px)`;
     this._positionNPCOnScreen();
   }
 
   _positionNPCOnScreen() {
     const {viewW, viewH} = this._getViewport();
-    const {dx, dy} = this._legVector();
-    const prog = this.state.legProgress;
-    const legLen = this.state.legLength;
     const npcWrap = document.getElementById('map-npc-wrap');
     if (npcWrap) {
-      const screenX = viewW / 2 + (legLen - prog) * dx - 24;
-      const screenY = viewH / 2 + (legLen - prog) * dy - 24;
+      const screenX = viewW / 2 + (this.state.npcWorldX - this.state.worldX) - 24;
+      const screenY = viewH / 2 + (this.state.npcWorldY - this.state.worldY) - 24;
       npcWrap.style.left   = screenX + 'px';
       npcWrap.style.bottom = (viewH - screenY - 48) + 'px';
     }
   }
 
-  _placePlayer(cls) {
-    const {viewW, viewH} = this._getViewport();
-    const p   = document.getElementById('map-player');
-    const bub = document.getElementById('player-bubble');
-    if (p) {
-      const cx = viewW / 2 - 16;
-      const cy = viewH / 2 - 32;
-      const bot = viewH - cy - 64;
-      p.style.left   = cx + 'px';
-      p.style.bottom = bot + 'px';
-      p.className    = 'map-player ' + cls;
-      if (bub) { bub.style.left = (cx - 4) + 'px'; bub.style.bottom = (bot + 66) + 'px'; }
-    }
-  }
-
   _checkNPCProximity() {
     const {viewW, viewH} = this._getViewport();
-    const remaining = this.state.legLength - this.state.legProgress;
-    const near = this.state.legLength > 0 && remaining < 60;
+    const dx   = this.state.npcWorldX - this.state.worldX;
+    const dy   = this.state.npcWorldY - this.state.worldY;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    const near = this.state.npcWorldX !== 0 && dist < 60;
 
     const hint = document.getElementById('map-talk-hint');
     const bub  = document.getElementById('npc-bubble');
@@ -469,12 +448,18 @@ class Game {
     if (!arrow) return;
     if (nearNPC) { arrow.style.display = 'none'; arrow.style.animation = 'none'; return; }
     const {viewW, viewH} = this._getViewport();
-    const pd = this.state.pathDir;
+    const dx = this.state.npcWorldX - this.state.worldX;
+    const dy = this.state.npcWorldY - this.state.worldY;
+    let pd;
+    if (Math.abs(dx) >= Math.abs(dy)) {
+      pd = dx >= 0 ? 'right' : 'left';
+    } else {
+      pd = dy >= 0 ? 'down' : 'up';
+    }
     const glyphs = { right:'▶', left:'◀', up:'▲', down:'▼' };
-    arrow.textContent = glyphs[pd] || '▶';
+    arrow.textContent     = glyphs[pd];
     arrow.style.display   = 'block';
     arrow.style.animation = 'arrowPulse .7s ease-in-out infinite';
-
     if (pd === 'right') {
       arrow.style.removeProperty('left');
       arrow.style.right  = '12px';
@@ -487,7 +472,7 @@ class Game {
       arrow.style.removeProperty('right');
       arrow.style.left   = (viewW / 2 - 16) + 'px';
       arrow.style.bottom = (viewH - 48) + 'px';
-    } else if (pd === 'down') {
+    } else {
       arrow.style.removeProperty('right');
       arrow.style.left   = (viewW / 2 - 16) + 'px';
       arrow.style.bottom = '12px';
@@ -495,9 +480,10 @@ class Game {
   }
 
   _nearNPC() {
-    if (!this.state.legLength) return false;
-    const remaining = this.state.legLength - this.state.legProgress;
-    return remaining < 60;
+    if (!this.state.npcWorldX && !this.state.npcWorldY) return false;
+    const dx = this.state.npcWorldX - this.state.worldX;
+    const dy = this.state.npcWorldY - this.state.worldY;
+    return Math.sqrt(dx * dx + dy * dy) < 60;
   }
 
   _talkToNPC() {
@@ -521,13 +507,19 @@ class Game {
   }
 
   _placeMapSprites() {
+    const {viewW, viewH} = this._getViewport();
     const idleFrames = { right:'-32px', down:'-32px', left:'-128px', up:'-224px' };
-    const p = document.getElementById('map-player');
+    const p   = document.getElementById('map-player');
+    const bub = document.getElementById('player-bubble');
     if (p) {
-      p.className = 'map-player idle';
+      const cx  = viewW / 2 - 16;
+      const bot = viewH * 0.35;
+      p.style.left   = cx + 'px';
+      p.style.bottom = bot + 'px';
+      p.className    = 'map-player idle';
       p.style.backgroundPositionX = idleFrames[this.state.pathDir] || '-32px';
+      if (bub) { bub.style.left = (cx - 4) + 'px'; bub.style.bottom = (bot + 66) + 'px'; }
     }
-    this._placePlayer('map-player idle');
     this._applyCamera();
     const hint = document.getElementById('map-talk-hint');
     if (hint) hint.style.display = 'none';
@@ -1017,23 +1009,23 @@ class Game {
     if (!container) return;
     container.innerHTML = '';
     const {viewW, viewH} = this._getViewport();
-    const legLen = this.state.legLength || viewW * 3;
-    const pd = this.state.pathDir;
-    const isHoriz = pd === 'right' || pd === 'left';
-    const worldW = isHoriz ? legLen + viewW : viewW * 2;
-    const worldH = isHoriz ? viewH * 2      : legLen + viewH;
+    const spread = Math.max(viewW, viewH) * 5;
     const inner = document.getElementById('map-inner');
-    if (inner) { inner.style.width = worldW + 'px'; inner.style.height = worldH + 'px'; }
-    const COUNT = Math.max(8, Math.round(legLen / 100));
-    for (let i = 0; i < COUNT; i++) {
+    if (inner) { inner.style.width = spread * 2 + 'px'; inner.style.height = spread * 2 + 'px'; }
+    const cx = spread;
+    const cy = spread;
+    const npcX = cx + this.state.npcWorldX;
+    const npcY = cy + this.state.npcWorldY;
+    for (let i = 0; i < 60; i++) {
       const span = document.createElement('span');
       span.className = 'tree';
       const size = 28 + Math.random() * 16;
-      const t = (i + Math.random()) / COUNT;
-      const band = 60 + Math.random() * 80;
-      const side = Math.random() < 0.5 ? 1 : -1;
-      const x = isHoriz ? t * (legLen + viewW * 0.5) : viewW / 2 - 16 + side * band;
-      const y = isHoriz ? viewH / 2 - 32 + side * band : t * (legLen + viewH * 0.5);
+      let x, y, tries = 0;
+      do {
+        x = cx + (Math.random() - 0.5) * spread * 1.8;
+        y = cy + (Math.random() - 0.5) * spread * 1.8;
+        tries++;
+      } while (tries < 10 && Math.abs(x - npcX) < 80 && Math.abs(y - npcY) < 80);
       span.textContent             = '🌳';
       span.style.fontSize          = size + 'px';
       span.style.left              = x + 'px';
@@ -1045,20 +1037,18 @@ class Game {
   }
 
   _preGenerateNextLeg() {
-    const {viewW, viewH} = this._getViewport();
-    const nextDir = this._pickNextDir(this.state.pathDir);
-    const isHoriz = nextDir === 'right' || nextDir === 'left';
-    const range   = isHoriz ? viewW : viewH;
-    const nextLen = Math.round(range * 3.0 + Math.random() * range * 0.8);
-    const savedDir = this.state.pathDir;
-    const savedLen = this.state.legLength;
-    this.state.pathDir   = nextDir;
-    this.state.legLength = nextLen;
-    this._generateTrees();
-    this.state.pathDir   = savedDir;
-    this.state.legLength = savedLen;
-    this._nextLegDir = nextDir;
-    this._nextLegLen = nextLen;
+    this._nextLegDir = this._pickNextDir(this.state.pathDir);
+    this._nextLegLen = null;
+  }
+
+  _npcOffsetForDir(dir, viewW, viewH) {
+    const dist = dir === 'right' || dir === 'left'
+      ? Math.round(viewW * (3.0 + Math.random() * 0.8))
+      : Math.round(viewH * (3.0 + Math.random() * 0.8));
+    return {
+      nx: dir === 'right' ? dist : dir === 'left' ? -dist : 0,
+      ny: dir === 'down'  ? dist : dir === 'up'   ? -dist : 0,
+    };
   }
 
   showMap() {
@@ -1069,24 +1059,23 @@ class Game {
       const {viewW, viewH} = this._getViewport();
 
       if (this.state.currentQ === 0) {
-        this.state.pathDir     = 'right';
-        this.state.legLength   = Math.round(viewW * 3.5);
-        this.state.legProgress = 0;
+        this.state.pathDir = 'right';
       } else if (this._nextLegDir) {
-        this.state.pathDir     = this._nextLegDir;
-        this.state.legLength   = this._nextLegLen;
-        this.state.legProgress = 0;
+        this.state.pathDir = this._nextLegDir;
         this._nextLegDir = null;
         this._nextLegLen = null;
       } else {
-        const dir = this._pickNextDir(this.state.pathDir);
-        const isH = dir === 'right' || dir === 'left';
-        this.state.pathDir     = dir;
-        this.state.legLength   = Math.round((isH ? viewW : viewH) * 3.0 + Math.random() * (isH ? viewW : viewH) * 0.8);
-        this.state.legProgress = 0;
+        this.state.pathDir = this._pickNextDir(this.state.pathDir);
       }
 
+      this.state.worldX  = 0;
+      this.state.worldY  = 0;
       this.state.lastDir = this.state.pathDir;
+
+      const {nx, ny} = this._npcOffsetForDir(this.state.pathDir, viewW, viewH);
+      this.state.npcWorldX = nx;
+      this.state.npcWorldY = ny;
+
       this._generateTrees();
 
       document.getElementById('hud-name').textContent = this.state.playerName||'ASH';
@@ -1098,7 +1087,6 @@ class Game {
 
       this._placeMapSprites();
       this._updateDirArrow(false);
-      this._drawPath();
       Music.play();
       saveGame(this.state);
       this.flashSaveDot();
@@ -1111,83 +1099,6 @@ class Game {
     });
   }
 
-  _drawPath() {
-    const canvas = document.getElementById('map-path-canvas');
-    if (!canvas) return;
-    const {viewW, viewH} = this._getViewport();
-    canvas.width  = viewW;
-    canvas.height = viewH;
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, viewW, viewH);
-
-    const pd   = this.state.pathDir;
-    const prog = this.state.legProgress;
-    const len  = this.state.legLength;
-    const cx   = viewW / 2;
-    const cy   = viewH / 2;
-    const pathW = 80;
-    const R = 20;
-
-    ctx.save();
-
-    const ahead = len - prog;
-
-    let x1, y1, x2, y2;
-    if (pd === 'right') {
-      x1 = 0;      y1 = cy - pathW / 2;
-      x2 = cx + Math.min(ahead, viewW); y2 = cy + pathW / 2;
-    } else if (pd === 'left') {
-      x1 = cx - Math.min(ahead, viewW); y1 = cy - pathW / 2;
-      x2 = viewW;  y2 = cy + pathW / 2;
-    } else if (pd === 'down') {
-      x1 = cx - pathW / 2; y1 = 0;
-      x2 = cx + pathW / 2; y2 = cy + Math.min(ahead, viewH);
-    } else {
-      x1 = cx - pathW / 2; y1 = cy - Math.min(ahead, viewH);
-      x2 = cx + pathW / 2; y2 = viewH;
-    }
-
-    const rr = (x, y, w, h, r) => {
-      ctx.beginPath();
-      ctx.moveTo(x + r, y);
-      ctx.lineTo(x + w - r, y);
-      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-      ctx.lineTo(x + w, y + h - r);
-      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-      ctx.lineTo(x + r, y + h);
-      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-      ctx.lineTo(x, y + r);
-      ctx.quadraticCurveTo(x, y, x + r, y);
-      ctx.closePath();
-    };
-
-    const bx = Math.min(x1, x2), by = Math.min(y1, y2);
-    const bw = Math.abs(x2 - x1), bh = Math.abs(y2 - y1);
-
-    ctx.shadowColor = 'rgba(0,0,0,0.25)';
-    ctx.shadowBlur  = 6;
-    ctx.fillStyle   = '#b89858';
-    rr(bx, by, bw, bh, R);
-    ctx.fill();
-
-    ctx.shadowBlur = 0;
-    ctx.strokeStyle = '#2d6e1a';
-    ctx.lineWidth   = 3;
-    rr(bx, by, bw, bh, R);
-    ctx.stroke();
-
-    const dashes = pd === 'right' || pd === 'left' ? bh * 0.1 : bw * 0.1;
-    ctx.setLineDash([12, 10]);
-    ctx.strokeStyle = 'rgba(168,136,72,0.6)';
-    ctx.lineWidth   = 2;
-    if (pd === 'right' || pd === 'left') {
-      ctx.beginPath(); ctx.moveTo(bx, cy); ctx.lineTo(bx + bw, cy); ctx.stroke();
-    } else {
-      ctx.beginPath(); ctx.moveTo(cx, by); ctx.lineTo(cx, by + bh); ctx.stroke();
-    }
-    ctx.setLineDash([]);
-    ctx.restore();
-  }
 
   updateHUD() {
     const tot=this.state.questions.length||100, done=this.state.currentQ, pct=(done/tot)*100;
