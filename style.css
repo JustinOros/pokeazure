@@ -216,19 +216,19 @@ html, body {
 }
 
 @media (orientation: portrait) {
-  .ab-cluster {
-    width: clamp(110px, 26vw, 150px);
-    height: clamp(110px, 26vw, 150px);
-  }
 
-  .ab-a {
-    right: -5%;   
-    top: 10%;
+  .ab-cluster {
+    position: relative;
   }
 
   .ab-b {
-    left: -16%;
-    bottom: 16%;
+    left: -35% !important;
+    bottom: 25% !important;
+  }
+
+  .ab-a {
+    right: -20% !important;
+    top: 10% !important;
   }
 }
 
