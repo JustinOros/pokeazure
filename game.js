@@ -1040,7 +1040,7 @@ class Game {
     for (let i = 0; i < 300; i++) {
       const span = document.createElement('span');
       span.className = 'tree';
-      const size = 28 + Math.random() * 16;
+      const size = 48 + Math.random() * 24;
       let x, y, tries = 0;
       do {
         x = cx + (Math.random() - 0.5) * spread * 1.8;
