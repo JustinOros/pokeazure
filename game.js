@@ -405,7 +405,7 @@ class Game {
     const bub = document.getElementById('player-bubble');
     if (p) {
       const cx  = viewW / 2 - 16;
-      const bot = viewH * 0.35;
+      const bot = viewH * 0.45;
       p.style.left   = cx + 'px';
       p.style.bottom = bot + 'px';
       p.className    = `map-player walk-${dir}`;
@@ -437,7 +437,7 @@ class Game {
 
   _playerScreenOffset() {
     const {viewW, viewH} = this._getViewport();
-    return { px: viewW / 2, py: viewH - (viewH * 0.35) - 32 };
+    return { px: viewW / 2, py: viewH - (viewH * 0.45) - 32 };
   }
 
   _npcScreenDist() {
@@ -534,7 +534,7 @@ class Game {
     const bub = document.getElementById('player-bubble');
     if (p) {
       const cx  = viewW / 2 - 16;
-      const bot = viewH * 0.35;
+      const bot = viewH * 0.45;
       p.style.left   = cx + 'px';
       p.style.bottom = bot + 'px';
       p.className    = 'map-player idle';
