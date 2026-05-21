@@ -189,19 +189,11 @@ html, body {
    Shown only when screen === 'map' or 'battle'.
    ═══════════════════════════════════════════════════════════ */
 .gba-controller {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: clamp(110px, 22vw, 148px);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 clamp(8px,3vw,20px) max(8px, var(--safe-bottom));
   background: linear-gradient(180deg, rgba(26,10,62,.82) 0%, rgba(14,6,36,.95) 100%);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
-  border-top: 2px solid rgba(120,80,255,.35);
   z-index: 800;
   user-select: none;
   touch-action: none;
@@ -209,9 +201,20 @@ html, body {
 }
 .gba-controller.hidden { display: none; }
 
-/* Only show controller on touch / small screens by default.
-   On desktop we rely on keyboard — but controller still shows
-   if screen is narrow enough. JS toggles it per screen anyway. */
+/* ── PORTRAIT: two panels fixed at bottom ── */
+@media (orientation: portrait) {
+  #gba-left, #gba-right {
+    position: fixed;
+    bottom: 0;
+    height: clamp(110px, 22vw, 148px);
+    flex-direction: row;
+    border-top: 2px solid rgba(120,80,255,.35);
+  }
+  #gba-left  { left: 0; width: 60%; justify-content: flex-start; padding: 0 8px max(8px,var(--safe-bottom)) clamp(8px,3vw,20px); gap: 8px; }
+  #gba-right { right: 0; width: 40%; justify-content: flex-end;   padding: 0 clamp(8px,3vw,20px) max(8px,var(--safe-bottom)) 8px; }
+  #gba-left .gba-mid-btns { flex-direction: row; }
+}
+
 @media (min-width: 900px) {
   .gba-controller { display: none !important; }
 }
@@ -675,20 +678,6 @@ html, body {
 /* ─── TOAST ──────────────────────────────────────────────── */
 .toast { position:absolute; bottom:max(20px,var(--safe-bottom)); left:50%; transform:translateX(-50%); background:var(--dark-bg); border:3px solid var(--yellow); color:var(--yellow); font-family:var(--font); font-size:clamp(6.5px,1.8vw,8px); padding:10px 18px; z-index:950; animation:slideUp .3s ease; white-space:nowrap; max-width:90%; overflow:hidden; text-overflow:ellipsis; }
 .hidden { display:none !important; }
-
-/* ─── PORTRAIT: panels fixed at bottom ───────────────────── */
-@media (orientation: portrait) {
-  #gba-left, #gba-right {
-    position: fixed; bottom: 0; height: clamp(110px, 22vw, 148px);
-    flex-direction: row; align-items: center;
-    border-top: 2px solid rgba(120,80,255,.35); border-left: none; border-right: none;
-    background: linear-gradient(180deg, rgba(26,10,62,.82) 0%, rgba(14,6,36,.95) 100%);
-    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-  }
-  #gba-left  { left: 0; width: 60%; justify-content: flex-start; padding: 0 8px 0 clamp(8px,3vw,20px); gap: 8px; }
-  #gba-right { right: 0; width: 40%; justify-content: flex-end; padding: 0 clamp(8px,3vw,20px) 0 8px; }
-  #gba-left .gba-mid-btns { flex-direction: row; }
-}
 
 /* ─── LANDSCAPE CONTROLLER LAYOUT ───────────────────────── */
 @media (orientation: landscape) and (max-height: 500px) {
