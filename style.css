@@ -409,7 +409,7 @@ html, body {
 .map-header { background:var(--dark-bg); padding:8px 12px; display:flex; align-items:center; justify-content:space-between; gap:8px; border-bottom:3px solid var(--black); flex-shrink:0; }
 .map-left   { display:flex; align-items:center; gap:6px; }
 .map-pin    { font-size:12px; }
-.map-town-name { font-size:clamp(5.5px,1.6vw,7px); color:var(--yellow); letter-spacing:.5px; }
+.map-town-name { font-size:clamp(5.5px,1.6vw,7px); color:var(--yellow); letter-spacing:.5px; word-spacing:-1px; }
 .map-right  { display:flex; align-items:center; gap:6px; }
 .prog-bar-outer { width:80px; height:9px; background:var(--black); border:2px solid var(--lightgray); overflow:hidden; }
 .prog-bar-inner { height:100%; width:0%; background:var(--hp-green); transition:width .5s ease; }
@@ -435,6 +435,7 @@ html, body {
   position: absolute;
   top: 0; bottom: 0; left: 0;
   width: 400%;
+  height: 400%;
   will-change: transform;
   z-index: 5;
 }
@@ -451,22 +452,6 @@ html, body {
   line-height: 1;
 }
 .tree:nth-child(even) { animation-direction: reverse; }
-.map-ground {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 48%;
-  background:
-    linear-gradient(180deg,
-      transparent 0%, transparent 54%,
-      #3d8a28 54%, #4a9e30 58%, #3d8a28 62%, #4aaa32 66%, #3d8a28 100%
-    ),
-    linear-gradient(180deg,
-      #4a9e30 0%, #3d8a28 8%, #2d6e1a 10%,
-      #c8aa6a 10%, #b89858 30%, #c0a060 50%, #b89858 70%, #a88848 88%,
-      #2d6e1a 90%, #3d8a28 92%, #4a9e30 100%
-    );
-  border-top: 3px solid #2d6e1a;
-}
 /* Directional nudge arrow */
 .map-dir-arrow {
   position: absolute;
@@ -476,7 +461,6 @@ html, body {
   pointer-events: none;
   z-index: 50;
   filter: drop-shadow(0 0 4px rgba(248,192,48,.6));
-  right: 12px;
   display: none;
   bottom: -9999px;
 }

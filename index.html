@@ -99,12 +99,12 @@
       </div>
     </div>
     <div class="overworld-bg map-world" id="map-world">
+      <canvas id="map-path-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:4;pointer-events:none;"></canvas>
       <div class="map-inner" id="map-inner">
         <div class="map-trees" id="map-trees"></div>
       </div>
       <!-- Path stays fixed to the viewport — does not scroll -->
-      <div class="map-ground"></div>
-      <!-- NPC in viewport layer — JS positions it using screen-space X -->
+      <!-- NPC in viewport layer — JS positions it using screen-space coords -->
       <div class="map-npc-wrap" id="map-npc-wrap">
         <div class="npc-bubble" id="npc-bubble">!</div>
         <div class="map-npc" id="map-npc"></div>

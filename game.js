@@ -250,13 +250,12 @@ class Game {
       screen:'boot', playerName:'', questions:[], currentQ:0,
       score:0, streak:0, maxStreak:0, correct:0, wrong:0,
       answering:false, introStep:0, twTimer:null,
-      /* map — world coords in px, camera follows player */
-      worldX: 0,          /* player's X in world-px */
-      worldY: 0,          /* player's Y in world-px (0 = path centre) */
-      npcWorldX: 0,       /* NPC world-px X */
-      npcWorldY: 0,
+      worldX: 0, worldY: 0,
+      npcWorldX: 0, npcWorldY: 0,
+      pathDir: 'right',
+      legProgress: 0,
+      legLength: 0,
       lastDir: 'right',
-      /* battle cursor */
       cursor:0,
     };
 
@@ -363,80 +362,96 @@ class Game {
         p.className = 'map-player idle';
         /* Show the idle/middle frame for the last direction walked
            Frames at 2× scale (32px each): down=32, up=128, left=224, right=320 */
-        const idleFrames = { down:'-32px', left:'-128px', up:'-224px', right:'-320px' };
-        p.style.backgroundPositionX = idleFrames[this.state.lastDir] || '-32px';
+        const idleFrames = { right:'-32px', down:'-32px', left:'-128px', up:'-224px' };
+        p.style.backgroundPositionX = idleFrames[this.state.pathDir] || '-32px';
       }
     }
   }
 
-  _walkTick() {
-    if (this.state.screen !== 'map') return;
-
-    const world  = document.getElementById('map-inner');
-    if (!world) return;
-    const viewW  = world.parentElement.offsetWidth  || 420;
-    const viewH  = world.parentElement.offsetHeight || 300;
-
-    const SPEED = 8; /* px per tick */
-    let dx = 0, dy = 0, dir = '';
-
-    if (this._heldKeys.has('right')) { dx =  SPEED; dir = 'right'; }
-    if (this._heldKeys.has('left'))  { dx = -SPEED; dir = 'left';  }
-    if (this._heldKeys.has('up'))    { dy = -SPEED; dir = 'up';    }
-    if (this._heldKeys.has('down'))  { dy =  SPEED; dir = 'down';  }
-    if (!dir) return;
-
-    /* Clamp world X — left edge is 0, right edge is npcWorldX + half screen
-       so the player can always walk far enough to reach the NPC */
-    const maxWorldX = this.state.npcWorldX - Math.round(viewW / 2) + 100;
-    this.state.worldX = Math.max(0, Math.min(maxWorldX, this.state.worldX + dx));
-    /* Clamp Y within a narrow vertical band (path area) */
-    this.state.worldY = Math.max(-30, Math.min(30, this.state.worldY + dy));
-    this.state.lastDir = dir;
-
-    this._applyCamera();
-
-    /* Player sprite stays horizontally centred; only Y shifts */
-    const p = document.getElementById('map-player');
-    const bub = document.getElementById('player-bubble');
-    if (p) {
-      const centreX = viewW / 2 - 16;
-      const centreY = viewH * 0.65 + this.state.worldY;
-      const bottomPx = viewH - centreY - 40;
-      p.style.left   = centreX + 'px';
-      p.style.bottom = bottomPx + 'px';
-      p.className    = `map-player walk-${dir}`;
-      if (bub) { bub.style.left = (centreX - 4) + 'px'; bub.style.bottom = (bottomPx + 64) + 'px'; }
-    }
-
-    this._checkNPCProximity();
+  _getViewport() {
+    const w = document.getElementById('map-world');
+    return {
+      viewW: (w && w.offsetWidth)  || 420,
+      viewH: (w && w.offsetHeight) || 300,
+    };
   }
 
-  /* Slide the world and reposition NPC in screen-space every tick */
+  _legVector() {
+    const d = this.state.pathDir;
+    return {
+      dx: d === 'right' ? 1 : d === 'left' ? -1 : 0,
+      dy: d === 'down'  ? 1 : d === 'up'   ? -1 : 0,
+    };
+  }
+
+  _playerScreenPos() {
+    const {viewW, viewH} = this._getViewport();
+    return { sx: viewW / 2 - 16, sy: viewH / 2 - 32 };
+  }
+
+  _walkTick() {
+    if (this.state.screen !== 'map') return;
+    const {viewW, viewH} = this._getViewport();
+    const SPEED = 8;
+    const pd = this.state.pathDir;
+    const fwd = { right:'right', left:'left', up:'up', down:'down' }[pd];
+    if (!this._heldKeys.has(fwd)) return;
+
+    const {dx, dy} = this._legVector();
+    const maxProg = this.state.legLength - 60;
+    this.state.legProgress = Math.min(maxProg, Math.max(0, this.state.legProgress + SPEED));
+    this.state.lastDir = pd;
+
+    this._applyCamera();
+    this._placePlayer(`walk-${pd}`);
+    this._checkNPCProximity();
+    this._drawPath();
+  }
+
   _applyCamera() {
-    const world = document.getElementById('map-inner');
-    if (world) world.style.transform = `translateX(${-this.state.worldX}px)`;
+    const {viewW, viewH} = this._getViewport();
+    const {dx, dy} = this._legVector();
+    const prog = this.state.legProgress;
+    const tx = -(prog * dx);
+    const ty = -(prog * dy);
+    const inner = document.getElementById('map-inner');
+    if (inner) inner.style.transform = `translate(${tx}px,${ty}px)`;
     this._positionNPCOnScreen();
   }
 
   _positionNPCOnScreen() {
-    const world = document.getElementById('map-inner');
-    const viewH = world ? world.parentElement.offsetHeight : 300;
+    const {viewW, viewH} = this._getViewport();
+    const {dx, dy} = this._legVector();
+    const prog = this.state.legProgress;
+    const legLen = this.state.legLength;
     const npcWrap = document.getElementById('map-npc-wrap');
     if (npcWrap) {
-      const screenX = this.state.npcWorldX - this.state.worldX;
-      npcWrap.style.left   = (screenX - 24) + 'px';
-      npcWrap.style.bottom = (viewH * 0.28) + 'px';
+      const screenX = viewW / 2 + (legLen - prog) * dx - 24;
+      const screenY = viewH / 2 + (legLen - prog) * dy - 24;
+      npcWrap.style.left   = screenX + 'px';
+      npcWrap.style.bottom = (viewH - screenY - 48) + 'px';
+    }
+  }
+
+  _placePlayer(cls) {
+    const {viewW, viewH} = this._getViewport();
+    const p   = document.getElementById('map-player');
+    const bub = document.getElementById('player-bubble');
+    if (p) {
+      const cx = viewW / 2 - 16;
+      const cy = viewH / 2 - 32;
+      const bot = viewH - cy - 64;
+      p.style.left   = cx + 'px';
+      p.style.bottom = bot + 'px';
+      p.className    = 'map-player ' + cls;
+      if (bub) { bub.style.left = (cx - 4) + 'px'; bub.style.bottom = (bot + 66) + 'px'; }
     }
   }
 
   _checkNPCProximity() {
-    const world = document.getElementById('map-world');
-    const viewW = (world && world.offsetWidth)  ? world.offsetWidth  : 420;
-    const viewH = (world && world.offsetHeight) ? world.offsetHeight : 300;
-    const playerWorldX = this.state.worldX + viewW / 2;
-    const dx   = Math.abs(playerWorldX - this.state.npcWorldX);
-    const near = this.state.npcWorldX > 0 && dx < 60;
+    const {viewW, viewH} = this._getViewport();
+    const remaining = this.state.legLength - this.state.legProgress;
+    const near = this.state.legLength > 0 && remaining < 60;
 
     const hint = document.getElementById('map-talk-hint');
     const bub  = document.getElementById('npc-bubble');
@@ -453,21 +468,36 @@ class Game {
     const arrow = document.getElementById('map-dir-arrow');
     if (!arrow) return;
     if (nearNPC) { arrow.style.display = 'none'; arrow.style.animation = 'none'; return; }
-    const world = document.getElementById('map-world');
-    const viewH = (world && world.offsetHeight) ? world.offsetHeight : 300;
-    arrow.textContent     = '▶';
+    const {viewW, viewH} = this._getViewport();
+    const pd = this.state.pathDir;
+    const glyphs = { right:'▶', left:'◀', up:'▲', down:'▼' };
+    arrow.textContent = glyphs[pd] || '▶';
     arrow.style.display   = 'block';
     arrow.style.animation = 'arrowPulse .7s ease-in-out infinite';
-    arrow.style.removeProperty('left');
-    arrow.style.bottom    = (viewH * 0.28) + 'px';
+
+    if (pd === 'right') {
+      arrow.style.removeProperty('left');
+      arrow.style.right  = '12px';
+      arrow.style.bottom = (viewH / 2 - 16) + 'px';
+    } else if (pd === 'left') {
+      arrow.style.removeProperty('right');
+      arrow.style.left   = '12px';
+      arrow.style.bottom = (viewH / 2 - 16) + 'px';
+    } else if (pd === 'up') {
+      arrow.style.removeProperty('right');
+      arrow.style.left   = (viewW / 2 - 16) + 'px';
+      arrow.style.bottom = (viewH - 48) + 'px';
+    } else if (pd === 'down') {
+      arrow.style.removeProperty('right');
+      arrow.style.left   = (viewW / 2 - 16) + 'px';
+      arrow.style.bottom = '12px';
+    }
   }
 
   _nearNPC() {
-    if (!this.state.npcWorldX) return false;
-    const world = document.getElementById('map-world');
-    const viewW = (world && world.offsetWidth) ? world.offsetWidth : 420;
-    const playerWorldX = this.state.worldX + viewW / 2;
-    return Math.abs(playerWorldX - this.state.npcWorldX) < 60;
+    if (!this.state.legLength) return false;
+    const remaining = this.state.legLength - this.state.legProgress;
+    return remaining < 60;
   }
 
   _talkToNPC() {
@@ -490,22 +520,14 @@ class Game {
     this.startQuestion();
   }
 
-  /* Place player at viewport centre, NPC via screen-space conversion */
   _placeMapSprites() {
-    const world = document.getElementById('map-inner');
-    const viewW = world ? world.parentElement.offsetWidth  : 420;
-    const viewH = world ? world.parentElement.offsetHeight : 300;
-
+    const idleFrames = { right:'-32px', down:'-32px', left:'-128px', up:'-224px' };
     const p = document.getElementById('map-player');
     if (p) {
-      const left   = viewW / 2 - 16;
-      const bottom = viewH * 0.28;
-      p.style.left      = left + 'px';
-      p.style.bottom    = bottom + 'px';
-      p.className       = 'map-player idle';
-      const bub = document.getElementById('player-bubble');
-      if (bub) { bub.style.left = (left - 4) + 'px'; bub.style.bottom = (bottom + 66) + 'px'; }
+      p.className = 'map-player idle';
+      p.style.backgroundPositionX = idleFrames[this.state.pathDir] || '-32px';
     }
+    this._placePlayer('map-player idle');
     this._applyCamera();
     const hint = document.getElementById('map-talk-hint');
     if (hint) hint.style.display = 'none';
@@ -983,34 +1005,35 @@ class Game {
   /* Generate randomly placed trees across the full scrollable world */
   /* Generate trees for the current journey leg — from world origin to just past the NPC.
      Called fresh each time so trees always fill the visible path ahead. */
+  _pickNextDir(currentDir) {
+    const opposite = { right:'left', left:'right', up:'down', down:'up' };
+    const opp = opposite[currentDir];
+    const choices = ['right','left','up','down',currentDir,currentDir].filter(d => d !== opp);
+    return choices[Math.floor(Math.random() * choices.length)];
+  }
+
   _generateTrees() {
     const container = document.getElementById('map-trees');
     if (!container) return;
-
-    /* Clear previous leg's trees */
     container.innerHTML = '';
-
-    const world  = document.getElementById('map-inner');
-    const viewW  = world ? world.parentElement.offsetWidth  : 420;
-    const viewH  = world ? world.parentElement.offsetHeight : 300;
-
-    /* World spans from 0 to just past the NPC */
-    const worldW = this.state.npcWorldX + viewW;
-    if (world) world.style.width = worldW + 'px';
-
-    const treeTopMax    = viewH * 0.50;
-    const treeBottomMin = viewH * 0.04;
-
-    /* One tree roughly every 120px across the leg */
-    const COUNT = Math.max(6, Math.round(worldW / 120));
-    const zoneW = worldW / COUNT;
-
+    const {viewW, viewH} = this._getViewport();
+    const legLen = this.state.legLength || viewW * 3;
+    const pd = this.state.pathDir;
+    const isHoriz = pd === 'right' || pd === 'left';
+    const worldW = isHoriz ? legLen + viewW : viewW * 2;
+    const worldH = isHoriz ? viewH * 2      : legLen + viewH;
+    const inner = document.getElementById('map-inner');
+    if (inner) { inner.style.width = worldW + 'px'; inner.style.height = worldH + 'px'; }
+    const COUNT = Math.max(8, Math.round(legLen / 100));
     for (let i = 0; i < COUNT; i++) {
       const span = document.createElement('span');
       span.className = 'tree';
       const size = 28 + Math.random() * 16;
-      const x    = i * zoneW + Math.random() * zoneW * 0.75;
-      const y    = treeBottomMin + Math.random() * (treeTopMax - treeBottomMin - size);
+      const t = (i + Math.random()) / COUNT;
+      const band = 60 + Math.random() * 80;
+      const side = Math.random() < 0.5 ? 1 : -1;
+      const x = isHoriz ? t * (legLen + viewW * 0.5) : viewW / 2 - 16 + side * band;
+      const y = isHoriz ? viewH / 2 - 32 + side * band : t * (legLen + viewH * 0.5);
       span.textContent             = '🌳';
       span.style.fontSize          = size + 'px';
       span.style.left              = x + 'px';
@@ -1021,15 +1044,21 @@ class Game {
     }
   }
 
-  /* Called on result screen — pre-builds trees for the next leg */
   _preGenerateNextLeg() {
-    const world = document.getElementById('map-inner');
-    const viewW = world ? world.parentElement.offsetWidth : 420;
-    const nextNpcX = Math.round(viewW * 3.0 + Math.random() * viewW * 0.8);
-    const savedNpcX = this.state.npcWorldX;
-    this.state.npcWorldX = nextNpcX;
+    const {viewW, viewH} = this._getViewport();
+    const nextDir = this._pickNextDir(this.state.pathDir);
+    const isHoriz = nextDir === 'right' || nextDir === 'left';
+    const range   = isHoriz ? viewW : viewH;
+    const nextLen = Math.round(range * 3.0 + Math.random() * range * 0.8);
+    const savedDir = this.state.pathDir;
+    const savedLen = this.state.legLength;
+    this.state.pathDir   = nextDir;
+    this.state.legLength = nextLen;
     this._generateTrees();
-    this.state.npcWorldX = savedNpcX;
+    this.state.pathDir   = savedDir;
+    this.state.legLength = savedLen;
+    this._nextLegDir = nextDir;
+    this._nextLegLen = nextLen;
   }
 
   showMap() {
@@ -1037,21 +1066,27 @@ class Game {
     this._showController(true);
 
     requestAnimationFrame(() => {
-      const world = document.getElementById('map-inner');
-      const viewW = world ? world.parentElement.offsetWidth : 420;
+      const {viewW, viewH} = this._getViewport();
 
       if (this.state.currentQ === 0) {
-        this.state.worldX    = 0;
-        this.state.worldY    = 0;
-        this.state.npcWorldX = Math.round(viewW * 3.5);
-        this.state.npcWorldY = 0;
+        this.state.pathDir     = 'right';
+        this.state.legLength   = Math.round(viewW * 3.5);
+        this.state.legProgress = 0;
+      } else if (this._nextLegDir) {
+        this.state.pathDir     = this._nextLegDir;
+        this.state.legLength   = this._nextLegLen;
+        this.state.legProgress = 0;
+        this._nextLegDir = null;
+        this._nextLegLen = null;
       } else {
-        this.state.worldX    = 0;
-        this.state.worldY    = 0;
-        this.state.npcWorldX = Math.round(viewW * 3.0 + Math.random() * viewW * 0.8);
-        this.state.npcWorldY = 0;
+        const dir = this._pickNextDir(this.state.pathDir);
+        const isH = dir === 'right' || dir === 'left';
+        this.state.pathDir     = dir;
+        this.state.legLength   = Math.round((isH ? viewW : viewH) * 3.0 + Math.random() * (isH ? viewW : viewH) * 0.8);
+        this.state.legProgress = 0;
       }
 
+      this.state.lastDir = this.state.pathDir;
       this._generateTrees();
 
       document.getElementById('hud-name').textContent = this.state.playerName||'ASH';
@@ -1063,6 +1098,7 @@ class Game {
 
       this._placeMapSprites();
       this._updateDirArrow(false);
+      this._drawPath();
       Music.play();
       saveGame(this.state);
       this.flashSaveDot();
@@ -1073,6 +1109,84 @@ class Game {
       const musicBtn = document.getElementById('music-toggle');
       if (musicBtn) musicBtn.onclick = () => Music.toggle();
     });
+  }
+
+  _drawPath() {
+    const canvas = document.getElementById('map-path-canvas');
+    if (!canvas) return;
+    const {viewW, viewH} = this._getViewport();
+    canvas.width  = viewW;
+    canvas.height = viewH;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, viewW, viewH);
+
+    const pd   = this.state.pathDir;
+    const prog = this.state.legProgress;
+    const len  = this.state.legLength;
+    const cx   = viewW / 2;
+    const cy   = viewH / 2;
+    const pathW = 80;
+    const R = 20;
+
+    ctx.save();
+
+    const ahead = len - prog;
+
+    let x1, y1, x2, y2;
+    if (pd === 'right') {
+      x1 = 0;      y1 = cy - pathW / 2;
+      x2 = cx + Math.min(ahead, viewW); y2 = cy + pathW / 2;
+    } else if (pd === 'left') {
+      x1 = cx - Math.min(ahead, viewW); y1 = cy - pathW / 2;
+      x2 = viewW;  y2 = cy + pathW / 2;
+    } else if (pd === 'down') {
+      x1 = cx - pathW / 2; y1 = 0;
+      x2 = cx + pathW / 2; y2 = cy + Math.min(ahead, viewH);
+    } else {
+      x1 = cx - pathW / 2; y1 = cy - Math.min(ahead, viewH);
+      x2 = cx + pathW / 2; y2 = viewH;
+    }
+
+    const rr = (x, y, w, h, r) => {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    };
+
+    const bx = Math.min(x1, x2), by = Math.min(y1, y2);
+    const bw = Math.abs(x2 - x1), bh = Math.abs(y2 - y1);
+
+    ctx.shadowColor = 'rgba(0,0,0,0.25)';
+    ctx.shadowBlur  = 6;
+    ctx.fillStyle   = '#b89858';
+    rr(bx, by, bw, bh, R);
+    ctx.fill();
+
+    ctx.shadowBlur = 0;
+    ctx.strokeStyle = '#2d6e1a';
+    ctx.lineWidth   = 3;
+    rr(bx, by, bw, bh, R);
+    ctx.stroke();
+
+    const dashes = pd === 'right' || pd === 'left' ? bh * 0.1 : bw * 0.1;
+    ctx.setLineDash([12, 10]);
+    ctx.strokeStyle = 'rgba(168,136,72,0.6)';
+    ctx.lineWidth   = 2;
+    if (pd === 'right' || pd === 'left') {
+      ctx.beginPath(); ctx.moveTo(bx, cy); ctx.lineTo(bx + bw, cy); ctx.stroke();
+    } else {
+      ctx.beginPath(); ctx.moveTo(cx, by); ctx.lineTo(cx, by + bh); ctx.stroke();
+    }
+    ctx.setLineDash([]);
+    ctx.restore();
   }
 
   updateHUD() {
