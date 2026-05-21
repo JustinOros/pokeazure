@@ -387,7 +387,7 @@ class Game {
         /* Show the idle/middle frame for the last direction walked
            Frames at 2× scale (32px each): down=32, up=128, left=224, right=320 */
         const idleFrames = { right:'-32px', down:'-32px', left:'-128px', up:'-224px' };
-        p.style.backgroundPositionX = idleFrames[this.state.pathDir] || '-32px';
+        p.style.backgroundPositionX = idleFrames[this.state.lastDir] || '-32px';
       }
     }
   }
