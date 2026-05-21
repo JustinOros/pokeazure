@@ -441,14 +441,16 @@ class Game {
   _checkNPCProximity() {
     const {viewW, viewH} = this._getViewport();
     const dist = this._npcScreenDist();
-    const near = !(this.state.npcWorldX === 0 && this.state.npcWorldY === 0) && dist < 300;
+    const near = !(this.state.npcWorldX === 0 && this.state.npcWorldY === 0) && dist < 200;
 
     const hint = document.getElementById('map-talk-hint');
     const bub  = document.getElementById('npc-bubble');
     if (hint) {
+      const npcSX = viewW / 2 + (this.state.npcWorldX - this.state.worldX);
+      const npcSY = viewH / 2 + (this.state.npcWorldY - this.state.worldY);
       hint.style.display = near ? 'block' : 'none';
-      hint.style.left   = (viewW / 2 - 28) + 'px';
-      hint.style.bottom = (viewH * 0.50) + 'px';
+      hint.style.left   = (npcSX - 28) + 'px';
+      hint.style.bottom = (viewH - npcSY + 48) + 'px';
     }
     if (bub) bub.style.opacity = near ? '0' : '1';
     this._updateDirArrow(near);
@@ -492,7 +494,7 @@ class Game {
 
   _nearNPC() {
     if (this.state.npcWorldX === 0 && this.state.npcWorldY === 0) return false;
-    return this._npcScreenDist() < 300;
+    return this._npcScreenDist() < 200;
   }
 
   _talkToNPC() {
