@@ -437,7 +437,7 @@ html, body {
   width: 400%;
   height: 400%;
   will-change: transform;
-  z-index: 5;
+  z-index: 25;
 }
 .map-trees {
   position: absolute;
