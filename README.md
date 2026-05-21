@@ -8,7 +8,7 @@ Journey through towns, each covering a different Azure exam. Play on your phone,
 **Current towns:**
 | Town | Exam | Status |
 |---|---|---|
-| 🏘️ Fundamentals Town | AZ-900: Azure Fundamentals | ✅ Available |
+| 🏘️ AZ-900 Town | AZ-900: Azure Fundamentals | ✅ Available |
 | 🏙️ Administrator City | AZ-104: Azure Administrator | 🔜 Coming soon |
 | 🏗️ Developer District | AZ-204: Azure Developer | 🔜 Coming soon |
 | 🔒 Security Stronghold | AZ-500: Azure Security | 🔜 Coming soon |
@@ -24,10 +24,18 @@ Journey through towns, each covering a different Azure exam. Play on your phone,
 
 ```
 pokeazure/
-├── index.html      ← Game screens & structure
-├── style.css       ← GBA Pokémon aesthetic, fully responsive
-├── game.js         ← Game engine, controller, walking, save system
-├── questions.json  ← Questions & answers (organised by town/exam)
+├── index.html        ← Game screens & structure
+├── style.css         ← GBA Pokémon aesthetic, fully responsive
+├── game.js           ← Game engine, controller, walking, save system
+├── questions.json    ← Questions & answers (organised by town/exam)
+├── music.mp3         ← Overworld background music (looping)
+├── music-rival.mp3   ← Battle/question screen music (looping)
+├── player.png        ← Player sprite sheet
+├── oak.png           ← Professor Oak NPC sprite
+├── gary.png          ← Rival Gary NPC sprite
+├── joy.png           ← Nurse Joy NPC sprite
+├── jenny.png         ← Officer Jenny NPC sprite
+├── favicon.ico       ← Browser tab icon
 └── README.md
 ```
 
@@ -36,7 +44,7 @@ pokeazure/
 ## 🕹️ Host on GitHub Pages (free)
 
 1. Create a GitHub repo named **`pokeazure`**
-2. Upload all **4 files**: `index.html`, `style.css`, `game.js`, `questions.json`
+2. Upload all files to the root of the repo
 3. Go to **Settings → Pages → Source: `main` branch, `/ (root)` folder**
 4. Hit **Save** — live in ~60 seconds at `https://justinoros.github.io/pokeazure`
 
@@ -44,50 +52,55 @@ No server, no database, no cost.
 
 ---
 
-## 🎮 GBA Controller Overlay
+## 🎮 Controls
 
-On mobile, a semi-transparent Game Boy Advance-style controller overlays the bottom of the screen:
+### Mobile Portrait
+A semi-transparent GBA-style controller overlays the bottom of the screen, split into two panels:
+- **Left panel**: D-pad + SELECT/START
+- **Right panel**: A and B buttons
 
-| Control | Action |
-|---|---|
-| **D-pad** | Walk the player around the map |
-| **A button** (red) | Talk to NPC on map · Confirm answer in battle · Advance dialog |
-| **B button** (blue) | Talk to NPC on map · Advance dialog |
-| **SELECT / START** | Decorative — reserved for future use |
+### Mobile Landscape
+The controller moves to side panels flanking the game screen:
+- **Left panel**: D-pad + SELECT/START (stacked vertically)
+- **Right panel**: A and B buttons (diagonal layout)
 
-The controller is hidden on desktop (≥900px wide) — use the keyboard instead.
-
----
-
-## ⌨️ PC Keyboard Controls
-
+### PC Keyboard
 | Key | Action |
 |---|---|
 | **WASD / Arrow keys** | Walk player on map |
 | **E / Enter** | Talk to NPC · Confirm answer · Advance dialog |
 | **X** | Talk to NPC · Advance dialog |
-| **1 / 2 / 3 / 4** | Quick-pick answer directly |
+| **1 / 2 / 3 / 4** | Quick-pick answer |
 | **Space** | Advance dialog |
 
 ---
 
-## 🗺️ Map & Walking
+## 🗺️ Map & Gameplay
 
-- The player sprite walks freely around the overworld map using the D-pad or WASD
-- Walking animations change based on direction (left, right, up, down)
-- Press **A**, **B**, **E**, or **Enter** at any time to talk to the NPC and start the question
-- Tapping the NPC sprite directly also triggers the conversation
+- Player walks freely in all 4 directions across a large 2D world
+- A directional arrow indicates where the next NPC is — hides when the NPC is on screen
+- Walk up to an NPC and press E/A to start a question
+- After answering, the next NPC spawns in a random direction (never the opposite of the last)
+- Trees render above the player for depth
+- NPCs float with a gentle animation
+
+---
+
+## 🎵 Music
+
+- **Overworld** (`music.mp3`): plays while walking the map
+- **Battle** (`music-rival.mp3`): plays during question/answer screen
+- **Result screen**: silent
+- Toggle mute with the 🎵 button in the HUD
 
 ---
 
 ## 💾 Save System
 
-Progress is stored in the player's browser (`localStorage`) automatically:
-
-- **Auto-saves** after every answered question and on map return — a 💾 icon flashes to confirm
-- **Continue screen** appears on next visit showing trainer name, progress %, and score
-- **New Game** option always available — prompts confirmation before erasing save
-- Save clears automatically on completion so the next run starts fresh
+- **Auto-saves** after every answered question
+- **Continue screen** on return visits showing trainer name, progress, and score
+- **Shuffled question order** is saved so continuing always resumes at the correct question
+- **New Game** option prompts confirmation before erasing
 
 ---
 
@@ -95,25 +108,22 @@ Progress is stored in the player's browser (`localStorage`) automatically:
 
 | Feature | Detail |
 |---|---|
-| GBA controller overlay | D-pad + A/B buttons, semi-transparent, mobile only |
-| Walking player | Moves freely on map, directional walk animations |
-| Mobile-first design | Full-screen on phones with safe-area support, framed on desktop |
-| localStorage save | Auto-save with continue screen on return visits |
-| Multi-exam structure | Each town covers a different Azure certification exam |
-| Single & multi-select | "Choose two" questions require selecting both correct answers before confirming |
-| Randomised answer positions | Correct answer shuffled to a random slot — no pattern to exploit |
-| Numbered answers | Options labelled 1/2/3/4 (not A/B/C/D) |
-| Name entry | On-screen pixel keyboard, just like the real game |
-| Typewriter text | Authentic dialog effect, tap/press to skip |
-| 22 NPC characters | Professor Oak, Misty, Brock, Giovanni, Lance… |
+| Free 2D movement | Walk in any direction, camera follows player |
+| Random NPC directions | Next NPC spawns in a random direction each leg (no U-turns) |
+| PNG NPC sprites | NPCs use pixel art PNG files; emoji fallback for unassigned NPCs |
+| Mobile portrait & landscape | Fully optimised controller layout for both orientations |
+| Single & multi-select questions | "Choose two" shows CONFIRM button; single select is immediate |
+| Shuffled question order | Different order every new game |
 | Streak bonuses | 3× correct = +150 pts 🔥, 5×+ = +200 pts 🔥 |
-| Milestone badges | Earned at Q25, Q50, Q75, Q100 per town |
+| Milestone badges | Cloud Explorer (Q25), Azure Apprentice (Q50), Cloud Practitioner (Q75), AZ-900 Champion (Q100) |
 | Correct answer reveal | Wrong answers show the right answer + full explanation |
-| Scanline overlay | Authentic CRT/GBA screen effect |
+| Tap anywhere to continue | Result screen advances on any tap/click, not just CONTINUE button |
+| Rival battle music | Separate music track plays during questions |
+| Player faces last direction | Idle sprite faces the last direction walked |
 
 ---
 
-## 📚 AZ-900 Topics Covered (Fundamentals Town)
+## 📚 AZ-900 Topics Covered (AZ-900 Town)
 
 | Domain | Topics |
 |---|---|
@@ -128,14 +138,14 @@ Progress is stored in the player's browser (`localStorage`) automatically:
 
 ## ➕ Adding a New Town (Exam)
 
-To add a new exam, add a new level object to the `levels` array in `questions.json`:
+Add a new level object to the `levels` array in `questions.json`:
 
 ```json
 {
   "levels": [
     {
       "id": 1,
-      "name": "Fundamentals Town",
+      "name": "AZ-900 Town",
       "exam": "AZ-900",
       "questions": [ ... ]
     },
@@ -153,7 +163,7 @@ To add a new exam, add a new level object to the `levels` array in `questions.js
 
 ## ➕ Adding Questions
 
-**Single-answer question:**
+**Single-answer:**
 ```json
 {
   "id": 101,
@@ -165,11 +175,11 @@ To add a new exam, add a new level object to the `levels` array in `questions.js
 }
 ```
 
-**Multi-select question (choose two):**
+**Multi-select (choose two):**
 ```json
 {
   "id": 102,
-  "npc": "Misty",
+  "npc": "Nurse Joy",
   "text": "Which two options are correct? (Choose two)",
   "options": ["Option A", "Option B", "Option C", "Option D"],
   "answers": [0, 2],
@@ -177,30 +187,46 @@ To add a new exam, add a new level object to the `levels` array in `questions.js
 }
 ```
 
-- `answer` (single integer) = 0-based index of the one correct option
-- `answers` (array of two integers) = 0-based indices of both correct options
-- The game detects which mode to use automatically and shows a CONFIRM button for multi-select
-
 ---
 
-## 🧑 Adding NPCs
+## 🧑 Adding NPC Sprites
 
-In `game.js`, add to the `NPC` object at the top:
+In `game.js`, update the `NPC` object at the top:
 
 ```js
 const NPC = {
-  'Your NPC Name': '🧑',
-  ...
+  'Professor Oak': 'oak.png',   // PNG file in repo root
+  'Nurse Joy':     'joy.png',
+  'Brock':         '🧗',        // emoji fallback still works
 };
 ```
 
-Then reference `"npc": "Your NPC Name"` in `questions.json`.
+- PNG filenames are relative to the repo root (no path needed)
+- Any NPC not in the object falls back to `🧑`
+
+---
+
+## 🔧 Rebranding (CONFIG object)
+
+To create a version for a different exam set, update the `CONFIG` object at the top of `game.js`:
+
+```js
+const CONFIG = {
+  gameName:   'PokéAzure',
+  subject:    'Azure',
+  examName:   'AZ-900',
+  townName:   'AZ-900 Town',
+  saveKey:    'pokeazure_save_v1',
+  introLines: [ ... ],
+  namePrompt: '...',
+};
+```
 
 ---
 
 ## 📱 Mobile Tips
 
 - Add to Home Screen on iOS/Android for a full-screen app-like experience
-- The game uses `100dvh` and `env(safe-area-inset-bottom)` for notched phones (iPhone X+)
-- Tap anywhere on the dialog box during the intro to skip the typewriter and advance
-- Tap the NPC sprite directly on the map as an alternative to pressing A/B
+- The game uses `100dvh` and `env(safe-area-inset-*)` for notched phones
+- Tap anywhere on the result screen to continue (no need to find the CONTINUE button)
+- Rotate to landscape for a wider game view with side-panel controls
