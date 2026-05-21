@@ -261,6 +261,8 @@ html, body {
   gap: 8px;
   align-items: center;
   justify-content: center;
+  margin-top: 12px;
+  width: 100%;
 }
 .gba-mid-btn {
   background: #2a1a5e;
@@ -722,8 +724,8 @@ html, body {
 
   .dpad        { width: clamp(72px, 16vh, 100px); height: clamp(72px, 16vh, 100px); }
   .ab-cluster  { width: clamp(72px, 16vh, 100px); height: clamp(72px, 16vh, 100px); }
-  .ab-b { bottom: auto; left: 5%; top: 50%; transform: translateY(-50%); }
-  .ab-a { top: 50%; right: 5%; transform: translateY(-50%); }
+  .ab-b { bottom: auto; left: 2%; top: 55%; transform: translateY(-50%); }
+  .ab-a { top: 30%; right: 2%; transform: translateY(-50%); }
   .gba-mid-btns { flex-direction: column; gap: 5px; }
   .gba-mid-btn  { min-width: 44px; width: 44px; font-size: 5px; padding: 6px 4px; }
 }
