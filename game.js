@@ -65,8 +65,9 @@ function clearSave() { try { localStorage.removeItem(SAVE_KEY); } catch(_){} }
 /* ─── BACKGROUND MUSIC ───────────────────────────────────── */
 const Music = (() => {
   let audio    = null;
+  let rival    = null;
   let muted    = false;
-  let wantPlay = false;   /* true if we tried to play but were blocked */
+  let wantPlay = false;
 
   function getAudio() {
     if (!audio) {
@@ -74,12 +75,21 @@ const Music = (() => {
       audio.loop     = true;
       audio.volume   = 0.5;
       audio.preload  = 'auto';
-      /* If audio loads and we wanted to play, try again */
       audio.addEventListener('canplaythrough', () => {
         if (wantPlay && !muted) audio.play().catch(() => {});
       });
     }
     return audio;
+  }
+
+  function getRival() {
+    if (!rival) {
+      rival         = new Audio('./music-rival.mp3');
+      rival.loop    = true;
+      rival.volume  = 0.5;
+      rival.preload = 'auto';
+    }
+    return rival;
   }
 
   function updateBtn() {
@@ -93,16 +103,25 @@ const Music = (() => {
     play() {
       if (muted) return;
       wantPlay = true;
+      if (rival && !rival.paused) return;
       const a = getAudio();
       if (a.readyState >= 3) {
-        /* Enough data to play */
         if (a.paused) a.play().catch((e) => { console.warn('Music play blocked:', e); });
       }
-      /* else: canplaythrough listener will fire and retry */
     },
     pause() {
       wantPlay = false;
       if (audio && !audio.paused) audio.pause();
+      if (rival && !rival.paused) rival.pause();
+    },
+    playBattle() {
+      if (muted) return;
+      if (audio && !audio.paused) audio.pause();
+      const r = getRival();
+      if (r.paused) { r.currentTime = 0; r.play().catch(() => {}); }
+    },
+    stopBattle() {
+      if (rival && !rival.paused) { rival.pause(); rival.currentTime = 0; }
     },
     toggle() {
       muted = !muted;
@@ -110,7 +129,6 @@ const Music = (() => {
       if (muted) Music.pause();
       else       Music.play();
     },
-    /* Call once on first user interaction to unblock autoplay */
     unblock() {
       const a = getAudio();
       if (wantPlay && !muted && a.paused) {
@@ -1108,6 +1126,7 @@ class Game {
 
       this._placeMapSprites();
       this._updateDirArrow(false);
+      Music.stopBattle();
       Music.play();
       saveGame(this.state);
       this.flashSaveDot();
@@ -1146,7 +1165,7 @@ class Game {
 
     this.show('battle');
     this._showController(true);
-    Music.pause();
+    Music.playBattle();
     this.state.answering=false;
     this.state.cursor=0;
 
