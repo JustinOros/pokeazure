@@ -430,7 +430,7 @@ class Game {
     const dx   = this.state.npcWorldX - this.state.worldX;
     const dy   = this.state.npcWorldY - this.state.worldY;
     const dist = Math.sqrt(dx * dx + dy * dy);
-    const near = this.state.npcWorldX !== 0 && dist < 60;
+    const near = !(this.state.npcWorldX === 0 && this.state.npcWorldY === 0) && dist < 60;
 
     const hint = document.getElementById('map-talk-hint');
     const bub  = document.getElementById('npc-bubble');
@@ -480,7 +480,7 @@ class Game {
   }
 
   _nearNPC() {
-    if (!this.state.npcWorldX && !this.state.npcWorldY) return false;
+    if (this.state.npcWorldX === 0 && this.state.npcWorldY === 0) return false;
     const dx = this.state.npcWorldX - this.state.worldX;
     const dy = this.state.npcWorldY - this.state.worldY;
     return Math.sqrt(dx * dx + dy * dy) < 60;
