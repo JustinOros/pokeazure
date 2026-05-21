@@ -443,10 +443,19 @@ class Game {
     this._updateDirArrow(near);
   }
 
+  _npcOnScreen() {
+    const {viewW, viewH} = this._getViewport();
+    const dx = this.state.npcWorldX - this.state.worldX;
+    const dy = this.state.npcWorldY - this.state.worldY;
+    const screenX = viewW / 2 + dx;
+    const screenY = viewH / 2 + dy;
+    return screenX > -60 && screenX < viewW + 60 && screenY > -60 && screenY < viewH + 60;
+  }
+
   _updateDirArrow(nearNPC) {
     const arrow = document.getElementById('map-dir-arrow');
     if (!arrow) return;
-    if (nearNPC) { arrow.style.display = 'none'; arrow.style.animation = 'none'; return; }
+    if (nearNPC || this._npcOnScreen()) { arrow.style.display = 'none'; arrow.style.animation = 'none'; return; }
     const {viewW, viewH} = this._getViewport();
     const dx = this.state.npcWorldX - this.state.worldX;
     const dy = this.state.npcWorldY - this.state.worldY;
