@@ -383,11 +383,13 @@ class Game {
     if (this.state.screen === 'map') {
       const p = document.getElementById('map-player');
       if (p) {
+        const dir = this.state.lastDir;
+        const idleFrames = { right:'-320px', down:'-32px', left:'-128px', up:'-224px' };
+        const frame = idleFrames[dir] || '-32px';
         p.className = 'map-player idle';
-        /* Show the idle/middle frame for the last direction walked
-           Frames at 2× scale (32px each): down=32, up=128, left=224, right=320 */
-        const idleFrames = { right:'-32px', down:'-32px', left:'-128px', up:'-224px' };
-        p.style.backgroundPositionX = idleFrames[this.state.lastDir] || '-32px';
+        requestAnimationFrame(() => {
+          p.style.backgroundPositionX = frame;
+        });
       }
     }
   }
@@ -545,7 +547,7 @@ class Game {
 
   _placeMapSprites() {
     const {viewW, viewH} = this._getViewport();
-    const idleFrames = { right:'-32px', down:'-32px', left:'-128px', up:'-224px' };
+    const idleFrames = { right:'-320px', down:'-32px', left:'-128px', up:'-224px' };
     const p   = document.getElementById('map-player');
     const bub = document.getElementById('player-bubble');
     if (p) {
