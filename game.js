@@ -288,8 +288,6 @@ class Game {
      CONTROLLER OVERLAY — wires D-pad, A, B, SELECT, START
      ══════════════════════════════════════════════════════════ */
   _bindController() {
-    const ctrl = document.getElementById('gba-controller');
-
     const dpadMap = { 'dp-up':'up', 'dp-down':'down', 'dp-left':'left', 'dp-right':'right' };
 
     Object.entries(dpadMap).forEach(([id, dir]) => {
@@ -844,10 +842,12 @@ class Game {
     }
   }
   _showController(visible) {
-    const ctrl = document.getElementById('gba-controller');
-    if (!ctrl) return;
-    if (visible) ctrl.classList.remove('hidden');
-    else         ctrl.classList.add('hidden');
+    ['gba-left', 'gba-right'].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (visible) el.classList.remove('hidden');
+      else         el.classList.add('hidden');
+    });
   }
 
   /* ══════════════════════════════════════════════════════════

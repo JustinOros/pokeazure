@@ -202,9 +202,7 @@
 
 <!-- ═══ GBA CONTROLLER OVERLAY ═══════════════════════════════
      Shown over map + battle screens. Hidden on all others.    -->
-<div id="gba-controller" class="gba-controller hidden">
-
-  <!-- D-PAD (left) -->
+<div id="gba-left" class="gba-controller hidden">
   <div class="dpad" id="dpad">
     <button class="dpad-btn dpad-up"    id="dp-up"    aria-label="Up">▲</button>
     <button class="dpad-btn dpad-left"  id="dp-left"  aria-label="Left">◀</button>
@@ -212,19 +210,17 @@
     <button class="dpad-btn dpad-right" id="dp-right" aria-label="Right">▶</button>
     <button class="dpad-btn dpad-down"  id="dp-down"  aria-label="Down">▼</button>
   </div>
-
-  <!-- SELECT / START (center) -->
   <div class="gba-mid-btns">
     <button class="gba-mid-btn" id="btn-select">SELECT</button>
     <button class="gba-mid-btn" id="btn-start">START</button>
   </div>
+</div>
 
-  <!-- A / B BUTTONS (right) -->
+<div id="gba-right" class="gba-controller hidden">
   <div class="ab-cluster">
     <button class="ab-btn ab-b" id="btn-b">B</button>
     <button class="ab-btn ab-a" id="btn-a">A</button>
   </div>
-
 </div>
 
 <div id="toast" class="toast hidden"></div>
