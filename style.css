@@ -215,6 +215,23 @@ html, body {
   #gba-left .gba-mid-btns { flex-direction: column; gap: 6px; margin-top: 0; width: auto; }
 }
 
+@media (orientation: portrait) {
+  .ab-cluster {
+    width: clamp(110px, 26vw, 150px);
+    height: clamp(110px, 26vw, 150px);
+  }
+
+  .ab-a {
+    right: -5%;   
+    top: 10%;
+  }
+
+  .ab-b {
+    left: -5%;
+    bottom: 10%;
+  }
+}
+
 @media (min-width: 900px) {
   .gba-controller { display: none !important; }
 }
@@ -316,7 +333,7 @@ html, body {
   animation: abPress .18s ease;
 }
 /* B = left, A = right (classic GBA layout) */
-.ab-b { background: radial-gradient(circle at 35% 35%, #4080ff, var(--gba-ab-b)); bottom: 14%; left: 10%; }
+.ab-b { background: radial-gradient(circle at 35% 35%, #4080ff, var(--gba-ab-b)); bottom: 14%; left: 5%; }
 .ab-a { background: radial-gradient(circle at 35% 35%, #ff5555, var(--gba-ab-a)); top: 14%;    right: 5%; }
 
 /* label under each button */
