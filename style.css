@@ -722,6 +722,8 @@ html, body {
 
   .dpad        { width: clamp(72px, 16vh, 100px); height: clamp(72px, 16vh, 100px); }
   .ab-cluster  { width: clamp(72px, 16vh, 100px); height: clamp(72px, 16vh, 100px); }
+  .ab-b { bottom: auto; left: 5%; top: 50%; transform: translateY(-50%); }
+  .ab-a { top: 50%; right: 5%; transform: translateY(-50%); }
   .gba-mid-btns { flex-direction: column; gap: 5px; }
   .gba-mid-btn  { min-width: 44px; width: 44px; font-size: 5px; padding: 6px 4px; }
 }
