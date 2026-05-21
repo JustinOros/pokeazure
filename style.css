@@ -231,6 +231,7 @@ html, body {
     gap: 6px;
     margin-top: 0;
     width: auto;
+    justify-content: center;
   }
 }
 
@@ -715,7 +716,7 @@ html, body {
   #gba-left, #gba-right {
     position: relative !important;
     bottom: auto !important; left: auto !important; right: auto !important;
-    height: 100dvh; width: clamp(150px, 18vw, 140px);
+    height: 100dvh; width: clamp(150px, 22vw, 180px);
     flex-direction: column;
     justify-content: center;
     align-items: center;
