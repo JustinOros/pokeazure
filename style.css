@@ -407,10 +407,11 @@ html, body {
 
 /* ─── MAP ────────────────────────────────────────────────── */
 .map-header { background:var(--dark-bg); padding:8px 12px; display:flex; align-items:center; justify-content:space-between; gap:8px; border-bottom:3px solid var(--black); flex-shrink:0; }
-.map-left   { display:flex; align-items:center; gap:6px; }
+.map-left   { display:flex; align-items:center; gap:6px; flex:1; }
+.map-center { display:flex; align-items:center; gap:6px; flex:1; justify-content:center; }
+.map-right  { display:flex; align-items:center; gap:6px; flex:1; justify-content:flex-end; }
 .map-pin    { font-size:12px; }
 .map-town-name { font-size:clamp(5.5px,1.6vw,7px); color:var(--yellow); letter-spacing:.5px; word-spacing:-1px; }
-.map-right  { display:flex; align-items:center; gap:6px; }
 .prog-bar-outer { width:80px; height:9px; background:var(--black); border:2px solid var(--lightgray); overflow:hidden; }
 .prog-bar-inner { height:100%; width:0%; background:var(--hp-green); transition:width .5s ease; }
 .prog-text  { font-size:6px; color:var(--white); }
