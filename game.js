@@ -22,8 +22,8 @@ function setNPC(el, val) {
   if (val && val.endsWith('.png')) {
     el.innerHTML = '';
     const img = document.createElement('img');
-    img.src = val;
-    img.style.cssText = 'height:1em;width:auto;image-rendering:pixelated;vertical-align:middle;';
+    img.src = val.includes('/') ? val : './' + val;
+    img.style.cssText = 'width:auto;image-rendering:pixelated;vertical-align:middle;display:block;';
     el.appendChild(img);
   } else {
     el.textContent = val || '🧑';
@@ -31,11 +31,11 @@ function setNPC(el, val) {
 }
 
 const NPC = {
-  'Professor Oak':     './oak.png',
-  'Rival Gary':        '😤',
+  'Professor Oak':     'oak.png',
+  'Rival Gary':        'gary.png',
   'Old Man Bob':       '🧓',
-  'Nurse Joy':         '👩‍⚕️',
-  'Officer Jenny':     '👮‍♀️',
+  'Nurse Joy':         'joy.png',
+  'Officer Jenny':     'jenny.png',
   'Brock':             '🧑‍🍳',
   'Misty':             '🧜‍♀️',
   'Giovanni':          '😈',
@@ -53,7 +53,7 @@ const NPC = {
   'Agatha':            '👻',
   'Lance':             '🐉',
   'Champion':          '🏆',
-  'Gary':              '😤',
+  'Gary':              'gary.png',
 };
 
 const INTRO_MSGS = CONFIG.introLines.map(text => ({ speaker:'PROFESSOR OAK', npc:'Professor Oak', text }));
