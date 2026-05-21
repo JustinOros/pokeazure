@@ -1027,7 +1027,7 @@ class Game {
     const cy = spread;
     const npcX = cx + this.state.npcWorldX;
     const npcY = cy + this.state.npcWorldY;
-    for (let i = 0; i < 150; i++) {
+    for (let i = 0; i < 300; i++) {
       const span = document.createElement('span');
       span.className = 'tree';
       const size = 28 + Math.random() * 16;
