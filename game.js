@@ -451,7 +451,7 @@ class Game {
   _checkNPCProximity() {
     const {viewW, viewH} = this._getViewport();
     const dist = this._npcScreenDist();
-    const near = !(this.state.npcWorldX === 0 && this.state.npcWorldY === 0) && dist < 200;
+    const near = !(this.state.npcWorldX === 0 && this.state.npcWorldY === 0) && dist < 100;
 
     const hint = document.getElementById('map-talk-hint');
     const bub  = document.getElementById('npc-bubble');
@@ -504,7 +504,7 @@ class Game {
 
   _nearNPC() {
     if (this.state.npcWorldX === 0 && this.state.npcWorldY === 0) return false;
-    return this._npcScreenDist() < 200;
+    return this._npcScreenDist() < 100;
   }
 
   _talkToNPC() {
