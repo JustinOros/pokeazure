@@ -16,8 +16,22 @@ const CONFIG = {
   namePrompt:  "Hello there! Welcome to PokéAzure! My name is Professor Oak — the Azure Pokémon Professor. Now tell me, what is your name?",
 };
 
+
+function setNPC(el, val) {
+  if (!el) return;
+  if (val && val.endsWith('.png')) {
+    el.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = val;
+    img.style.cssText = 'height:1em;width:auto;image-rendering:pixelated;vertical-align:middle;';
+    el.appendChild(img);
+  } else {
+    el.textContent = val || '🧑';
+  }
+}
+
 const NPC = {
-  'Professor Oak':     '👴',
+  'Professor Oak':     './oak.png',
   'Rival Gary':        '😤',
   'Old Man Bob':       '🧓',
   'Nurse Joy':         '👩‍⚕️',
@@ -998,7 +1012,7 @@ class Game {
     const msg = INTRO_MSGS[this.state.introStep];
     if (!msg) return;
     const npcEl = document.getElementById('intro-npc');
-    if (npcEl) npcEl.textContent = NPC[msg.npc] || '👴';
+    if (npcEl) setNPC(npcEl, NPC[msg.npc] || '👴');
     document.getElementById('intro-speaker').textContent = msg.speaker;
     document.getElementById('intro-arrow').style.display = 'none';
     this.typeText('intro-text',
@@ -1133,7 +1147,7 @@ class Game {
 
       const q = this.state.questions[this.state.currentQ];
       const npcEl = document.getElementById('map-npc');
-      if (q && npcEl) npcEl.textContent = NPC[q.npc]||'🧑';
+      if (q && npcEl) setNPC(npcEl, NPC[q.npc]||'🧑');
 
       this._placeMapSprites();
       this._checkNPCProximity();
@@ -1181,7 +1195,7 @@ class Game {
     this.state.answering=false;
     this.state.cursor=0;
 
-    document.getElementById('battle-npc-sprite').textContent = NPC[q.npc]||'🧑';
+    setNPC(document.getElementById('battle-npc-sprite'), NPC[q.npc]||'🧑');
     document.getElementById('battle-npc-name').textContent   = q.npc.toUpperCase();
     document.getElementById('battle-speaker').textContent    = q.npc.toUpperCase();
     document.getElementById('battle-player-name').textContent= (this.state.playerName||'ASH').toUpperCase();
