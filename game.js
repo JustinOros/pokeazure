@@ -280,6 +280,7 @@ class Game {
       answering:false, introStep:0, twTimer:null,
       worldX: 0, worldY: 0,
       npcWorldX: 0, npcWorldY: 0,
+      npcSpawned: false,
       pathDir: 'right',
       lastDir: 'right',
       cursor:0,
@@ -469,7 +470,7 @@ class Game {
   _checkNPCProximity() {
     const {viewW, viewH} = this._getViewport();
     const dist = this._npcScreenDist();
-    const near = !(this.state.npcWorldX === 0 && this.state.npcWorldY === 0) && dist < 100;
+    const near = this.state.npcSpawned && dist < 100;
 
     const hint = document.getElementById('map-talk-hint');
     const bub  = document.getElementById('npc-bubble');
@@ -521,7 +522,7 @@ class Game {
   }
 
   _nearNPC() {
-    if (this.state.npcWorldX === 0 && this.state.npcWorldY === 0) return false;
+    if (!this.state.npcSpawned) return false;
     return this._npcScreenDist() < 100;
   }
 
@@ -923,7 +924,7 @@ class Game {
       playerName:save.playerName, currentQ:save.currentQ,
       score:save.score, streak:save.streak, maxStreak:save.maxStreak,
       correct:save.correct, wrong:save.wrong,
-      worldX:0, worldY:0, npcWorldX:0, npcWorldY:0,
+      worldX:0, worldY:0, npcWorldX:0, npcWorldY:0, npcSpawned:false,
     });
     this.loadQuestions(() => {
       if (save.questionOrder && save.questionOrder.length === this.state.questions.length) {
@@ -1089,6 +1090,7 @@ class Game {
     return {
       nx: dir === 'right' ? dist : dir === 'left' ? -dist : 0,
       ny: dir === 'down'  ? dist : dir === 'up'   ? -dist : 0,
+      dir,
     };
   }
 
@@ -1114,8 +1116,9 @@ class Game {
       this.state.lastDir = this.state.pathDir;
 
       const {nx, ny} = this._npcOffsetForDir(this.state.pathDir, viewW, viewH);
-      this.state.npcWorldX = nx;
-      this.state.npcWorldY = ny;
+      this.state.npcWorldX  = nx;
+      this.state.npcWorldY  = ny;
+      this.state.npcSpawned = true;
 
       this._generateTrees();
 
@@ -1127,6 +1130,7 @@ class Game {
       if (q && npcEl) npcEl.textContent = NPC[q.npc]||'🧑';
 
       this._placeMapSprites();
+      this._checkNPCProximity();
       this._updateDirArrow(false);
       Music.stopBattle();
       Music.play();
