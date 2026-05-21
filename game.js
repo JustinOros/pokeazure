@@ -1351,13 +1351,17 @@ class Game {
     }
     document.getElementById('result-explanation').textContent=q.explanation;
 
-    document.getElementById('btn-result-cont').onclick=()=>{
+    const contBtn = document.getElementById('btn-result-cont');
+    const doNext = () => {
       this.state.currentQ++;
       saveGame(this.state);
       if(this.state.currentQ>=this.state.questions.length){ clearSave(); this.showComplete(); }
       else if(MILESTONES[this.state.currentQ]) this.showLevelUp();
       else this.showMap();
     };
+    contBtn.onclick = doNext;
+    const resultScreen = document.getElementById('screen-result');
+    resultScreen.addEventListener('pointerdown', doNext, { once: true });
   }
 
   /* ── LEVEL UP ─────────────────────────────────────────── */
