@@ -1331,6 +1331,8 @@ class Game {
   showResult(correct,q) {
     this.show('result');
     this._showController(false);
+    Music.stopBattle();
+    Music.pause();
 
     document.getElementById('result-icon').textContent  = correct?'✓':'✗';
     const lbl=document.getElementById('result-label');
