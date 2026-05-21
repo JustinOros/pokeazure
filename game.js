@@ -554,7 +554,7 @@ class Game {
       p.style.left   = cx + 'px';
       p.style.bottom = bot + 'px';
       p.className    = 'map-player idle';
-      p.style.backgroundPositionX = idleFrames[this.state.pathDir] || '-32px';
+      p.style.backgroundPositionX = idleFrames[this.state.lastDir] || '-32px';
       if (bub) { bub.style.left = (cx - 4) + 'px'; bub.style.bottom = (bot + 66) + 'px'; }
     }
     this._applyCamera();
