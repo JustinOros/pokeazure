@@ -33,7 +33,7 @@ function setNPC(el, val) {
 const NPC = {
   'Professor Oak':     'oak.png',
   'Rival Gary':        'gary.png',
-  'Old Man Bob':       '🧓',
+  'Old Man Bob':       'bob.png',
   'Nurse Joy':         'joy.png',
   'Officer Jenny':     'jenny.png',
   'Brock':             '🧑‍🍳',
@@ -41,7 +41,7 @@ const NPC = {
   'Giovanni':          '😈',
   'Team Rocket Grunt': '🚀',
   'Scientist Bill':    '🔬',
-  'Fisherman Ralph':   '🎣',
+  'Fisherman Ralph':   'ralph.png',
   'Hiker Taro':        '🧗',
   'Gym Leader Surge':  '⚡',
   'Erika':             '🌸',
