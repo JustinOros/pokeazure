@@ -188,29 +188,15 @@ const SFX = (() => {
   let ctx = null;
 
   function getCtx() {
-    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (!ctx || ctx.state === 'closed') ctx = new (window.AudioContext || window.webkitAudioContext)();
     if (ctx.state === 'suspended') ctx.resume().catch(() => {});
     return ctx;
   }
 
-  function primer() {
-    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
-    try {
-      const osc  = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.001);
-    } catch(e) {}
-    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
-  }
   function unlock() {
-    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (!ctx || ctx.state === 'closed') ctx = new (window.AudioContext || window.webkitAudioContext)();
     if (ctx.state === 'suspended') ctx.resume().catch(() => {});
   }
-  document.addEventListener('touchstart',  primer, { once: true, passive: true });
   document.addEventListener('touchstart',  unlock, { passive: true });
   document.addEventListener('touchend',    unlock, { passive: true });
   document.addEventListener('pointerdown', unlock, { passive: true });
@@ -248,7 +234,7 @@ const SFX = (() => {
   }
 
   return {
-    boot()           { seq([{f:262,d:.1},{f:330,d:.1},{f:392,d:.1},{f:523,d:.25}], 'square', 0.2); },
+    boot()           { ctx = new (window.AudioContext || window.webkitAudioContext)(); seq([{f:262,d:.1},{f:330,d:.1},{f:392,d:.1},{f:523,d:.25}], 'square', 0.2); },
     overworldStart() { seq([{f:392,d:.12},{f:440,d:.12},{f:494,d:.12},{f:523,d:.18},{f:494,d:.1},{f:440,d:.1},{f:392,d:.18},{f:330,d:.12},{f:392,d:.12},{f:440,d:.12},{f:392,d:.24}], 'square', 0.12); },
     step()           { tone(180, 'square', 0.04, 0.005, 0.02, 0.03); },
     encounter()      { seq([{f:523,d:.1},{f:659,d:.18}], 'square', 0.22); },
