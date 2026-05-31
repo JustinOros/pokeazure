@@ -186,35 +186,22 @@ const Music = (() => {
 
 const SFX = (() => {
   let ctx = null;
+  let unlocked = false;
+  const pending = [];
 
   function getCtx() {
-    if (!ctx || ctx.state === 'closed') ctx = new (window.AudioContext || window.webkitAudioContext)();
-    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
     return ctx;
   }
 
-  function unlock() {
-    if (!ctx || ctx.state === 'closed') ctx = new (window.AudioContext || window.webkitAudioContext)();
-    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
-  }
-  document.addEventListener('touchstart',  unlock, { passive: true });
-  document.addEventListener('touchend',    unlock, { passive: true });
-  document.addEventListener('pointerdown', unlock, { passive: true });
-  document.addEventListener('click',       unlock, { passive: true });
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible' && ctx && ctx.state === 'suspended') {
-      ctx.resume().catch(() => {});
-    }
-  });
-
-  function tone(freq, type, vol, attack, sustain, release, when) {
-    const c   = getCtx();
-    const t   = when ?? c.currentTime;
-    const osc = c.createOscillator();
-    const gain= c.createGain();
+  function playTone(freq, type, vol, attack, sustain, release, when) {
+    const c    = ctx;
+    const t    = when ?? c.currentTime;
+    const osc  = c.createOscillator();
+    const gain = c.createGain();
     osc.connect(gain);
     gain.connect(c.destination);
-    osc.type      = type;
+    osc.type = type;
     osc.frequency.setValueAtTime(freq, t);
     gain.gain.setValueAtTime(0, t);
     gain.gain.linearRampToValueAtTime(vol, t + attack);
@@ -224,22 +211,61 @@ const SFX = (() => {
     osc.stop(t + attack + sustain + release + 0.01);
   }
 
+  function flushPending() {
+    if (!ctx || ctx.state !== 'running') return;
+    while (pending.length) {
+      const fn = pending.shift();
+      try { fn(); } catch(e) {}
+    }
+  }
+
+  function unlock() {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') {
+      ctx.resume().then(() => { unlocked = true; flushPending(); }).catch(() => {});
+    } else if (ctx.state === 'running') {
+      unlocked = true;
+      flushPending();
+    }
+  }
+
+  document.addEventListener('touchstart',  unlock, { passive: true });
+  document.addEventListener('touchend',    unlock, { passive: true });
+  document.addEventListener('pointerdown', unlock, { passive: true });
+  document.addEventListener('click',       unlock, { passive: true });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && ctx && ctx.state === 'suspended') {
+      ctx.resume().then(() => { unlocked = true; flushPending(); }).catch(() => {});
+    }
+  });
+
+  function tone(freq, type, vol, attack, sustain, release, when) {
+    if (!unlocked || !ctx || ctx.state !== 'running') {
+      pending.push(() => { playTone(freq, type, vol, attack, sustain, release, ctx.currentTime); });
+      return;
+    }
+    playTone(freq, type, vol, attack, sustain, release, when);
+  }
+
   function seq(notes, type='square', vol=0.18) {
-    const c = getCtx();
-    let t = c.currentTime + 0.02;
-    notes.forEach(n => {
-      if (n.f) tone(n.f, type, vol, 0.01, n.d * 0.6, n.d * 0.4, t);
-      t += n.d;
-    });
+    if (!unlocked || !ctx || ctx.state !== 'running') {
+      pending.push(() => {
+        let t = ctx.currentTime + 0.02;
+        notes.forEach(n => { if (n.f) playTone(n.f, type, vol, 0.01, n.d * 0.6, n.d * 0.4, t); t += n.d; });
+      });
+      return;
+    }
+    let t = ctx.currentTime + 0.02;
+    notes.forEach(n => { if (n.f) playTone(n.f, type, vol, 0.01, n.d * 0.6, n.d * 0.4, t); t += n.d; });
   }
 
   return {
-    boot()           { ctx = new (window.AudioContext || window.webkitAudioContext)(); seq([{f:262,d:.1},{f:330,d:.1},{f:392,d:.1},{f:523,d:.25}], 'square', 0.2); },
+    boot()           { seq([{f:262,d:.1},{f:330,d:.1},{f:392,d:.1},{f:523,d:.25}], 'square', 0.2); },
     overworldStart() { seq([{f:392,d:.12},{f:440,d:.12},{f:494,d:.12},{f:523,d:.18},{f:494,d:.1},{f:440,d:.1},{f:392,d:.18},{f:330,d:.12},{f:392,d:.12},{f:440,d:.12},{f:392,d:.24}], 'square', 0.12); },
     step()           { tone(180, 'square', 0.04, 0.005, 0.02, 0.03); },
     encounter()      { seq([{f:523,d:.1},{f:659,d:.18}], 'square', 0.22); },
     type()           { tone(880 + Math.random()*200, 'square', 0.03, 0.005, 0.01, 0.02); },
-    select()         { const c = getCtx(); tone(440, 'square', 0.12, 0.005, 0.03, 0.04, c.currentTime + 0.05); },
+    select()         { tone(440, 'square', 0.12, 0.005, 0.03, 0.04); },
     backspace()      { seq([{f:350,d:.05},{f:250,d:.08}], 'triangle', 0.12); },
     correct()        { seq([{f:523,d:.08},{f:659,d:.08},{f:784,d:.08},{f:1047,d:.2}], 'square', 0.18); },
     streak()         { seq([{f:523,d:.06},{f:659,d:.06},{f:784,d:.06},{f:1047,d:.06},{f:1319,d:.2}], 'square', 0.18); },
