@@ -193,10 +193,23 @@ const SFX = (() => {
     return ctx;
   }
 
+  function primer() {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    ctx.resume().then(() => {
+      const osc  = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.001);
+    }).catch(() => {});
+  }
   function unlock() {
     if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
     if (ctx.state === 'suspended') ctx.resume().catch(() => {});
   }
+  document.addEventListener('touchstart',  primer, { once: true, passive: true });
   document.addEventListener('touchstart',  unlock, { passive: true });
   document.addEventListener('touchend',    unlock, { passive: true });
   document.addEventListener('pointerdown', unlock, { passive: true });
