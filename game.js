@@ -189,19 +189,21 @@ const SFX = (() => {
 
   function getCtx() {
     if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
-    if (ctx.state === 'suspended') ctx.resume();
+    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
     return ctx;
   }
 
   function unlock() {
     if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
-    if (ctx.state === 'suspended') ctx.resume().then(() => {});
+    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
   }
-  document.addEventListener('touchstart',  unlock, { once: true, passive: true });
-  document.addEventListener('pointerdown', unlock, { once: true, passive: true });
+  document.addEventListener('touchstart',  unlock, { passive: true });
+  document.addEventListener('touchend',    unlock, { passive: true });
+  document.addEventListener('pointerdown', unlock, { passive: true });
+  document.addEventListener('click',       unlock, { passive: true });
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible' && ctx && ctx.state === 'suspended') {
-      ctx.resume();
+      ctx.resume().catch(() => {});
     }
   });
 
