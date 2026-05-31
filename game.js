@@ -1154,8 +1154,8 @@ class Game {
     this._showController(true);
     const go = () => {
       document.getElementById('screen-title').removeEventListener('click', go);
+      Music.play();
       SFX.boot();
-      Music.unblock();
       this.showContinueOrName();
     };
     document.getElementById('screen-title').addEventListener('click', go);
