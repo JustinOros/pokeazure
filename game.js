@@ -186,16 +186,30 @@ const Music = (() => {
 
 const SFX = (() => {
   let ctx = null;
-  let unlocked = false;
-  const pending = [];
 
   function getCtx() {
     if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
     return ctx;
   }
 
-  function playTone(freq, type, vol, attack, sustain, release, when) {
-    const c    = ctx;
+  document.addEventListener('touchstart', () => {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+    } else if (ctx.state === 'suspended') {
+      ctx.resume().catch(() => {});
+    }
+  }, { passive: true });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && ctx && ctx.state === 'suspended') {
+      ctx.resume().catch(() => {});
+    }
+  });
+
+  function tone(freq, type, vol, attack, sustain, release, when) {
+    const c    = getCtx();
+    if (c.state !== 'running') return;
     const t    = when ?? c.currentTime;
     const osc  = c.createOscillator();
     const gain = c.createGain();
@@ -211,52 +225,11 @@ const SFX = (() => {
     osc.stop(t + attack + sustain + release + 0.01);
   }
 
-  function flushPending() {
-    if (!ctx || ctx.state !== 'running') return;
-    while (pending.length) {
-      const fn = pending.shift();
-      try { fn(); } catch(e) {}
-    }
-  }
-
-  function unlock() {
-    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
-    if (ctx.state === 'suspended') {
-      ctx.resume().then(() => { unlocked = true; flushPending(); }).catch(() => {});
-    } else if (ctx.state === 'running') {
-      unlocked = true;
-      flushPending();
-    }
-  }
-
-  document.addEventListener('touchstart',  unlock, { passive: true });
-  document.addEventListener('touchend',    unlock, { passive: true });
-  document.addEventListener('pointerdown', unlock, { passive: true });
-  document.addEventListener('click',       unlock, { passive: true });
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible' && ctx && ctx.state === 'suspended') {
-      ctx.resume().then(() => { unlocked = true; flushPending(); }).catch(() => {});
-    }
-  });
-
-  function tone(freq, type, vol, attack, sustain, release, when) {
-    if (!unlocked || !ctx || ctx.state !== 'running') {
-      pending.push(() => { playTone(freq, type, vol, attack, sustain, release, ctx.currentTime); });
-      return;
-    }
-    playTone(freq, type, vol, attack, sustain, release, when);
-  }
-
   function seq(notes, type='square', vol=0.18) {
-    if (!unlocked || !ctx || ctx.state !== 'running') {
-      pending.push(() => {
-        let t = ctx.currentTime + 0.02;
-        notes.forEach(n => { if (n.f) playTone(n.f, type, vol, 0.01, n.d * 0.6, n.d * 0.4, t); t += n.d; });
-      });
-      return;
-    }
-    let t = ctx.currentTime + 0.02;
-    notes.forEach(n => { if (n.f) playTone(n.f, type, vol, 0.01, n.d * 0.6, n.d * 0.4, t); t += n.d; });
+    const c = getCtx();
+    if (c.state !== 'running') return;
+    let t = c.currentTime + 0.02;
+    notes.forEach(n => { if (n.f) tone(n.f, type, vol, 0.01, n.d * 0.6, n.d * 0.4, t); t += n.d; });
   }
 
   return {
