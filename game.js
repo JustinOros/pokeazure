@@ -195,7 +195,7 @@ const SFX = (() => {
 
   function primer() {
     if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
-    ctx.resume().then(() => {
+    try {
       const osc  = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.connect(gain);
@@ -203,7 +203,8 @@ const SFX = (() => {
       gain.gain.setValueAtTime(0.0001, ctx.currentTime);
       osc.start(ctx.currentTime);
       osc.stop(ctx.currentTime + 0.001);
-    }).catch(() => {});
+    } catch(e) {}
+    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
   }
   function unlock() {
     if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
