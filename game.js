@@ -2159,3 +2159,40 @@ class Game {
 }
 
 window.addEventListener('DOMContentLoaded',()=>{ new Game(); });
+
+(function() {
+  const el = document.createElement('div');
+  el.id = 'audio-debug';
+  el.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.85);color:#0f0;font:11px monospace;padding:6px;z-index:99999;max-height:160px;overflow-y:auto;pointer-events:none;';
+  document.body.appendChild(el);
+  function log(msg) {
+    const line = document.createElement('div');
+    line.textContent = new Date().toISOString().slice(11,19) + ' ' + msg;
+    el.appendChild(line);
+    el.scrollTop = el.scrollHeight;
+  }
+  window._adlog = log;
+
+  const OrigAC = window.AudioContext || window.webkitAudioContext;
+  const PatchedAC = function(...args) {
+    const instance = new OrigAC(...args);
+    log('AudioContext created, state=' + instance.state);
+    const origResume = instance.resume.bind(instance);
+    instance.resume = function() {
+      log('resume() called, state=' + instance.state);
+      return origResume().then(() => { log('resume() resolved, state=' + instance.state); }).catch(e => { log('resume() FAILED: ' + e); });
+    };
+    return instance;
+  };
+  PatchedAC.prototype = OrigAC.prototype;
+  if (window.AudioContext) window.AudioContext = PatchedAC;
+  if (window.webkitAudioContext) window.webkitAudioContext = PatchedAC;
+
+  ['touchstart','touchend','pointerdown','click'].forEach(ev => {
+    document.addEventListener(ev, () => {
+      log(ev + ' fired');
+    }, { passive: true });
+  });
+
+  log('Debug ready. iOS=' + /iP(hone|ad|od)/.test(navigator.userAgent));
+})();
