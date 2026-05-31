@@ -1,0 +1,33 @@
+const CONFIG = {
+  gameName:     'PokéAzure',
+  subject:      'Azure',
+  examName:     'AZ-900',
+  townName:     'Azure Town',
+  saveKey:      'pokeazure_save_v2',
+  titleText:    'AZURE',
+  titleEdition: '★ AZURE TRAINER ★',
+  titleFooter:  'PokéAZURE v1.0 · AZ-900 · github.com/JustinOros',
+  townNameUpper:'AZURE TOWN',
+  continueLogoSuffix: 'AZURE',
+  expLabel:     'AZURE EXP',
+  battleMove:   'AZURE KNOWLEDGE',
+  battleMiss:   'Azure Cloud',
+  completeMsg:  "You've conquered Azure Town and mastered AZ-900! Your Azure journey is just beginning — more towns and exams await!",
+  badges: [
+    '🥉 AZURE EXPLORER — Q25',
+    '🥈 AZURE APPRENTICE — Q50',
+    '🥇 AZURE PRACTITIONER — Q75',
+    '🏆 AZURE CHAMPION — Q100',
+  ],
+  milestones: {
+    25: { badge: '🥉 AZURE EXPLORER',      stars: '★ ★ ☆ ☆' },
+    50: { badge: '🥈 AZURE APPRENTICE',    stars: '★ ★ ★ ☆' },
+    75: { badge: '🥇 AZURE PRACTITIONER',  stars: '★ ★ ★ ★' },
+  },
+  introLines: [
+    "Hello {name}! Welcome to PokéAzure — the world of Azure certification training! My name is Professor Oak, the Azure Pokémon Professor!",
+    "Your mission? Journey through AZ-900 Town, challenge Azure experts, and conquer 100 certification questions to become the ultimate Azure Trainer!",
+    "But first... every trainer needs a partner Pokémon! Let's choose yours, {name}!",
+  ],
+  namePrompt: "Hello there! Welcome to PokéAzure! My name is Professor Oak — the Azure Pokémon Professor. Now tell me, what is your name?",
+};

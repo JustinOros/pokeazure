@@ -1,19 +1,7 @@
-# 🎮 PokéAzure — Azure you ready?
+# 🎮 PokéAzure — Learn Azure Cloud
 
-A Pokémon-style Game Boy Advance browser game for **studying Microsoft Azure certification exams**!
-Journey through towns, each covering a different Azure exam. Play on your phone, tablet, or PC — progress saves automatically.
-
-> *"Gotta cert 'em all!"*
-
-**Current towns:**
-| Town | Exam | Status |
-|---|---|---|
-| 🏘️ AZ-900 Town | AZ-900: Azure Fundamentals | ✅ Available |
-| 🏙️ Administrator City | AZ-104: Azure Administrator | 🔜 Coming soon |
-| 🏗️ Developer District | AZ-204: Azure Developer | 🔜 Coming soon |
-| 🔒 Security Stronghold | AZ-500: Azure Security | 🔜 Coming soon |
-
----
+A Pokémon-style Game Boy Advance browser game for learning **Microsoft Azure** and preparing for the **AZ-900** exam!
+Play it on your phone, tablet, or PC — progress is saved automatically to your browser.
 
 ## 🚀 Play It Live
 👉 [Launch PokéAzure](https://justinoros.github.io/pokeazure)
@@ -27,15 +15,20 @@ pokeazure/
 ├── index.html        ← Game screens & structure
 ├── style.css         ← GBA Pokémon aesthetic, fully responsive
 ├── game.js           ← Game engine, controller, walking, save system
-├── questions.json    ← Questions & answers (organised by town/exam)
-├── music.mp3         ← Overworld background music (looping)
-├── music-rival.mp3   ← Battle/question screen music (looping)
-├── player.png        ← Player sprite sheet
+├── config.js         ← Game-specific config (name, text, badges, milestones)
+├── questions.json    ← 100 AZ-900 questions & answers
+├── player.png        ← Player sprite sheet (24 frames, 16×32px)
 ├── oak.png           ← Professor Oak NPC sprite
 ├── gary.png          ← Rival Gary NPC sprite
 ├── joy.png           ← Nurse Joy NPC sprite
 ├── jenny.png         ← Officer Jenny NPC sprite
-├── favicon.ico       ← Browser tab icon
+├── brock.png         ← Brock NPC sprite
+├── misty.png         ← Misty NPC sprite
+├── taro.png          ← Hiker Taro NPC sprite
+├── ralph.png         ← Fisherman Ralph NPC sprite
+├── music.mp3         ← Background music (overworld)
+├── music-rival.mp3   ← Background music (rival/battle)
+├── favicon.ico       ← Browser tab icon / Pokéball
 └── README.md
 ```
 
@@ -44,7 +37,7 @@ pokeazure/
 ## 🕹️ Host on GitHub Pages (free)
 
 1. Create a GitHub repo named **`pokeazure`**
-2. Upload all files to the root of the repo
+2. Upload all files listed above
 3. Go to **Settings → Pages → Source: `main` branch, `/ (root)` folder**
 4. Hit **Save** — live in ~60 seconds at `https://justinoros.github.io/pokeazure`
 
@@ -52,55 +45,76 @@ No server, no database, no cost.
 
 ---
 
-## 🎮 Controls
+## 🎮 GBA Controller Overlay
 
-### Mobile Portrait
-A semi-transparent GBA-style controller overlays the bottom of the screen, split into two panels:
-- **Left panel**: D-pad + SELECT/START
-- **Right panel**: A and B buttons
+On mobile, a semi-transparent Game Boy Advance-style controller overlays the bottom of the screen:
 
-### Mobile Landscape
-The controller moves to side panels flanking the game screen:
-- **Left panel**: D-pad + SELECT/START (stacked vertically)
-- **Right panel**: A and B buttons (diagonal layout)
+| Control | Action |
+|---|---|
+| **D-pad** | Walk the player around the map |
+| **A button** (red) | Talk to NPC · Confirm answer · Advance dialog |
+| **B button** (blue) | Talk to NPC · Advance dialog |
+| **SELECT / START** | Decorative |
 
-### PC Keyboard
+The controller is hidden on desktop (≥900px wide) — use the keyboard instead.
+
+---
+
+## 🕹️ Xbox / Gamepad Support
+
+Plug in any Xbox, PlayStation, or USB gamepad and it works automatically:
+
+| Input | Action |
+|---|---|
+| **Left stick / D-pad** | Walk on map |
+| **A button** | Talk to NPC · Confirm answer · Advance dialog |
+| **B button** | Talk to NPC · Advance dialog |
+| **Start** | Confirm / advance on all screens |
+| **X / Y / LB / RB** | Quick-pick answers 1/2/3/4 in battle |
+
+---
+
+## ⌨️ PC Keyboard Controls
+
 | Key | Action |
 |---|---|
 | **WASD / Arrow keys** | Walk player on map |
 | **E / Enter** | Talk to NPC · Confirm answer · Advance dialog |
 | **X** | Talk to NPC · Advance dialog |
-| **1 / 2 / 3 / 4** | Quick-pick answer |
+| **1 / 2 / 3 / 4** | Quick-pick answer directly |
 | **Space** | Advance dialog |
 
 ---
 
-## 🗺️ Map & Gameplay
+## 🗺️ Map & Walking
 
-- Player walks freely in all 4 directions across a large 2D world
-- A directional arrow indicates where the next NPC is — hides when the NPC is on screen
-- Walk up to an NPC and press E/A to start a question
-- After answering, the next NPC spawns in a random direction (never the opposite of the last)
-- Trees render above the player for depth
-- NPCs float with a gentle animation
-
----
-
-## 🎵 Music
-
-- **Overworld** (`music.mp3`): plays while walking the map
-- **Battle** (`music-rival.mp3`): plays during question/answer screen
-- **Result screen**: silent
-- Toggle mute with the 🎵 button in the HUD
+- The player sprite walks freely around the overworld map using the D-pad, WASD, arrow keys, or Xbox controller
+- Walking animations use the `player.png` sprite sheet with directional frames
+- A blinking `▶` arrow on the right edge points toward the next NPC
+- A `...` speech bubble appears above the player if you press talk before reaching the NPC
+- Press **A**, **B**, **E**, or **Enter** when near the NPC to start the question
+- Tapping the NPC sprite directly also triggers the conversation
 
 ---
 
 ## 💾 Save System
 
-- **Auto-saves** after every answered question
-- **Continue screen** on return visits showing trainer name, progress, and score
-- **Shuffled question order** is saved so continuing always resumes at the correct question
-- **New Game** option prompts confirmation before erasing
+Progress is stored in the player's browser (`localStorage`) automatically:
+
+- **Auto-saves** after every answered question and on map return
+- **Shuffled question order** is saved so continuing a game resumes the exact same sequence
+- **Continue screen** appears on next visit showing trainer name, progress %, and score
+- **New Game** option always available — prompts confirmation before erasing save
+- Save clears automatically on completion so the next run starts fresh
+
+---
+
+## 🎵 Music
+
+- Background music plays automatically on the map (`music.mp3`)
+- Music pauses during questions and resumes on return to the map
+- **🎵 / 🔇 toggle** in the map header to mute/unmute
+- Music resumes correctly after switching browser tabs on mobile
 
 ---
 
@@ -108,62 +122,48 @@ The controller moves to side panels flanking the game screen:
 
 | Feature | Detail |
 |---|---|
-| Free 2D movement | Walk in any direction, camera follows player |
-| Random NPC directions | Next NPC spawns in a random direction each leg (no U-turns) |
-| PNG NPC sprites | NPCs use pixel art PNG files; emoji fallback for unassigned NPCs |
-| Mobile portrait & landscape | Fully optimised controller layout for both orientations |
-| Single & multi-select questions | "Choose two" shows CONFIRM button; single select is immediate |
-| Shuffled question order | Different order every new game |
+| GBA controller overlay | D-pad + A/B buttons, semi-transparent, mobile only |
+| Xbox / gamepad support | Full navigation on all screens including name entry |
+| Walking player | Pixel sprite sheet, directional walk animations |
+| Mobile-first design | Full-screen on phones with safe-area support, framed on desktop |
+| localStorage save | Auto-save with shuffled order preserved on continue |
+| Starter Pokémon selection | Choose Charmander, Squirtle, or Bulbasaur at the start |
+| Wild Pokémon encounters | Wild Pokémon spawn on the map — walk into them to catch |
+| Pokéball & catching system | Throw Pokéballs to catch wild Pokémon and build your party |
+| Pokémon party | Manage a party of caught Pokémon, switch your active battler |
+| 100 AZ-900 questions | Randomised order every new game, shuffled answer slots |
+| Multi-select questions | Some questions require choosing two correct answers |
+| Numbered answers | Options labelled 1/2/3/4 — no A/B/C/D pattern to exploit |
+| PNG NPC sprites | NPCs can use image files or emoji |
+| Name entry | On-screen pixel keyboard navigable by gamepad |
+| Typewriter text | Authentic dialog effect, tap/press/gamepad to skip |
+| `...` proximity bubble | Shows above player when pressing talk too far from NPC |
+| Background music | Loops on map, pauses during questions, mute toggle |
 | Streak bonuses | 3× correct = +150 pts 🔥, 5×+ = +200 pts 🔥 |
-| Milestone badges | Cloud Explorer (Q25), Azure Apprentice (Q50), Cloud Practitioner (Q75), AZ-900 Champion (Q100) |
+| Milestone badges | Earned at Q25, Q50, Q75, Q100 |
 | Correct answer reveal | Wrong answers show the right answer + full explanation |
-| Tap anywhere to continue | Result screen advances on any tap/click, not just CONTINUE button |
-| Rival battle music | Separate music track plays during questions |
-| Player faces last direction | Idle sprite faces the last direction walked |
+| Scanline overlay | Authentic CRT/GBA screen effect |
 
 ---
 
-## 📚 AZ-900 Topics Covered (AZ-900 Town)
+## 📚 Topics Covered
 
-| Domain | Topics |
+| Questions | Topics |
 |---|---|
-| Cloud Concepts | IaaS / PaaS / SaaS, public / private / hybrid cloud, CapEx vs OpEx, elasticity, scalability, high availability, disaster recovery |
-| Core Azure Services | Regions, availability zones, resource groups, subscriptions, management groups, VMs, App Service, Azure Functions, Blob/File storage tiers, VNet, VPN Gateway, ExpressRoute, Load Balancer, Cosmos DB, Azure SQL |
-| Security & Identity | Microsoft Entra ID, RBAC, MFA, Conditional Access, SSO, Key Vault, NSGs, Azure Firewall, DDoS Protection, Microsoft Defender for Cloud, defence in depth, shared responsibility model |
-| Management & Governance | Azure Policy, Blueprints, Resource locks, Tags, ARM templates, Azure CLI, Azure PowerShell, Cloud Shell, Azure Portal, Azure Arc, Azure Migrate, Microsoft Purview |
-| Monitoring & Health | Azure Monitor, Azure Advisor, Azure Service Health, Application Insights, health advisories, RCA reports |
-| Pricing & Cost Management | Pricing Calculator, TCO Calculator, Azure Reservations, Spot VMs, Cost Management + Billing, budgets, pay-as-you-go |
-
----
-
-## ➕ Adding a New Town (Exam)
-
-Add a new level object to the `levels` array in `questions.json`:
-
-```json
-{
-  "levels": [
-    {
-      "id": 1,
-      "name": "AZ-900 Town",
-      "exam": "AZ-900",
-      "questions": [ ... ]
-    },
-    {
-      "id": 2,
-      "name": "Administrator City",
-      "exam": "AZ-104",
-      "questions": [ ... ]
-    }
-  ]
-}
-```
+| 1–15 | Regions, availability zones, VPNs, virtual networks, resource tags, reservations, locks |
+| 16–25 | Azure Cloud Shell, CLI tools, Advisor, Monitor, Service Health, Application Insights |
+| 26–35 | Subscriptions, management groups, VMs, serverless, Blob storage tiers |
+| 36–50 | Defense in depth, SSO, Conditional Access, RBAC, MFA, cloud models (public/private/hybrid) |
+| 51–65 | IaaS / PaaS / SaaS, cloud pricing, Cost Management, regions, resource groups, Entra ID |
+| 66–80 | NSGs, ExpressRoute, Load Balancer, App Service, Cosmos DB, CapEx vs OpEx, Well-Architected Framework |
+| 81–100 | ARM Templates, Azure Portal, CLI, least privilege, Defender, shared responsibility, Blueprints, GRS, CAF, Private Link, Arc, DevOps, Sentinel, MFA, elasticity |
 
 ---
 
 ## ➕ Adding Questions
 
-**Single-answer:**
+Edit `questions.json`, add to the `questions` array inside `levels[0]`:
+
 ```json
 {
   "id": 101,
@@ -175,58 +175,47 @@ Add a new level object to the `levels` array in `questions.json`:
 }
 ```
 
-**Multi-select (choose two):**
+For a multi-select question (choose two), use `answers` instead of `answer`:
+
 ```json
 {
   "id": 102,
-  "npc": "Nurse Joy",
-  "text": "Which two options are correct? (Choose two)",
-  "options": ["Option A", "Option B", "Option C", "Option D"],
+  "npc": "Misty",
+  "text": "Which two of these are Azure compute services? (Choose two)",
+  "options": ["Azure VMs", "Azure Blob", "Azure Functions", "Azure DNS"],
   "answers": [0, 2],
-  "explanation": "Options A and C are correct because..."
+  "explanation": "Azure VMs and Azure Functions are both compute services."
 }
 ```
 
+`answer` / `answers` use the **0-based index** of the correct option(s). The game shuffles display order randomly at runtime.
+
 ---
 
-## 🧑 Adding NPC Sprites
+## 🧑 Adding NPCs
 
-In `game.js`, update the `NPC` object at the top:
+In `game.js`, add to the `NPC` object:
 
 ```js
 const NPC = {
-  'Professor Oak': 'oak.png',   // PNG file in repo root
-  'Nurse Joy':     'joy.png',
-  'Brock':         '🧗',        // emoji fallback still works
+  'Your NPC Name': 'npc.png',   // PNG sprite file in repo root
+  'Another NPC':   '🧑',        // or an emoji
 };
 ```
 
-- PNG filenames are relative to the repo root (no path needed)
-- Any NPC not in the object falls back to `🧑`
+Then reference `"npc": "Your NPC Name"` in `questions.json`. PNG files are auto-prefixed with `./` so just use the filename.
 
 ---
 
-## 🔧 Rebranding (CONFIG object)
+## ⚙️ Customising the Game
 
-To create a version for a different exam set, update the `CONFIG` object at the top of `game.js`:
-
-```js
-const CONFIG = {
-  gameName:   'PokéAzure',
-  subject:    'Azure',
-  examName:   'AZ-900',
-  townName:   'AZ-900 Town',
-  saveKey:    'pokeazure_save_v1',
-  introLines: [ ... ],
-  namePrompt: '...',
-};
-```
+All game-specific text lives in **`config.js`** — the only file that differs between PokéAzure and its sister game PokéSQL. Edit it to change the game name, town name, intro dialog, badge names, battle move names, and more without touching `game.js` or `index.html`.
 
 ---
 
 ## 📱 Mobile Tips
 
 - Add to Home Screen on iOS/Android for a full-screen app-like experience
-- The game uses `100dvh` and `env(safe-area-inset-*)` for notched phones
-- Tap anywhere on the result screen to continue (no need to find the CONTINUE button)
-- Rotate to landscape for a wider game view with side-panel controls
+- The game uses `100dvh` and `env(safe-area-inset-bottom)` for notched phones (iPhone X+)
+- Tap anywhere on the dialog box during the intro to skip the typewriter and advance
+- Tap the NPC sprite directly on the map as an alternative to pressing A/B

@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0a0520">
-<title>PokéAzure — Study for Azure Certifications</title>
+<title id="page-title">PokéAzure — Learn Azure Cloud</title>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -17,9 +17,8 @@
   <!-- BOOT SPLASH -->
   <div id="screen-boot" class="screen active">
     <div class="boot-logo">
-      <div class="boot-gameboy">GAME BOY ADVANCE</div>
+      <div class="boot-gameboy">GAME BOY<sup>™</sup></div>
       <div class="boot-ding">♪</div>
-      <div class="boot-copy">© 2026 PokéAzure</div>
     </div>
   </div>
 
@@ -29,19 +28,19 @@
       <div class="title-stars"></div>
       <div class="title-main">
         <div class="title-logo">
-          <span class="title-poke">POKÉ</span><span class="title-sql">AZURE</span>
+          <span class="title-poke">POKÉ</span><span class="title-game" id="title-game-text">AZURE</span>
         </div>
-        <div class="title-edition">★ AZURE CERT TRAINER ★</div>
+        <div class="title-edition" id="title-edition-text">★ AZURE TRAINER ★</div>
         <div class="title-tap blink">PRESS START</div>
       </div>
-      <div class="title-footer">PokéAzure v1.0 · AZ-900 · github.com/JustinOros</div>
+      <div class="title-footer" id="title-footer-text">PokéAZURE v1.0 · Azure · github.com/JustinOros</div>
     </div>
   </div>
 
   <!-- CONTINUE OR NEW GAME -->
   <div id="screen-continue" class="screen">
     <div class="continue-bg">
-      <div class="continue-logo">POKÉ<span>AZURE</span></div>
+      <div class="continue-logo">POKÉ<span id="continue-logo-text">AZURE</span></div>
       <div class="continue-card" id="continue-card">
         <div class="continue-card-header">📂 CONTINUE</div>
         <div class="save-row"><span class="save-lbl">TRAINER</span><span class="save-val" id="save-name-disp">—</span></div>
@@ -73,9 +72,8 @@
 
   <!-- INTRO CUTSCENE -->
   <div id="screen-intro" class="screen">
-    <div class="overworld-bg">
-      <div class="intro-npc" id="intro-npc"></div>
-      <div class="intro-player"></div>
+    <div class="overworld-bg intro-oak-bg">
+      <div class="intro-npc intro-npc-centered" id="intro-npc"></div>
     </div>
     <div class="dialog-box intro-dialog">
       <div class="dialog-speaker" id="intro-speaker">PROFESSOR OAK</div>
@@ -85,18 +83,73 @@
     <div class="tap-hint blink"><span class="hint-pc">PRESS E TO CONTINUE</span><span class="hint-touch">TAP / PRESS A TO CONTINUE</span></div>
   </div>
 
+  <!-- STARTER POKEMON SELECTION -->
+  <div id="screen-starter" class="screen">
+    <div class="overworld-bg intro-oak-bg">
+      <div class="intro-npc intro-npc-centered" id="starter-oak"></div>
+    </div>
+    <div class="dialog-box starter-dialog">
+      <div class="dialog-speaker">PROFESSOR OAK</div>
+      <div class="dialog-text" id="starter-text"></div>
+    </div>
+    <div class="starter-choices" id="starter-choices"></div>
+  </div>
+
+  <!-- STARTER CONFIRM -->
+  <div id="screen-starter-confirm" class="screen">
+    <div class="starter-confirm-bg">
+      <div class="starter-chosen-emoji" id="starter-chosen-emoji"></div>
+      <div class="starter-chosen-name" id="starter-chosen-name"></div>
+      <div class="starter-chosen-level" id="starter-chosen-level"></div>
+      <div class="dialog-box starter-confirm-dialog">
+        <div class="dialog-text" id="starter-confirm-text"></div>
+      </div>
+      <div class="starter-flee-text" id="starter-flee-text"></div>
+      <button class="btn-pixel btn-green btn-full" id="btn-starter-continue">LET'S GO! ▶</button>
+    </div>
+  </div>
+
+  <!-- CATCH SCREEN -->
+  <div id="screen-catch" class="screen">
+    <div class="catch-scene">
+      <div class="catch-wild-pokemon" id="catch-wild-pokemon"></div>
+      <div class="catch-wild-name" id="catch-wild-name"></div>
+      <div class="catch-wild-level" id="catch-wild-level"></div>
+    </div>
+    <div class="dialog-box catch-dialog">
+      <div class="dialog-text" id="catch-text"></div>
+    </div>
+    <div class="catch-actions" id="catch-actions"></div>
+  </div>
+
+  <!-- CATCH RESULT -->
+  <div id="screen-catch-result" class="screen">
+    <div class="catch-result-bg">
+      <div class="catch-result-emoji" id="catch-result-emoji"></div>
+      <div class="catch-result-msg" id="catch-result-msg"></div>
+      <button class="btn-pixel btn-blue btn-full" id="btn-catch-continue">CONTINUE ▶</button>
+    </div>
+  </div>
+
+  <!-- PARTY SELECT -->
+  <div id="screen-party-select" class="screen">
+    <div class="party-select-header">CHOOSE YOUR POKÉMON!</div>
+    <div class="party-select-list" id="party-select-list"></div>
+  </div>
+
   <!-- OVERWORLD MAP -->
   <div id="screen-map" class="screen">
     <div class="map-header">
       <div class="map-left">
         <span class="map-pin">📍</span>
-        <span class="map-town-name">AZ-900 TOWN</span>
+        <span class="map-town-name" id="map-town-name-text">AZURE TOWN</span>
       </div>
       <div class="map-center">
         <div class="prog-bar-outer"><div class="prog-bar-inner" id="map-prog-bar"></div></div>
         <span class="prog-text" id="map-prog-text">0/100</span>
       </div>
       <div class="map-right">
+        <span class="pokeball-count" id="pokeball-count" title="Pokéballs"><img src="./favicon.ico" class="pokeball-icon"> 0</span>
         <span class="music-toggle" id="music-toggle" title="Mute/Unmute Music">🎵</span>
       </div>
     </div>
@@ -104,16 +157,17 @@
       <div class="map-inner" id="map-inner">
         <div class="map-trees" id="map-trees"></div>
       </div>
-      <!-- Path stays fixed to the viewport — does not scroll -->
-      <!-- NPC in viewport layer — JS positions it using screen-space coords -->
       <div class="map-npc-wrap" id="map-npc-wrap">
         <div class="npc-bubble" id="npc-bubble">!</div>
         <div class="map-npc" id="map-npc"></div>
       </div>
-      <!-- Player stays fixed to viewport, only Y moves -->
+      <!-- Wild pokemon spawns -->
+      <div class="map-wild-wrap" id="map-wild-wrap" style="display:none">
+        <div class="wild-bubble">?</div>
+        <div class="map-wild" id="map-wild"></div>
+      </div>
       <div class="player-bubble" id="player-bubble">...</div>
       <div class="map-player" id="map-player"></div>
-      <!-- Hints overlay the viewport, not the world -->
       <div class="map-talk-hint" id="map-talk-hint" style="display:none"><span class="hint-pc">Press E</span><span class="hint-touch">Press A</span></div>
       <div class="map-dir-arrow" id="map-dir-arrow" style="display:none">▶</div>
     </div>
@@ -121,7 +175,7 @@
       <div class="hud-cell"><div class="hud-lbl">TRAINER</div><div class="hud-val" id="hud-name">ASH</div></div>
       <div class="hud-cell"><div class="hud-lbl">SCORE</div><div class="hud-val" id="hud-score">0</div></div>
       <div class="hud-cell"><div class="hud-lbl">STREAK</div><div class="hud-val" id="hud-streak">0</div></div>
-      <div class="hud-cell"><div class="hud-lbl">CORRECT</div><div class="hud-val" id="hud-correct">0/0</div></div>
+      <div class="hud-cell"><div class="hud-lbl">PARTY</div><div class="hud-val" id="hud-party">0</div></div>
     </div>
   </div>
 
@@ -129,17 +183,30 @@
   <div id="screen-battle" class="screen">
     <div class="battle-scene">
       <div class="battle-npc-side">
-        <div class="battle-sprite" id="battle-npc-sprite">👴</div>
+        <div class="battle-npc-row">
+          <div class="battle-pokemon-float">
+            <div class="battle-npc-pokemon-name" id="battle-npc-pokemon-name"></div>
+            <div class="battle-npc-pokemon-level" id="battle-npc-pokemon-level"></div>
+            <div class="battle-sprite" id="battle-npc-pokemon">🐉</div>
+          </div>
+          <div class="battle-npc-trainer" id="battle-npc-trainer"></div>
+        </div>
         <div class="battle-name-tag" id="battle-npc-name">OAK</div>
       </div>
       <div class="battle-player-side">
-        <div class="battle-player-sprite"></div>
+        <div class="battle-player-row">
+          <div class="battle-player-trainer" id="battle-player-trainer"></div>
+          <div class="battle-pokemon-float">
+            <div class="battle-player-pokemon-name" id="battle-player-pokemon-name"></div>
+            <div class="battle-player-pokemon-level" id="battle-player-pokemon-level"></div>
+            <div class="battle-sprite" id="battle-player-pokemon">🔥</div>
+          </div>
+        </div>
         <div class="battle-name-tag" id="battle-player-name">ASH</div>
       </div>
     </div>
     <div class="dialog-box battle-dialog">
       <div class="dialog-speaker" id="battle-speaker" style="display:none">PROFESSOR OAK</div>
-      
       <div class="dialog-text" id="battle-text"></div>
       <div class="dialog-arrow blink" id="battle-arrow" style="display:none">▼</div>
     </div>
@@ -151,6 +218,30 @@
     </div>
   </div>
 
+  <!-- BATTLE RESULT ANIMATION -->
+  <div id="screen-battle-anim" class="screen">
+    <div class="battle-anim-trainer-npc" id="anim-npc-trainer"></div>
+    <div class="battle-anim-trainer-player" id="anim-player-trainer"></div>
+    <div class="battle-anim-scene">
+      <div class="battle-anim-npc">
+        <div class="battle-anim-npc-name" id="anim-npc-pokemon-name"></div>
+        <div class="battle-anim-npc-sprite" id="anim-npc-pokemon"></div>
+        <div class="battle-anim-hp-bar">
+          <div class="battle-anim-hp-fill" id="anim-npc-hp"></div>
+        </div>
+      </div>
+      <div class="battle-anim-vs">⚔️</div>
+      <div class="battle-anim-player">
+        <div class="battle-anim-player-name" id="anim-player-pokemon-name"></div>
+        <div class="battle-anim-player-sprite" id="anim-player-pokemon"></div>
+        <div class="battle-anim-hp-bar">
+          <div class="battle-anim-hp-fill" id="anim-player-hp"></div>
+        </div>
+      </div>
+    </div>
+    <div class="battle-anim-msg" id="battle-anim-msg"></div>
+  </div>
+
   <!-- RESULT -->
   <div id="screen-result" class="screen">
     <div class="result-box">
@@ -159,6 +250,7 @@
       <div class="result-correct-ans" id="result-correct-ans"></div>
       <div class="result-explanation" id="result-explanation"></div>
       <div class="result-pts" id="result-pts">+100 PTS</div>
+      <div class="result-pokeballs" id="result-pokeballs" style="display:none"></div>
       <button class="btn-pixel btn-blue btn-full" id="btn-result-cont">CONTINUE ▶</button>
     </div>
   </div>
@@ -168,7 +260,7 @@
     <div class="levelup-box">
       <div class="lu-stars blink" id="lu-stars">★ BADGE EARNED! ★</div>
       <div class="lu-sprite"><div class="lu-player-sprite"></div></div>
-      <div class="lu-text"><span id="lu-name">ASH</span> gained Azure EXP!</div>
+      <div class="lu-text"><span id="lu-name">ASH</span> gained <span id="exp-label-text">AZURE EXP</span>!</div>
       <div class="lu-badge" id="lu-badge">🏅 CLOUD TRAINEE</div>
       <div class="lu-prog-wrap">
         <div class="lu-prog-outer"><div class="lu-prog-inner" id="lu-prog-inner"></div></div>
@@ -185,13 +277,14 @@
         <div class="complete-trophy">🏆</div>
         <div class="complete-title">CHAMPION!</div>
         <div class="complete-name" id="complete-name">ASH</div>
-        <p class="complete-msg">You've conquered AZ-900 Town and mastered AZ-900! Your Azure journey is just beginning — more towns and exams await!</p>
+        <p class="complete-msg"><span id="complete-msg-text">You've conquered Azure Town and mastered AZ-900! Your Azure journey is just beginning — more towns and exams await!</span></p>
         <div class="complete-stats" id="complete-stats"></div>
+        <div class="complete-pokemon" id="complete-pokemon"></div>
         <div class="complete-badges">
-          <div class="badge-row">🥉 CLOUD EXPLORER — Q25</div>
-          <div class="badge-row">🥈 AZURE APPRENTICE — Q50</div>
-          <div class="badge-row">🥇 CLOUD PRACTITIONER — Q75</div>
-          <div class="badge-row">🏆 AZ-900 CHAMPION — Q100</div>
+          <div class="badge-row"><span id="badge-1">🥉 AZURE EXPLORER — Q25</span></div>
+          <div class="badge-row"><span id="badge-2">🥈 AZURE APPRENTICE — Q50</span></div>
+          <div class="badge-row"><span id="badge-3">🥇 AZURE PRACTITIONER — Q75</span></div>
+          <div class="badge-row"><span id="badge-4">🏆 AZURE CHAMPION — Q100</span></div>
           <div class="badge-row">🗺️ More towns & exams coming soon...</div>
         </div>
         <button class="btn-pixel btn-red btn-full" id="btn-play-again">▶ PLAY AGAIN</button>
@@ -220,9 +313,28 @@
     </div>
   </div>
 
-</div><!-- /#app -->
+</div>
 
 <div id="toast" class="toast hidden"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  set('title-game-text',    CONFIG.titleText);
+  set('title-edition-text', CONFIG.titleEdition);
+  set('title-footer-text',  CONFIG.titleFooter);
+  set('continue-logo-text', CONFIG.continueLogoSuffix);
+  set('map-town-name-text', CONFIG.townNameUpper);
+  set('exp-label-text',     CONFIG.expLabel);
+  set('complete-msg-text',  CONFIG.completeMsg);
+  if (CONFIG.badges) {
+    CONFIG.badges.forEach((b, i) => set(`badge-${i+1}`, b));
+  }
+  set('page-title', CONFIG.gameName + ' — Learn ' + CONFIG.subject);
+  document.title = CONFIG.gameName + ' — Learn ' + CONFIG.subject;
+});
+</script>
+<script src="config.js"></script>
 <script src="game.js"></script>
 </body>
 </html>
